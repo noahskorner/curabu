@@ -5,7 +5,7 @@
       <link rel="stylesheet" type="text/css" href="/themes/light-theme.css" />
     </teleport>
     <Header />
-    <transition name="slide-left">
+    <transition name="slide-left" mode="in-out">
       <Sidebar v-show="showSidebar" />
     </transition>
   </div>
@@ -14,7 +14,7 @@
 <script>
 import Header from "./components/layout/Header.vue";
 import Sidebar from "./components/layout/Sidebar.vue";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: {
     Header,
@@ -22,6 +22,9 @@ export default {
   },
   computed: {
     ...mapGetters("sidebar", ["showSidebar"]),
+  },
+  methods: {
+    ...mapActions("sidebar", ["hideSidebar"]),
   },
   setup() {},
 };

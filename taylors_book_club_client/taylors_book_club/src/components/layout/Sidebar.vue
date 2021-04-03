@@ -1,23 +1,11 @@
 <template>
-  <div id="sidebar-wrapper" class="w-screen min-h-screen absolute flex">
-    <div
-      id="sidebar"
-      class="min-h-screen relative w-full max-w-md inline-block"
-    >
-      <div
-        id="sidebar-header"
-        class="w-full px-4 flex justify-end items-center"
-      >
-        <IconButton @click="hideSidebar()">
-          <i class="fas fa-times fa-lg"></i>
-        </IconButton>
-      </div>
-      <button>Dark mode</button>
+  <div id="sidebar" class="min-h-screen absolute w-full max-w-md inline-block">
+    <div id="sidebar-header" class="w-full px-4 flex justify-end items-center">
+      <IconButton @click="hideSidebar()">
+        <i class="fas fa-times fa-lg"></i>
+      </IconButton>
     </div>
-    <div
-      class="w-full min-h-screen md:inline-block hidden"
-      @click="hideSidebar()"
-    ></div>
+    <button>Dark mode</button>
   </div>
 </template>
 
@@ -31,11 +19,6 @@ export default {
 </script>
 
 <style scoped>
-#sidebar-wrapper {
-  top: 0;
-  left: 0;
-}
-
 #sidebar {
   background-color: blue;
   top: 0;
