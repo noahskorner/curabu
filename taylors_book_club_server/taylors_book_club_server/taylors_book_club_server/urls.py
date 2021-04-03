@@ -21,7 +21,10 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url('auth/', include('rest_auth.urls')),
-    url('auth/registration/', include('rest_auth.registration.urls')),
-    url('auth/', include('allauth.urls')),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^account/', include('allauth.urls')),
+    url(r'^', include('django.contrib.auth.urls')),
 ]
+
+
