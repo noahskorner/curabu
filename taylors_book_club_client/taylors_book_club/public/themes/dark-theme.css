@@ -1,0 +1,12 @@
+#app {
+  background-color: var(--gray-90);
+  color: white;
+}
+
+#header {
+  background-color: var(--gray-80);
+}
+
+#sidebar {
+    background-color: var(--gray-80);
+}

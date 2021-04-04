@@ -1,7 +1,12 @@
 #app {
-  background-color: white;
+  background-color: var(--gray-00);
+  color: var(--gray-90);
 }
 
 #header {
+  background-color: white;
+}
+
+#sidebar {
   background-color: white;
 }

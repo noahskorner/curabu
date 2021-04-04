@@ -21,7 +21,7 @@
   --gray-90: #303338;
   --gray-100: #1c1e21;
 
-  --light-purple: #f2ecf8;
+  --light-purple: #ebdef8;
   --purple: #bfa4dc;
   --dark-purple: #8a6ea8;
 
@@ -37,20 +37,23 @@
 }
 
 /* Background Colors */
-.bg-light-purple{
+.bg-light-purple {
   background-color: var(--light-purple);
 }
-.bg-purple{
+.bg-purple {
   background-color: var(--purple);
 }
-.bg-dark-purple{
+.bg-dark-purple {
   background-color: var(--dark-purple);
 }
-.bg-light-gray{
-  background-color: var(--light-gray);
+.bg-light-gray {
+  background-color: var(--gray-10);
 }
 
 /* Text Colors */
+.text-light-purple {
+  color: var(--light-purple);
+}
 .text-purple {
   color: var(--purple);
 }

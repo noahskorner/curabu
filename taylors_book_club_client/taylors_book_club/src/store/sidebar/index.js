@@ -26,7 +26,7 @@ export default {
     },
   },
   getters: {
-    showSidebar(state) {
+    getShowSidebar(state) {
       return state.showSidebar;
     },
   },

@@ -2,12 +2,10 @@
   <div class="min-h-screen font-primary relative">
     <!-- Theme -->
     <teleport to="head">
-      <link rel="stylesheet" type="text/css" href="/themes/light-theme.css" />
+      <link rel="stylesheet" type="text/css" :href="getTheme" />
     </teleport>
     <Header />
-    <transition name="slide-left" mode="in-out">
-      <Sidebar v-show="showSidebar" />
-    </transition>
+    <Sidebar v-show="getShowSidebar" />
   </div>
 </template>
 
@@ -21,7 +19,8 @@ export default {
     Sidebar,
   },
   computed: {
-    ...mapGetters("sidebar", ["showSidebar"]),
+    ...mapGetters(["getTheme"]),
+    ...mapGetters("sidebar", ["getShowSidebar"]),
   },
   methods: {
     ...mapActions("sidebar", ["hideSidebar"]),
@@ -38,7 +37,6 @@ body {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--gray-90);
 }
 button:focus {
   outline: 0 !important;
