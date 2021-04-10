@@ -20,6 +20,10 @@
   padding: 1px;
 }
 
+#icon-btn-wrapper:active #icon-btn {
+  background-color: var(--gray-25);
+}
+
 #icon-btn {
   border-radius: 50%;
 }

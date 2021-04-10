@@ -10,3 +10,15 @@
 #sidebar {
   background-color: white;
 }
+
+#sidebar-btn-wrapper:active #sidebar-btn {
+  background-color: var(--purple);
+}
+
+#sidebar-btn {
+  background-color: var(--light-purple);
+}
+
+#sidebar-btn:hover {
+  background-color: var(--purple);
+}

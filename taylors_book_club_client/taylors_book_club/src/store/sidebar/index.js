@@ -10,9 +10,6 @@ export default {
     displaySidebar(state) {
       state.showSidebar = true;
     },
-    toggleSidebar(state) {
-      state.showSidebar = !state.showSidebar;
-    },
   },
   actions: {
     async hideSidebar(context) {
@@ -20,9 +17,6 @@ export default {
     },
     async displaySidebar(context) {
       context.commit("displaySidebar");
-    },
-    async toggleSidebar(context) {
-      context.commit("toggleSidebar");
     },
   },
   getters: {

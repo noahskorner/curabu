@@ -24,7 +24,7 @@
 import { mapActions } from "vuex";
 export default {
   methods: {
-    ...mapActions("sidebar", ["displaySidebar"]),
+    ...mapActions("sidebar", ["displaySidebar", "hideSidebar"]),
   },
 };
 </script>

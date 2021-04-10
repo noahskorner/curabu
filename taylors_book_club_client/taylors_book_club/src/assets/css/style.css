@@ -51,6 +51,10 @@
 }
 
 /* Text Colors */
+.text-dark{
+  color: var(--gray-90);
+}
+
 .text-light-purple {
   color: var(--light-purple);
 }

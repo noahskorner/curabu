@@ -11,6 +11,5 @@ export default {};
 <style scoped>
 button {
   border-radius: 0.5rem;
-  background-color: var(--gray-05);
 }
 </style>

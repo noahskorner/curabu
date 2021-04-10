@@ -5,7 +5,9 @@
       <link rel="stylesheet" type="text/css" :href="getTheme" />
     </teleport>
     <Header />
-    <Sidebar v-show="getShowSidebar" />
+    <transition name="slide-left" mode="out-in">
+      <Sidebar v-show="getShowSidebar" />
+    </transition>
   </div>
 </template>
 
@@ -25,7 +27,6 @@ export default {
   methods: {
     ...mapActions("sidebar", ["hideSidebar"]),
   },
-  setup() {},
 };
 </script>
 
