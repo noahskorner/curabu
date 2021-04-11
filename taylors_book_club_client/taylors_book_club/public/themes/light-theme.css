@@ -22,3 +22,8 @@
 #sidebar-btn:hover {
   background-color: var(--purple);
 }
+
+
+#club-card-content{
+  background-color: white;
+}

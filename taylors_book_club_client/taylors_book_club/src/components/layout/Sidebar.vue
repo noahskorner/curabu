@@ -1,5 +1,8 @@
 <template>
-  <div id="sidebar" class="absolute w-full min-h-screen max-w-md inline-block">
+  <div
+    id="sidebar"
+    class="absolute w-full min-h-screen max-w-md inline-block z-10"
+  >
     <div id="sidebar-header" class="w-full px-4 flex justify-end items-center">
       <IconButton @click="hideSidebar()">
         <i class="fas fa-times fa-lg"></i>
@@ -7,7 +10,9 @@
     </div>
     <button @click="toggleTheme()">{{ getTheme }}</button>
     <div class="my-16">
-      <SidebarButton>My clubs</SidebarButton>
+      <router-link to="clubs">
+        <SidebarButton>My clubs</SidebarButton>
+      </router-link>
       <SidebarButton>Newsletter</SidebarButton>
     </div>
   </div>

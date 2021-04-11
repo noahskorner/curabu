@@ -4,10 +4,11 @@
     <teleport to="head">
       <link rel="stylesheet" type="text/css" :href="getTheme" />
     </teleport>
-    <Header />
-    <transition name="slide-left" mode="out-in">
+    <Header v-if="$route.name !== 'login'"/>
+    <transition name="slide-left" mode="out-in" v-if="$route.name !== 'login'">
       <Sidebar v-show="getShowSidebar" />
     </transition>
+    <router-view />
   </div>
 </template>
 

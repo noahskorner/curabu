@@ -24,3 +24,7 @@
   background-color: var(--purple);
   color: var(--gray-90);
 }
+
+#club-card-content{
+  background-color: var(--gray-80);
+}

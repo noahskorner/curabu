@@ -16,6 +16,11 @@
       <IconButton>
         <i class="fas fa-user-alt fa-lg"></i>
       </IconButton>
+      <router-link to="login">
+        <IconButton>
+          <i class="fas fa-sign-in-alt fa-lg"></i>
+        </IconButton>
+      </router-link>
     </div>
   </div>
 </template>
