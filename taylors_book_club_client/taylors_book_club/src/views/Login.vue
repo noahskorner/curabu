@@ -32,6 +32,7 @@
             />
           </div>
           <button
+            @click="loginUser()"
             class="mt-8 mb-2 bg-dark-purple h-12 rounded-full text-white text-3xl font-medium mx-1"
             id="sign-in-btn"
           >
@@ -81,7 +82,19 @@
 </template>
 
 <script>
-export default {};
+import { mapActions } from "vuex";
+export default {
+  methods: {
+    ...mapActions("user", ["login"]),
+    loginUser() {
+      const payload = {
+        email: "test@test.com",
+        password: "ujmik,ol.",
+      };
+      this.login(payload);
+    },
+  },
+};
 </script>
 
 <style scoped>
