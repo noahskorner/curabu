@@ -1,7 +1,7 @@
 <template>
   <div
     id="sidebar"
-    class="absolute w-full min-h-screen max-w-md inline-block z-10"
+    class="absolute w-full min-h-screen max-w-md inline-block z-20"
   >
     <div id="sidebar-header" class="w-full px-4 flex justify-end items-center">
       <IconButton @click="hideSidebar()">

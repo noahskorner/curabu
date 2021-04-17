@@ -65,6 +65,11 @@
   color: var(--dark-purple);
 }
 
+/* Border Colors */
+.border-dark-purple {
+  border-color: var(--dark-purple);
+}
+
 /* Width */
 .max-width-320 {
   max-width: 320px;

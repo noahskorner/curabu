@@ -7,6 +7,10 @@
       <ClubCard />
       <ClubCard />
       <ClubCard />
+      <ClubCard />
+      <ClubCard />
+      <ClubCard />
+      <ClubCard />
     </div>
   </div>
 </template>

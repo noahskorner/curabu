@@ -1,6 +1,10 @@
 <template>
-  <div class="w-full h-full flex justify-center items-center">
-    <div class="shadow-xl h-80 w-full rounded-xl overflow-hidden">
+  <router-link
+    id="card-wrapper"
+    to="/clubs"
+    class="w-full h-full flex justify-center items-center"
+  >
+    <div class="h-80 w-full rounded-xl overflow-hidden hover:shadow-xl">
       <div id="img-bg" class="h-2/5 w-full rounded-t-xl"></div>
       <div class="h-3/5 w-full rounded-b-xl relative" id="club-card-content">
         <img
@@ -10,7 +14,7 @@
         />
         <div
           id="card-btns"
-          class="absolute w-1/2 flex justify-between items-center pr-2"
+          class="absolute flex justify-between items-center pr-2"
         >
           <span>
             <button
@@ -44,7 +48,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -65,7 +69,8 @@ img {
 }
 
 #card-btns {
+  width: 55%;
   top: -1.25rem;
-  left: 50%;
+  left: 45%;
 }
 </style>

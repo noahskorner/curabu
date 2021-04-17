@@ -4,7 +4,13 @@
     <teleport to="head">
       <link rel="stylesheet" type="text/css" :href="getTheme" />
     </teleport>
-    <Header v-if="$route.name !== 'login'"/>
+    <Header v-if="$route.name !== 'login'" />
+    <div
+      id="sidebar-overlay"
+      v-show="getShowSidebar"
+      class="absolute w-screen h-screen top-0 left-0 z-10 bg-black"
+      @click="hideSidebar()"
+    ></div>
     <transition name="slide-left" mode="out-in" v-if="$route.name !== 'login'">
       <Sidebar v-show="getShowSidebar" />
     </transition>
@@ -42,5 +48,13 @@ body {
 }
 button:focus {
   outline: 0 !important;
+}
+input:focus {
+  outline: 0 !important;
+}
+
+#sidebar-overlay {
+  opacity: 0.1;
+  backdrop-filter: blur(100px);
 }
 </style>
