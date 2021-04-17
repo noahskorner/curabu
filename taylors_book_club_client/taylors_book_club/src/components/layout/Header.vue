@@ -26,10 +26,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { useStore } from "vuex";
 export default {
-  methods: {
-    ...mapActions("sidebar", ["displaySidebar", "hideSidebar"]),
+  setup() {
+    const store = useStore();
+
+    return {
+      displaySidebar: () => store.dispatch("sidebar/displaySidebar"),
+      hideSidebar: () => store.dispatch("sidebar/hideSidebar"),
+    };
   },
 };
 </script>

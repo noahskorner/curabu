@@ -12,16 +12,11 @@ export default {
     },
   },
   actions: {
-    async hideSidebar(context) {
-      context.commit("hideSidebar");
+    async hideSidebar({ commit }) {
+      commit("hideSidebar");
     },
-    async displaySidebar(context) {
-      context.commit("displaySidebar");
-    },
-  },
-  getters: {
-    getShowSidebar(state) {
-      return state.showSidebar;
+    async displaySidebar({ commit }) {
+      commit("displaySidebar");
     },
   },
 };

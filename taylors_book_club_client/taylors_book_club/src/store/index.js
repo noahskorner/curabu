@@ -10,11 +10,6 @@ export default createStore({
   state: {
     theme: "/themes/light-theme.css",
   },
-  getters: {
-    getTheme(state) {
-      return state.theme;
-    },
-  },
   mutations: {
     setTheme(state, newTheme) {
       switch (newTheme) {
@@ -31,8 +26,12 @@ export default createStore({
     },
   },
   actions: {
-    async setTheme(context, newTheme) {
-      context.commit("setTheme", newTheme);
+    async setTheme({ commit }, newTheme) {
+      commit("setTheme", newTheme);
+    },
+    async toggleTheme({ dispatch, state }) {
+      if (state.theme.includes("light")) dispatch("setTheme", "dark");
+      else dispatch("setTheme", "light");
     },
   },
 });

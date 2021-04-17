@@ -8,7 +8,7 @@
         <i class="fas fa-times fa-lg"></i>
       </IconButton>
     </div>
-    <button @click="toggleTheme()">{{ getTheme }}</button>
+    <button @click="toggleTheme()">{{ theme }}</button>
     <div class="my-16">
       <router-link to="clubs">
         <SidebarButton>My clubs</SidebarButton>
@@ -19,24 +19,21 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { useStore } from "vuex";
+import { computed } from "vue";
 import SidebarButton from "../ui/SidebarButton.vue";
 export default {
   components: {
     SidebarButton,
   },
-  computed: {
-    ...mapGetters(["getTheme"]),
-    ...mapGetters("sidebar", ["getShowSidebar"]),
-  },
-  methods: {
-    ...mapActions(["setTheme"]),
-    ...mapActions("sidebar", ["hideSidebar", "displaySidebar"]),
-
-    toggleTheme() {
-      if (this.getTheme.includes("light")) this.setTheme("dark");
-      else this.setTheme("light");
-    },
+  setup() {
+    const store = useStore();
+    return {
+      theme: computed(() => store.state.theme),
+      toggleTheme: () => store.dispatch("toggleTheme"),
+      hideSidebar: () => store.dispatch("sidebar/hideSidebar"),
+      displaySidebar: () => store.dispatch("sidebar/displaySidebar"),
+    };
   },
 };
 </script>
