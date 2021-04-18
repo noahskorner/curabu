@@ -21,9 +21,9 @@
   --gray-90: #303338;
   --gray-100: #1c1e21;
 
-  --light-purple: #ebdef8;
-  --purple: #bfa4dc;
-  --dark-purple: #8a6ea8;
+  --light-purple: theme('colors.purple.300');
+  --purple: theme('colors.purple.500');
+  --dark-purple: theme('colors.purple.700');
 
   --light-gray: #f2f2f2;
 }
@@ -52,7 +52,7 @@
 
 /* Text Colors */
 .text-light-gray{
-  color: var(--gray-70);
+  color: var(--gray-10);
 }
 
 .text-dark{

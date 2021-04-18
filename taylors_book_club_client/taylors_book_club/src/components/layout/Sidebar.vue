@@ -10,7 +10,7 @@
     </div>
     <button @click="toggleTheme()">{{ theme }}</button>
     <div class="my-16">
-      <router-link to="clubs">
+      <router-link to="/clubs">
         <SidebarButton>My clubs</SidebarButton>
       </router-link>
       <SidebarButton>Newsletter</SidebarButton>

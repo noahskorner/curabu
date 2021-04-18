@@ -50,24 +50,33 @@
             <label for="email" class="px-4">Email</label>
             <input
               type="email"
-              class="bg-gray-100 h-12 rounded-xl p-4"
+              class="bg-gray-100 h-12 rounded-xl p-4 border-2 border-gray-100"
               placeholder="Enter email"
               @input="state.validateEmail()"
               @blur="state.validateEmail()"
-              :class="!state.emailValidated ? 'border-2 border-red-500' : ''"
+              :class="
+                !state.emailValidated
+                  ? 'border-red-500'
+                  : 'focus:border-purple-500'
+              "
               v-model="state.email"
             />
-            <p
-              class="px-4 mt-1 text-sm text-red-500"
-              v-show="!state.emailValidated"
-            ></p>
+            <span v-show="!state.emailValidated">
+              <p
+                class="px-4 mt-1 text-sm text-red-500"
+                v-for="(emailError, index) in state.emailErrors"
+                :key="index"
+              >
+                {{ emailError }}
+              </p></span
+            >
           </div>
           <!-- Password 1 -->
           <div class="w-full flex flex-col text-lg my-2">
             <label for="password" class="px-4">Password</label>
             <input
               type="password"
-              class="bg-gray-100 h-12 rounded-xl p-4"
+              class="bg-gray-100 h-12 rounded-xl p-4 border-2 border-gray-100"
               placeholder="Enter your password"
               @input="
                 state.validatePassword1();
@@ -78,28 +87,35 @@
                 state.validatePassword2();
               "
               :class="
-                !state.password1Validated ? 'border-2 border-red-500' : ''
+                !state.password1Validated
+                  ? 'border-red-500'
+                  : 'focus:border-purple-500'
               "
               v-model="state.password1"
             />
-            <p
-              class="px-4 mt-1 text-sm text-red-500"
-              v-show="!state.password1Validated"
+            <span v-show="!state.password1Validated">
+              <p
+                class="px-4 mt-1 text-sm text-red-500"
+                v-for="(passwordError, index) in state.passwordErrors"
+                :key="index"
+              >
+                {{ passwordError }}
+              </p></span
             >
-              Enter a password! It's probably password123 anyway
-            </p>
           </div>
           <!-- Password 2 -->
           <div class="w-full flex flex-col text-lg my-2">
             <label for="password" class="px-4">Confirm Password</label>
             <input
               type="password"
-              class="bg-gray-100 h-12 rounded-xl p-4"
+              class="bg-gray-100 h-12 rounded-xl p-4 border-2 border-gray-100"
               placeholder="Enter your password"
               @input="state.validatePassword2()"
               @blur="state.validatePassword2()"
               :class="
-                !state.password2Validated ? 'border-2 border-red-500' : ''
+                !state.password2Validated
+                  ? 'border-red-500'
+                  : 'focus:border-purple-500'
               "
               v-model="state.password2"
             />
@@ -183,6 +199,8 @@ export default {
       password2Validated: true,
       loading: false,
       errors: [],
+      emailErrors: [],
+      passwordErrors: [],
       minimumLengthValidator: () => {
         return !(state.password1.length < 8);
       },
@@ -195,11 +213,21 @@ export default {
       validateEmail: () => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         state.emailValidated = re.test(String(state.email).toLowerCase());
+        if (!state.emailValidated)
+          state.emailErrors = ["Please enter a valid email address"];
         return;
       },
       validatePassword1: () => {
+        state.passwordErrors = [];
+        if (!state.minimumLengthValidator())
+          state.passwordErrors.push(
+            "Your password must contain at least 8 characters."
+          );
+        if (!state.numericPasswordValidator())
+          state.passwordErrors.push("Your password can’t be entirely numeric.");
         state.password1Validated =
           state.minimumLengthValidator() && state.numericPasswordValidator();
+        return;
       },
       validatePassword2: () => {
         state.password2Validated = state.password1 === state.password2;
@@ -220,10 +248,6 @@ export default {
 
 .link:hover {
   border-bottom: 2px solid var(--dark-purple);
-}
-
-input:focus {
-  border: 2px solid var(--dark-purple);
 }
 
 #sign-in-btn:active {

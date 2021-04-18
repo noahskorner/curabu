@@ -50,11 +50,15 @@
             <label for="email" class="px-4">Email</label>
             <input
               type="email"
-              class="bg-gray-100 h-12 rounded-xl p-4"
+              class="bg-gray-100 h-12 rounded-xl p-4 border-2 border-gray-100"
               placeholder="Enter email"
               @input="state.validateEmail()"
               @blur="state.validateEmail()"
-              :class="!state.emailValidated ? 'border-2 border-red-500' : ''"
+              :class="
+                !state.emailValidated
+                  ? 'border-red-500'
+                  : 'focus:border-purple-500'
+              "
               v-model="state.email"
             />
             <p
@@ -69,11 +73,15 @@
             <label for="password" class="px-4">Password</label>
             <input
               type="password"
-              class="bg-gray-100 h-12 rounded-xl p-4"
+              class="bg-gray-100 h-12 rounded-xl p-4 border-2 border-gray-100"
               placeholder="Enter your password"
               @input="state.validatePassword()"
               @blur="state.validatePassword()"
-              :class="!state.passwordValidated ? 'border-2 border-red-500' : ''"
+              :class="
+                !state.passwordValidated
+                  ? 'border-red-500'
+                  : 'focus:border-purple-500'
+              "
               v-model="state.password"
             />
             <p
@@ -210,10 +218,6 @@ export default {
 
 .link:hover {
   border-bottom: 2px solid var(--dark-purple);
-}
-
-input:focus {
-  border: 2px solid var(--dark-purple);
 }
 
 #sign-in-btn:active {

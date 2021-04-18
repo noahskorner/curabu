@@ -22,7 +22,7 @@
 
 #sidebar-btn:hover {
   background-color: var(--purple);
-  color: var(--gray-90);
+  color: white;
 }
 
 #club-card-content{
