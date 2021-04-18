@@ -14,6 +14,9 @@ export default {
   register(payload) {
     return apiClient.post("rest-auth/registration/", payload);
   },
+  verifyEmail(payload) {
+    return apiClient.post("rest-auth/registration/verify-email/", payload);
+  },
   login(payload) {
     return apiClient.post("rest-auth/login/", payload);
   },

@@ -21,6 +21,16 @@ const routes = [
     name: "register",
     component: () => import("../views/Register.vue"),
   },
+  {
+    path: "/verify-email/:key",
+    name: "verify-email",
+    component: () => import("../views/VerifyEmail.vue"),
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "page-not-found",
+    component: () => import("../views/PageNotFound.vue"),
+  },
 ];
 
 const router = createRouter({
