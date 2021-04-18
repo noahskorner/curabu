@@ -25,6 +25,10 @@
   color: white;
 }
 
-#club-card-content{
+#club-card-content {
+  background-color: var(--gray-80);
+}
+
+#alert {
   background-color: var(--gray-80);
 }

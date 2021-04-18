@@ -1,11 +1,13 @@
 import { createStore } from "vuex";
 import sidebarModule from "./sidebar";
 import userModule from "./user";
+import alertModule from "./alert";
 
 export default createStore({
   modules: {
     sidebar: sidebarModule,
     user: userModule,
+    alert: alertModule,
   },
   state: {
     theme: "/themes/light-theme.css",
@@ -15,12 +17,15 @@ export default createStore({
       switch (newTheme) {
         case "light":
           state.theme = "/themes/light-theme.css";
+          localStorage.setItem("theme", "light");
           break;
         case "dark":
           state.theme = "/themes/dark-theme.css";
+          localStorage.setItem("theme", "dark");
           break;
         default:
           state.theme = "/themes/light-theme.css";
+          localStorage.setItem("theme", "light");
           break;
       }
     },

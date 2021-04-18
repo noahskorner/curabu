@@ -35,3 +35,7 @@
 #sign-up-header {
   color: var(--dark-purple);
 }
+
+#alert {
+  background-color: white;
+}

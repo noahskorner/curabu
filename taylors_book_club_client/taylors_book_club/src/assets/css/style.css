@@ -21,9 +21,9 @@
   --gray-90: #303338;
   --gray-100: #1c1e21;
 
-  --light-purple: theme('colors.purple.300');
-  --purple: theme('colors.purple.500');
-  --dark-purple: theme('colors.purple.800');
+  --light-purple: theme("colors.purple.300");
+  --purple: theme("colors.purple.500");
+  --dark-purple: theme("colors.purple.800");
 
   --light-gray: #f2f2f2;
 }
@@ -51,11 +51,11 @@
 }
 
 /* Text Colors */
-.text-light-gray{
+.text-light-gray {
   color: var(--gray-10);
 }
 
-.text-dark{
+.text-dark {
   color: var(--gray-90);
 }
 
@@ -74,15 +74,9 @@
   border-color: var(--dark-purple);
 }
 
-/* Width */
-.max-width-320 {
-  max-width: 320px;
-}
-.max-width-480 {
-  max-width: 480px;
-}
-.max-width-sm {
-  max-width: 640px;
+/* Height */
+.min-h-16 {
+  min-height: 4rem;
 }
 
 /* Transitions */
@@ -98,14 +92,13 @@
   transform: translate(-100%, 0);
 }
 
-.slide-right-enter-active,
+.slide-right-enter-active {
+  transition: all 0.5s;
+}
 .slide-right-leave-active {
-  transition: 0.5s ease-out;
+  transition: 0.5s;
 }
 
-.slide-right-enter-from {
-  transform: translate(0%, 0);
-}
 .slide-right-leave-to {
   transform: translate(100%, 0);
 }

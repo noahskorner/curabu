@@ -23,29 +23,6 @@
           >
             <i class="fas fa-spinner fa-pulse fa-2x"></i>
           </div>
-          <!-- Errors -->
-          <div
-            id="errors"
-            class="w-full flex justify-between items-stretch my-2 mx-1 shadow-md rounded-lg px-4"
-            v-show="state.errors.length"
-          >
-            <div class="w-3 bg-red-500"></div>
-            <div class="w-full mx-1 flex justify-center items-center">
-              <p
-                class="text-red-500 block w-full"
-                v-for="(error, index) in state.errors"
-                :key="index"
-              >
-                {{ error }}
-              </p>
-            </div>
-            <button
-              class="w-4 flex justify-center items-center"
-              @click="state.errors = []"
-            >
-              <i class="fas fa-times fa-lg"></i>
-            </button>
-          </div>
           <!-- Email -->
           <div class="w-full flex flex-col text-lg my-2">
             <label for="email" class="px-4">Email</label>
@@ -187,10 +164,10 @@
 <script>
 import { reactive } from "@vue/reactivity";
 import API from "../services/API.js";
-//import { useStore } from "vuex";
+import { useStore } from "vuex";
 export default {
   setup() {
-    //const store = useStore();
+    const store = useStore();
     const state = reactive({
       email: "",
       password1: "",
@@ -199,7 +176,6 @@ export default {
       password1Validated: true,
       password2Validated: true,
       loading: false,
-      errors: [],
       emailErrors: [],
       passwordErrors: [],
       minimumLengthValidator: () => {
@@ -265,13 +241,17 @@ export default {
               state.password1Validated = false;
             }
           } else if (error.request) {
-            state.errors = [
-              "Yeah... that's our bad. There was an error when trying to register your account. Please try again",
-            ];
+            await store.dispatch("alert/addAlert", {
+              alertType: "error",
+              message:
+                "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
+            });
           } else {
-            state.errors = [
-              "Yeah... that's our bad. There was an error when trying to register your account. Please try again",
-            ];
+            await store.dispatch("alert/addAlert", {
+              alertType: "error",
+              message:
+                "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
+            });
           }
         }
         state.loading = false;

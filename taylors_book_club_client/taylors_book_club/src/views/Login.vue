@@ -20,29 +20,6 @@
           >
             <i class="fas fa-spinner fa-pulse fa-2x"></i>
           </div>
-          <!-- Errors -->
-          <div
-            id="errors"
-            class="w-full flex justify-between items-stretch my-2 mx-1 shadow-md rounded-lg px-4"
-            v-show="state.errors.length"
-          >
-            <div class="w-3 bg-red-500"></div>
-            <div class="w-full mx-1 flex justify-center items-center">
-              <p
-                class="text-red-500 block w-full"
-                v-for="(error, index) in state.errors"
-                :key="index"
-              >
-                {{ error }}
-              </p>
-            </div>
-            <button
-              class="w-4 flex justify-center items-center"
-              @click="state.errors = []"
-            >
-              <i class="fas fa-times fa-lg"></i>
-            </button>
-          </div>
           <!-- Email -->
           <div class="w-full flex flex-col text-lg my-2">
             <label for="email" class="px-4">Email</label>
@@ -184,19 +161,38 @@ export default {
 
         try {
           const response = await API.login(payload);
+          store.dispatch("alert/addAlert", {
+            alertType: "success",
+            message: "Logged in successfully!",
+          });
           const token = response.data.key;
           store.dispatch("user/login", token);
         } catch (error) {
           if (error.response) {
-            state.errors = error.response.data["non_field_errors"];
+            if (error.response.data["non_field_errors"]) {
+              error.response.data["non_field_errors"].forEach(
+                async (errorMsg) => {
+                  await store.dispatch("alert/addAlert", {
+                    alertType: "error",
+                    message: errorMsg,
+                  });
+                }
+              );
+            }
+            state.emailValidated = false;
+            state.passwordValidated = false;
           } else if (error.request) {
-            state.errors = [
-              "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
-            ];
+            await store.dispatch("alert/addAlert", {
+              alertType: "error",
+              message:
+                "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
+            });
           } else {
-            state.errors = [
-              "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
-            ];
+            await store.dispatch("alert/addAlert", {
+              alertType: "error",
+              message:
+                "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
+            });
           }
         }
         state.loading = false;

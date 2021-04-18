@@ -23,7 +23,7 @@
     <!-- Route View -->
     <router-view />
     <!-- Alerts -->
-    <Alerts class="hidden" />
+    <Alerts />
   </div>
 </template>
 
@@ -40,13 +40,16 @@ export default {
     Alerts,
   },
   setup() {
-    //if localstorage[user] exists, set the user state to that
     const store = useStore();
     if (localStorage.Authorization && localStorage.user) {
       const user = JSON.parse(localStorage.user);
       store.dispatch("user/setUser", user);
     }
 
+    if (localStorage.theme) {
+      const theme = localStorage.theme;
+      store.dispatch("setTheme", theme);
+    }
     return {
       theme: computed(() => store.state.theme),
       showSidebar: computed(() => store.state.sidebar.showSidebar),

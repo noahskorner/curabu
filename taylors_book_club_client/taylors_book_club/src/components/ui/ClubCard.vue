@@ -4,7 +4,7 @@
     to="/clubs"
     class="w-full h-full flex justify-center items-center"
   >
-    <div class="h-80 w-full rounded-xl overflow-hidden hover:shadow-xl">
+    <div class="h-80 w-full rounded-xl overflow-hidden hover:shadow-2xl">
       <div id="img-bg" class="h-2/5 w-full rounded-t-xl"></div>
       <div class="h-3/5 w-full rounded-b-xl relative" id="club-card-content">
         <img
