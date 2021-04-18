@@ -2,7 +2,9 @@
   <div class="w-screen h-screen flex">
     <!-- Register -->
     <div class="w-full lg:w-2/3 h-full">
-      <div class="login-header px-4 flex items-center">
+      <div
+        class="login-header px-4 flex justify-center lg:justify-start items-center"
+      >
         <Logo />
       </div>
       <div class="w-full mt-16 flex justify-center items-center px-8">
