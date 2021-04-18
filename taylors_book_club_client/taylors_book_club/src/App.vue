@@ -4,14 +4,18 @@
     <teleport to="head">
       <link rel="stylesheet" type="text/css" :href="theme" />
     </teleport>
-    <Header v-if="$route.name !== 'login'" />
+    <Header v-if="$route.name !== 'login' && $route.name !== 'register'" />
     <div
       id="sidebar-overlay"
       v-show="showSidebar"
       class="absolute w-screen h-screen top-0 left-0 z-10 bg-black"
       @click="hideSidebar()"
     ></div>
-    <transition name="slide-left" mode="out-in" v-if="$route.name !== 'login'">
+    <transition
+      name="slide-left"
+      mode="out-in"
+      v-if="$route.name !== 'login' && $route.name !== 'register'"
+    >
       <Sidebar v-show="showSidebar" />
     </transition>
     <router-view />

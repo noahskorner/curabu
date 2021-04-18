@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen h-screen flex">
-    <!-- Login -->
+    <!-- Register -->
     <div class="w-full lg:w-2/3 bg-white h-full">
       <div class="login-header px-4 flex items-center">
         <Logo />
@@ -12,7 +12,7 @@
             <h2
               class="font-semibold text-2xl md:text-3xl xl:text-4xl text-dark-purple mb-8"
             >
-              Sign in to Taylor's Book Club
+              Sign up for Taylor's Book Club
             </h2>
           </div>
           <!-- Loading -->
@@ -60,61 +60,89 @@
             <p
               class="px-4 mt-1 text-sm text-red-500"
               v-show="!state.emailValidated"
-            >
-              Enter a valid email! I'm disappointed in you
-            </p>
+            ></p>
           </div>
-          <!-- Password -->
+          <!-- Password 1 -->
           <div class="w-full flex flex-col text-lg my-2">
             <label for="password" class="px-4">Password</label>
             <input
               type="password"
               class="bg-gray-100 h-12 rounded-xl p-4"
               placeholder="Enter your password"
-              @input="state.validatePassword()"
-              @blur="state.validatePassword()"
-              :class="!state.passwordValidated ? 'border-2 border-red-500' : ''"
-              v-model="state.password"
+              @input="
+                state.validatePassword1();
+                state.validatePassword2();
+              "
+              @blur="
+                state.validatePassword1();
+                state.validatePassword2();
+              "
+              :class="
+                !state.password1Validated ? 'border-2 border-red-500' : ''
+              "
+              v-model="state.password1"
             />
             <p
               class="px-4 mt-1 text-sm text-red-500"
-              v-show="!state.passwordValidated"
+              v-show="!state.password1Validated"
             >
               Enter a password! It's probably password123 anyway
             </p>
           </div>
-          <!-- Sign In Button -->
+          <!-- Password 2 -->
+          <div class="w-full flex flex-col text-lg my-2">
+            <label for="password" class="px-4">Confirm Password</label>
+            <input
+              type="password"
+              class="bg-gray-100 h-12 rounded-xl p-4"
+              placeholder="Enter your password"
+              @input="state.validatePassword2()"
+              @blur="state.validatePassword2()"
+              :class="
+                !state.password2Validated ? 'border-2 border-red-500' : ''
+              "
+              v-model="state.password2"
+            />
+            <p
+              class="px-4 mt-1 text-sm text-red-500"
+              v-show="!state.password2Validated"
+            >
+              Passwords do not match
+            </p>
+          </div>
+          <!-- Sign Up Button -->
           <button
             @click="state.loginUser()"
             class="mt-8 mb-2 h-12 rounded-full text-white text-3xl font-medium mx-1"
             id="sign-in-btn"
             :disabled="
-              !state.emailValidated || !state.passwordValidated || state.loading
+              !state.emailValidated ||
+              !state.password1Validated ||
+              !state.password2Validated ||
+              state.loading
             "
             :class="
-              !state.emailValidated || !state.passwordValidated || state.loading
+              !state.emailValidated ||
+              !state.password1Validated ||
+              !state.password2Validated ||
+              state.loading
                 ? 'bg-gray-300 cursor-default'
                 : 'bg-dark-purple'
             "
           >
-            Sign in
+            Sign up
           </button>
           <div class="w-full text-center text-sm text-gray-500">
             <div class="my-3">
-              <router-link to="/" class="link"
-                >Forgot your password?</router-link
-              >
-            </div>
-            <div class="my-3">
-              <router-link to="/register" class="link"
-                >Need an account?</router-link
+              <router-link to="/login" class="link"
+                >Already have an account?</router-link
               >
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Register -->
+    <!-- Login -->
     <div class="hidden lg:block w-1/3 h-full bg-dark-purple px-8">
       <div class="login-header px-4 flex items-center"></div>
       <div class="w-full mt-32 flex justify-center items-center">
@@ -123,19 +151,15 @@
             <h2
               class="font-semibold text-2xl md:text-3xl xl:text-4xl text-white mb-8"
             >
-              Need an account?
+              Already have an account?
             </h2>
-            <p class="text-white">
-              Sign up now to Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit. Molestiae, iste.
-            </p>
           </div>
           <router-link
-            to="/register"
-            class="my-8 h-12 border-2 border-white rounded-full text-white text-3xl font-medium mx-1 flex justify-center items-center"
+            to="/login"
+            class="my-4 h-12 border-2 border-white rounded-full text-white text-3xl font-medium mx-1 flex justify-center items-center"
             id="sign-up-btn"
           >
-            Sign up
+            Sign in
           </router-link>
         </div>
       </div>
@@ -145,56 +169,42 @@
 
 <script>
 import { reactive } from "@vue/reactivity";
-import API from "../services/API.js";
-import { useStore } from "vuex";
+//import API from "../services/API.js";
+//import { useStore } from "vuex";
 export default {
   setup() {
-    const store = useStore();
+    //const store = useStore();
     const state = reactive({
       email: "",
-      password: "",
+      password1: "",
+      password2: "",
       emailValidated: true,
-      passwordValidated: true,
+      password1Validated: true,
+      password2Validated: true,
       loading: false,
       errors: [],
+      minimumLengthValidator: () => {
+        return !(state.password1.length < 8);
+      },
+      numericPasswordValidator: () => {
+        if (typeof state.password1 != "string") return false;
+        return !(
+          !isNaN(state.password1) && !isNaN(parseFloat(state.password1))
+        );
+      },
       validateEmail: () => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         state.emailValidated = re.test(String(state.email).toLowerCase());
         return;
       },
-      validatePassword: () => {
-        state.passwordValidated = state.password == "" ? false : true;
-        return;
+      validatePassword1: () => {
+        state.password1Validated =
+          state.minimumLengthValidator() && state.numericPasswordValidator();
       },
-      loginUser: async () => {
-        state.validateEmail();
-        state.validatePassword();
-        if (!state.emailValidated || !state.passwordValidated) return;
-        state.loading = true;
-        const payload = {
-          email: state.email,
-          password: state.password,
-        };
-
-        try {
-          const response = await API.login(payload);
-          const token = response.data.key;
-          store.dispatch("user/login", token);
-        } catch (error) {
-          if (error.response) {
-            state.errors = error.response.data["non_field_errors"];
-          } else if (error.request) {
-            state.errors = [
-              "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
-            ];
-          } else {
-            state.errors = [
-              "Yeah... that's our bad. There was an error when trying to log you in. Please try again",
-            ];
-          }
-        }
-        state.loading = false;
+      validatePassword2: () => {
+        state.password2Validated = state.password1 === state.password2;
       },
+      registerUser: () => {},
     });
     return {
       state,
