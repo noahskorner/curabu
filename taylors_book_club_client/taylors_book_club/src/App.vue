@@ -4,7 +4,9 @@
     <teleport to="head">
       <link rel="stylesheet" type="text/css" :href="theme" />
     </teleport>
+    <!-- Header -->
     <Header v-if="$route.name !== 'login' && $route.name !== 'register'" />
+    <!-- Sidebar -->
     <div
       id="sidebar-overlay"
       v-show="showSidebar"
@@ -18,19 +20,24 @@
     >
       <Sidebar v-show="showSidebar" />
     </transition>
+    <!-- Route View -->
     <router-view />
+    <!-- Alerts -->
+    <Alerts class="hidden" />
   </div>
 </template>
 
 <script>
 import Header from "./components/layout/Header.vue";
 import Sidebar from "./components/layout/Sidebar.vue";
+import Alerts from "./components/layout/Alerts.vue";
 import { useStore } from "vuex";
 import { computed } from "vue";
 export default {
   components: {
     Header,
     Sidebar,
+    Alerts,
   },
   setup() {
     //if localstorage[user] exists, set the user state to that

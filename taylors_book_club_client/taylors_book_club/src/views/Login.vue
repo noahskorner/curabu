@@ -1,17 +1,15 @@
 <template>
   <div class="w-screen h-screen flex">
     <!-- Login -->
-    <div class="w-full lg:w-2/3 bg-white h-full">
+    <div id="login-form" class="w-full lg:w-2/3 h-full">
       <div class="login-header px-4 flex items-center">
         <Logo />
       </div>
       <div class="w-full mt-16 flex justify-center items-center px-8">
         <div class="w-full max-w-xl flex flex-col">
           <!-- Sign In Header -->
-          <div class="text-center w-full">
-            <h2
-              class="font-semibold text-2xl md:text-3xl xl:text-4xl text-dark-purple mb-8"
-            >
+          <div class="text-center w-full" id="sign-in-header">
+            <h2 class="font-semibold text-2xl md:text-3xl xl:text-4xl mb-8">
               Sign in to Taylor's Book Club
             </h2>
           </div>
@@ -50,7 +48,7 @@
             <label for="email" class="px-4">Email</label>
             <input
               type="email"
-              class="bg-gray-100 h-12 rounded-xl p-4 border-2 border-gray-100"
+              class="bg-gray-200 h-12 rounded-xl p-4 border-2 border-gray-200 text-dark"
               placeholder="Enter email"
               @input="state.validateEmail()"
               @blur="state.validateEmail()"
@@ -73,7 +71,7 @@
             <label for="password" class="px-4">Password</label>
             <input
               type="password"
-              class="bg-gray-100 h-12 rounded-xl p-4 border-2 border-gray-100"
+              class="bg-gray-200 h-12 rounded-xl p-4 border-2 border-gray-200 text-dark"
               placeholder="Enter your password"
               @input="state.validatePassword()"
               @blur="state.validatePassword()"
@@ -107,7 +105,7 @@
           >
             Sign in
           </button>
-          <div class="w-full text-center text-sm text-gray-500">
+          <div class="w-full text-center text-sm">
             <div class="my-3">
               <router-link to="/" class="link"
                 >Forgot your password?</router-link

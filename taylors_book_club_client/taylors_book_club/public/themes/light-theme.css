@@ -27,3 +27,11 @@
 #club-card-content {
   background-color: white;
 }
+
+#sign-in-header {
+  color: var(--dark-purple);
+}
+
+#sign-up-header {
+  color: var(--dark-purple);
+}
