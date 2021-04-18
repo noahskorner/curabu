@@ -55,13 +55,13 @@
               @input="state.validateEmail()"
               @blur="state.validateEmail()"
               :class="
-                !state.emailValidated
+                state.emailErrors.length > 0
                   ? 'border-red-500'
                   : 'focus:border-purple-500'
               "
               v-model="state.email"
             />
-            <span v-show="!state.emailValidated">
+            <span v-show="state.emailErrors.length > 0">
               <p
                 class="px-4 mt-1 text-sm text-red-500"
                 v-for="(emailError, index) in state.emailErrors"
@@ -128,7 +128,7 @@
           </div>
           <!-- Sign Up Button -->
           <button
-            @click="state.loginUser()"
+            @click="state.registerUser()"
             class="mt-8 mb-2 h-12 rounded-full text-white text-3xl font-medium mx-1"
             id="sign-in-btn"
             :disabled="
@@ -185,7 +185,7 @@
 
 <script>
 import { reactive } from "@vue/reactivity";
-//import API from "../services/API.js";
+import API from "../services/API.js";
 //import { useStore } from "vuex";
 export default {
   setup() {
@@ -213,8 +213,9 @@ export default {
       validateEmail: () => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         state.emailValidated = re.test(String(state.email).toLowerCase());
-        if (!state.emailValidated)
-          state.emailErrors = ["Please enter a valid email address"];
+        state.emailErrors = state.emailValidated
+          ? []
+          : ["Please enter a valid email address"];
         return;
       },
       validatePassword1: () => {
@@ -232,7 +233,48 @@ export default {
       validatePassword2: () => {
         state.password2Validated = state.password1 === state.password2;
       },
-      registerUser: () => {},
+      registerUser: async () => {
+        state.validateEmail();
+        state.validatePassword1();
+        state.validatePassword2();
+        if (
+          !state.emailValidated ||
+          !state.password1Validated ||
+          !state.password2Validated
+        )
+          return;
+        state.loading = true;
+        const payload = {
+          email: state.email,
+          password1: state.password1,
+          password2: state.password2,
+        };
+
+        try {
+          const response = await API.register(payload);
+          console.log("response", response);
+        } catch (error) {
+          if (error.response) {
+            if (error.response.data.email) {
+              state.emailErrors = error.response.data.email;
+              state.emailValidated = false;
+            }
+            if (error.response.data.password1) {
+              state.passwordErrors = error.response.data.password1;
+              state.password1Validated = false;
+            }
+          } else if (error.request) {
+            state.errors = [
+              "Yeah... that's our bad. There was an error when trying to register your account. Please try again",
+            ];
+          } else {
+            state.errors = [
+              "Yeah... that's our bad. There was an error when trying to register your account. Please try again",
+            ];
+          }
+        }
+        state.loading = false;
+      },
     });
     return {
       state,

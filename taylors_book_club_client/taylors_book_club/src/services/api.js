@@ -11,6 +11,9 @@ const apiClient = axios.create({
 });
 
 export default {
+  register(payload) {
+    return apiClient.post("rest-auth/registration/", payload);
+  },
   login(payload) {
     return apiClient.post("rest-auth/login/", payload);
   },

@@ -23,7 +23,7 @@
 
   --light-purple: theme('colors.purple.300');
   --purple: theme('colors.purple.500');
-  --dark-purple: theme('colors.purple.700');
+  --dark-purple: theme('colors.purple.800');
 
   --light-gray: #f2f2f2;
 }
