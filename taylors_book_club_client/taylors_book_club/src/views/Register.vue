@@ -7,7 +7,7 @@
       >
         <Logo />
       </div>
-      <div class="w-full mt-16 flex justify-center items-center px-8">
+      <div class="w-full mt-8 lg:mt-16 flex justify-center items-center px-8">
         <div class="w-full max-w-xl flex flex-col">
           <!-- Sign Up Header -->
           <div class="text-center w-full">

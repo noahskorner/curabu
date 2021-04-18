@@ -1,11 +1,14 @@
 <template>
-  <div class="min-h-screen font-primary relative">
+  <div class="min-h-screen font-primary relative overflow-hidden">
     <!-- Theme -->
     <teleport to="head">
       <link rel="stylesheet" type="text/css" :href="theme" />
     </teleport>
     <!-- Header -->
-    <Header v-if="$route.name !== 'login' && $route.name !== 'register'" />
+    <Header
+      v-if="$route.name !== 'login' && $route.name !== 'register'"
+      class="fixed top-0 z-10"
+    />
     <!-- Sidebar -->
     <div
       id="sidebar-overlay"
@@ -21,7 +24,11 @@
       <Sidebar v-show="showSidebar" />
     </transition>
     <!-- Route View -->
-    <router-view />
+    <router-view
+      :class="
+        $route.name !== 'login' && $route.name !== 'register' ? 'mt-24' : ''
+      "
+    />
     <!-- Alerts -->
     <Alerts />
   </div>
