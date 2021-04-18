@@ -39,3 +39,11 @@
 #alert {
   background-color: white;
 }
+
+#account-modal {
+  background-color: white;
+}
+
+.account-modal-link:hover {
+  background-color: var(--gray-10);
+}

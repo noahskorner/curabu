@@ -51,6 +51,7 @@ export default {
     if (localStorage.Authorization && localStorage.user) {
       const user = JSON.parse(localStorage.user);
       store.dispatch("user/setUser", user);
+      store.dispatch("user/setIsAuthenticated", true);
     }
 
     if (localStorage.theme) {

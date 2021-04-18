@@ -1,5 +1,8 @@
 <template>
-  <div id="header" class="w-screen flex justify-between items-center px-4">
+  <div
+    id="header"
+    class="w-screen flex justify-between items-center px-4 relative"
+  >
     <div id="left" class="flex justify-start items-center">
       <Logo class="hidden md:block" />
       <IconButton @click="displaySidebar()">
@@ -13,10 +16,8 @@
       <Logo class="inline-block md:hidden" />
     </div>
     <div id="right" class="flex justify-end items-center">
-      <IconButton>
-        <i class="fas fa-user-alt fa-lg"></i>
-      </IconButton>
-      <router-link to="login">
+      <AccountModal v-if="isAuthenticated" />
+      <router-link v-else to="login">
         <IconButton>
           <i class="fas fa-sign-in-alt fa-lg"></i>
         </IconButton>
@@ -26,14 +27,20 @@
 </template>
 
 <script>
+import AccountModal from "../ui/AccountModal.vue";
 import { useStore } from "vuex";
+import { computed } from "vue";
 export default {
+  components: {
+    AccountModal,
+  },
   setup() {
     const store = useStore();
 
     return {
       displaySidebar: () => store.dispatch("sidebar/displaySidebar"),
       hideSidebar: () => store.dispatch("sidebar/hideSidebar"),
+      isAuthenticated: computed(() => store.state.user.isAuthenticated),
     };
   },
 };
@@ -51,5 +58,9 @@ export default {
 }
 #right {
   width: 33%;
+}
+
+#account-modal {
+  top: 3rem;
 }
 </style>

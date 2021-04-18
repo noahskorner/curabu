@@ -4,21 +4,29 @@ export default {
   namespaced: true,
   state: () => ({
     user: {},
+    isAuthenticated: true,
   }),
   mutations: {
     setUser(state, payload) {
       state.user = payload;
     },
+    setIsAuthenticated(state, payload) {
+      state.isAuthenticated = payload;
+      console.log(state.isAuthenticated);
+    },
   },
   actions: {
-    async login({ dispatch }, token) {
+    async login({ dispatch, commit }, token) {
       localStorage.setItem("Authorization", `Token ${token}`);
       await dispatch("loadUser");
+      commit("setIsAuthenticated", true);
       router.push("/");
     },
-    async logout() {
+    async logout({ commit }) {
       localStorage.removeItem("Authorization");
       localStorage.removeItem("user");
+      commit("setUser", {});
+      commit("setIsAuthenticated", false);
     },
     async loadUser({ dispatch }) {
       try {
@@ -41,6 +49,9 @@ export default {
     async setUser({ commit }, user) {
       localStorage.user = JSON.stringify(user);
       commit("setUser", user);
+    },
+    async setIsAuthenticated({ commit }, isAuthenticated) {
+      commit("setUser", isAuthenticated);
     },
   },
 };

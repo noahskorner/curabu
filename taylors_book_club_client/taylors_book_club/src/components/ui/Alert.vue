@@ -46,6 +46,9 @@ export default {
           return "bg-blue-500";
       }
     };
+    setTimeout(() => {
+      store.dispatch("alert/dismissAlert", props.index);
+    }, 10000);
     return {
       getAlertColor,
       dismissAlert: () => store.dispatch("alert/dismissAlert", props.index),
