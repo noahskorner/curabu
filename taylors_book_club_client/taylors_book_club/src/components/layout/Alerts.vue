@@ -1,6 +1,6 @@
 <template>
   <div class="absolute" id="alerts">
-    <span v-for="(alert, index) in alerts.reverse()" :key="index">
+    <span v-for="(alert, index) in alerts" :key="index">
       <Alert
         v-if="!alert.dismissed"
         :alertType="alert.alertType"

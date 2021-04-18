@@ -161,7 +161,7 @@ export default {
 
         try {
           const response = await API.login(payload);
-          store.dispatch("alert/addAlert", {
+          await store.dispatch("alert/addAlert", {
             alertType: "success",
             message: "Logged in successfully!",
           });

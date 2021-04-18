@@ -5,7 +5,7 @@ export default {
   }),
   mutations: {
     addAlert(state, newAlert) {
-      state.alerts.push(newAlert);
+      state.alerts.unshift(newAlert);
     },
     dismissAlert(state, index) {
       state.alerts[index].dismissed = true;

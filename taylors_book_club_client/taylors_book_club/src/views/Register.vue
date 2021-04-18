@@ -165,9 +165,11 @@
 import { reactive } from "@vue/reactivity";
 import API from "../services/API.js";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
   setup() {
     const store = useStore();
+    const router = useRouter();
     const state = reactive({
       email: "",
       password1: "",
@@ -228,8 +230,12 @@ export default {
         };
 
         try {
-          const response = await API.register(payload);
-          console.log("response", response);
+          await API.register(payload);
+          await store.dispatch("alert/addAlert", {
+            alertType: "success",
+            message: `Account created! A verification email was sent to ${payload.email}`,
+          });
+          router.push("/login");
         } catch (error) {
           if (error.response) {
             if (error.response.data.email) {
