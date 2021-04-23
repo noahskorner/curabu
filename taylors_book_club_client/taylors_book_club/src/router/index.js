@@ -27,6 +27,11 @@ const routes = [
     component: () => import("../views/VerifyEmail.vue"),
   },
   {
+    path: "/profile",
+    name: "profile  ",
+    component: () => import("../views/Profile.vue"),
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "page-not-found",
     component: () => import("../views/PageNotFound.vue"),

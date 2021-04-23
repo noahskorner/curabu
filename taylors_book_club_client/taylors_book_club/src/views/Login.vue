@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen flex">
+  <div class="w-screen h-screen flex" @keyup.enter="state.loginUser()">
     <!-- Login -->
     <div id="login-form" class="w-full lg:w-2/3 h-full">
       <div

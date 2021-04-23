@@ -92,13 +92,14 @@
   transform: translate(-100%, 0);
 }
 
-.slide-right-enter-active {
-  transition: all 0.5s;
-}
+.slide-right-enter-active,
 .slide-right-leave-active {
   transition: 0.5s;
 }
 
+.slide-right-enter-from {
+  transform: translate(100%, 0);
+}
 .slide-right-leave-to {
   transform: translate(100%, 0);
 }

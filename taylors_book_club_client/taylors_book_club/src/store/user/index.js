@@ -12,7 +12,6 @@ export default {
     },
     setIsAuthenticated(state, payload) {
       state.isAuthenticated = payload;
-      console.log(state.isAuthenticated);
     },
   },
   actions: {

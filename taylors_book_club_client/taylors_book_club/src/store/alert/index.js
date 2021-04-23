@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export default {
   namespaced: true,
   state: () => ({
@@ -5,10 +7,11 @@ export default {
   }),
   mutations: {
     addAlert(state, newAlert) {
-      state.alerts.unshift(newAlert);
+      newAlert.id = uuidv4();
+      state.alerts.push(newAlert);
     },
     dismissAlert(state, index) {
-      state.alerts[index].dismissed = true;
+      state.alerts.splice(index, 1);
     },
   },
   actions: {

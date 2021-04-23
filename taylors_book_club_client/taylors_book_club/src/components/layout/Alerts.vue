@@ -1,14 +1,15 @@
 <template>
   <div class="absolute" id="alerts">
-    <span v-for="(alert, index) in alerts" :key="index">
+    <transition-group name="slide-right" mode="out-in" tag="span">
       <Alert
-        v-if="!alert.dismissed"
         :alertType="alert.alertType"
         :index="index"
+        v-for="alert in alerts"
+        :key="alert.id"
       >
         {{ alert.message }}
       </Alert>
-    </span>
+    </transition-group>
   </div>
 </template>
 

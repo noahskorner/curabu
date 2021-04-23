@@ -1,7 +1,7 @@
 <template>
   <div
     id="header"
-    class="w-screen flex justify-between items-center px-4 relative"
+    class="w-screen flex justify-between items-center px-4 fixed"
   >
     <div id="left" class="flex justify-start items-center">
       <Logo class="hidden md:block" />
