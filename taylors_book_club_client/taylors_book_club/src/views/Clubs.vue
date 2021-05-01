@@ -3,31 +3,36 @@
     <div
       class="max-w-7xl mx-2 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4"
     >
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
-      <ClubCard />
+      <ClubCard
+        v-for="club in clubs"
+        :key="club.id"
+        :name="club.name"
+        :nameUrl="club.name_url"
+        :currentBook="getCurrentBook(club.id)"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { onMounted, computed } from "vue";
+import { useStore } from "vuex";
 import ClubCard from "../components/ui/ClubCard.vue";
 export default {
   components: {
     ClubCard,
+  },
+  setup() {
+    const store = useStore();
+
+    onMounted(async () => {
+      await store.dispatch("club/loadClubs");
+    });
+
+    return {
+      clubs: computed(() => store.getters["club/getClubs"]),
+      getCurrentBook: computed(() => store.getters["club/getCurrentBook"]),
+    };
   },
 };
 </script>

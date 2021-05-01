@@ -82,7 +82,7 @@
 /* Transitions */
 .slide-left-enter-active,
 .slide-left-leave-active {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .slide-left-enter-from {
@@ -94,7 +94,7 @@
 
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .slide-right-enter-from {

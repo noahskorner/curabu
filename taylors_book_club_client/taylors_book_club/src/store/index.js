@@ -1,13 +1,15 @@
 import { createStore } from "vuex";
-import sidebarModule from "./sidebar";
-import userModule from "./user";
-import alertModule from "./alert";
+import sidebar from "./sidebar";
+import user from "./user";
+import alert from "./alert";
+import club from "./club";
 
 export default createStore({
   modules: {
-    sidebar: sidebarModule,
-    user: userModule,
-    alert: alertModule,
+    sidebar,
+    user,
+    alert,
+    club,
   },
   state: {
     theme: "/themes/light-theme.css",

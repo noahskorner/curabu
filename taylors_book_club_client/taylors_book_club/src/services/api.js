@@ -23,4 +23,7 @@ export default {
   getUser(auth) {
     return apiClient.get("rest-auth/user/", { headers: auth });
   },
+  getClubs() {
+    return apiClient.get("api/clubs/");
+  },
 };

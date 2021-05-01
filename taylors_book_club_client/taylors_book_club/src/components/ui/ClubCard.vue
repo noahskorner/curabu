@@ -1,17 +1,20 @@
 <template>
   <router-link
     id="card-wrapper"
-    to="/clubs"
+    :to="{ name: 'club', params: { name: nameUrl } }"
     class="w-full h-full flex justify-center items-center"
   >
     <div class="h-80 w-full rounded-xl overflow-hidden hover:shadow-2xl">
-      <div id="img-bg" class="h-2/5 w-full rounded-t-xl"></div>
+      <div
+        id="img-bg"
+        class="h-2/5 w-full rounded-t-xl"
+        :style="{ backgroundImage: `url(${book.image_url})` }"
+      ></div>
       <div class="h-3/5 w-full rounded-b-xl relative" id="club-card-content">
-        <img
-          src="~@/assets/img/pandpcover.jpeg"
-          class="absolute w-24 inline"
-          alt=""
-        />
+        <div id="img-wrapper" class="absolute">
+          <img :src="book.image_url" class="object-fill w-24 h-36" alt="" />
+        </div>
+
         <div
           id="card-btns"
           class="absolute flex justify-between items-center pr-2"
@@ -40,9 +43,9 @@
         </div>
 
         <div class="pl-4">
-          <h2 class="pt-12 text-xl font-medium">Club Name</h2>
-          <h6>Pride and Prejudice</h6>
-          <p class="text-sm font-light mt-2">Author: Jane Austen</p>
+          <h2 class="pt-12 text-xl font-medium">{{ name }}</h2>
+          <h6>{{ book.name }}</h6>
+          <p class="text-sm font-light mt-2">Author: {{ book.author }}</p>
           <p class="text-sm font-light">Number of members: 10</p>
           <p class="text-sm font-light">Active members: 6</p>
         </div>
@@ -52,18 +55,39 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    name: {
+      type: String,
+      required: true,
+      default: "Default Club Name",
+    },
+    nameUrl: {
+      type: String,
+      required: true,
+    },
+    currentBook: {
+      type: Object,
+      required: true,
+    },
+  },
+  setup(props) {
+    return {
+      book: props.currentBook.book,
+    };
+  },
+};
 </script>
 
 <style scoped>
 #img-bg {
-  background-image: url("~@/assets/img/pandpcover.jpeg");
   background-position: center;
+  background-size: 100% auto;
   filter: blur(10px); /* apply the blur */
   box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2);
 }
 
-img {
+#img-wrapper {
   bottom: 80%;
   left: 5%;
 }
