@@ -17,13 +17,22 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'name', 'author', 'isbn', 'num_pages', 'image_url']
 
+class PostSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = ['user', 'club_book', 'text']
+
+    def create(self, validated_data):
+        return Post.objects.create(**validated_data)
+
 
 class ClubBookSerializer(serializers.ModelSerializer):
     book = BookSerializer(many=False)
-
+    posts = PostSerializer(many=True)
     class Meta:
         model = ClubBook
-        fields = ['id', 'book', 'start_date', 'end_date']
+        fields = ['id', 'book', 'posts', 'start_date', 'end_date']
 
 
 class ClubSerializer(serializers.ModelSerializer):
@@ -37,3 +46,4 @@ class ClubSerializer(serializers.ModelSerializer):
         model = Club
         fields = ['id', 'name', 'members',
                   'owner', 'genre', 'current_book', 'past_books', 'name_url']
+

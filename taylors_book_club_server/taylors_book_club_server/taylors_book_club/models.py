@@ -38,12 +38,14 @@ class Book(models.Model):
             url = ''
         return url
 
-
 class ClubBook(models.Model):
     book = models.ForeignKey(Book, null=False, on_delete=models.CASCADE)
     start_date = models.DateField(auto_now_add=True)
     end_date = models.DateField(null=True, blank=True, auto_now_add=False)
 
+    @property
+    def posts(self):
+        return Post.objects.filter(club_book=self)
 
 class Club(models.Model):
     name = models.CharField(max_length=25, unique=True,
@@ -59,3 +61,8 @@ class Club(models.Model):
     @property
     def name_url(self):
         return self.name.lower().replace(" ", "-")
+
+class Post(models.Model):
+    user = models.ForeignKey(CustomUser, null=False, on_delete=models.CASCADE)
+    club_book = models.ForeignKey(ClubBook, null=False, on_delete=models.CASCADE)
+    text = models.CharField(max_length=360, null=False)
