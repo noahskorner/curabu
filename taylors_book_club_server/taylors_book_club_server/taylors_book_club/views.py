@@ -13,6 +13,17 @@ def clubs(request):
         return Response(serializer.data)
 
 
+@api_view(['GET'])
+def club(request):
+    if request.method == 'GET':
+        try:
+            club = Club.objects.get(id=request.data['club'])
+            serializer = ClubSerializer(club, many=False)
+            return Response(serializer.data)
+        except:
+            return Response({"error": f"Club with id:{request.data['club']} not found."}, 500)
+
+
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
