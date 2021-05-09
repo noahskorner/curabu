@@ -10,9 +10,7 @@
       </IconButton>
     </div>
     <div id="middle" class="flex justify-center items-center w-full">
-      <h2 class="font-secondary text-4xl hidden md:block">
-        Taylor's Book Club
-      </h2>
+      <h2 class="font-primary font-medium text-2xl hidden md:block">clubay</h2>
       <Logo class="inline-block md:hidden" />
     </div>
     <div id="right" class="flex justify-end items-center">
@@ -48,7 +46,7 @@ export default {
 
 <style scoped>
 #header {
-  height: 4rem;
+  height: 3.5rem;
 }
 #left {
   width: 33%;

@@ -11,20 +11,6 @@
   background-color: var(--gray-80);
 }
 
-#sidebar-btn-wrapper:active #sidebar-btn {
-  background-color: var(--purple);
-  color: var(--gray-90);
-}
-
-#sidebar-btn {
-  background-color: var(--dark-purple);
-}
-
-#sidebar-btn:hover {
-  background-color: var(--purple);
-  color: white;
-}
-
 #club-card-content {
   background-color: var(--gray-80);
 }

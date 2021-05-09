@@ -3,7 +3,7 @@
     id="sidebar"
     class="absolute w-full min-h-screen max-w-md inline-block z-20"
   >
-    <div id="sidebar-header" class="w-full px-4 flex justify-end items-center">
+    <div id="sidebar-header" class="w-full flex justify-end items-center">
       <IconButton @click="hideSidebar()">
         <i class="fas fa-times fa-lg"></i>
       </IconButton>
@@ -11,9 +11,10 @@
     <button @click="toggleTheme()">{{ theme }}</button>
     <div class="my-16">
       <router-link to="/clubs">
-        <SidebarButton>My clubs</SidebarButton>
+        <SidebarButton :icon="'fa-users'">Clubs</SidebarButton>
       </router-link>
-      <SidebarButton>Newsletter</SidebarButton>
+      <SidebarButton :icon="'fa-book'">My books</SidebarButton>
+      <SidebarButton :icon="'fa-newspaper'">Newsletter</SidebarButton>
     </div>
   </div>
 </template>
@@ -45,6 +46,6 @@ export default {
 }
 
 #sidebar-header {
-  height: 4rem;
+  height: 3.5rem;
 }
 </style>

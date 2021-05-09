@@ -21,21 +21,23 @@
         >
           <span>
             <button
-              class="text-red-500 bg-light-gray rounded-full w-10 h-10 flex justify-center items-center shadow-2xl"
+              @click.prevent
+              class="text-red-500 bg-light-gray hover:bg-gray-200 rounded-full w-10 h-10 flex justify-center items-center shadow-2xl"
             >
               <i class="fas fa-heart fa-lg"></i>
             </button>
           </span>
           <span>
             <button
-              class="text-blue-500 bg-light-gray rounded-full w-10 h-10 flex justify-center items-center shadow-2xl"
+              @click.prevent
+              class="text-blue-500 bg-light-gray hover:bg-gray-200 rounded-full w-10 h-10 flex justify-center items-center shadow-2xl"
             >
               <i class="fas fa-plus fa-lg"></i>
             </button>
           </span>
           <span>
             <button
-              class="text-gray bg-light-gray rounded-full w-10 h-10 flex justify-center items-center shadow-2xl text-dark"
+              class="text-gray bg-light-gray hover:bg-gray-200 rounded-full w-10 h-10 flex justify-center items-center shadow-2xl text-dark"
             >
               <i class="fas fa-ellipsis-h fa-lg"></i>
             </button>
@@ -96,5 +98,13 @@ export default {
   width: 55%;
   top: -1.25rem;
   left: 45%;
+}
+
+#card-btns button:hover {
+  background-color: var(--gray-20);
+}
+
+#card-btns button:active {
+  background-color: var(--gray-25);
 }
 </style>

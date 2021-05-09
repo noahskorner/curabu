@@ -15,7 +15,7 @@
 
 <script>
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import Alert from "../ui/Alert.vue";
 export default {
   components: {
@@ -23,9 +23,19 @@ export default {
   },
   setup() {
     const store = useStore();
+    const state = reactive({
+      windowHeight: window.innerHeight,
+    });
+
+    onMounted(() => {
+      window.addEventListener("resize", () => {
+        state.windowHeight = window.innerHeight;
+      });
+    });
 
     return {
       alerts: computed(() => store.state.alert.alerts),
+      windowHeight: state.windowHeight,
     };
   },
 };
@@ -33,7 +43,7 @@ export default {
 
 <style scoped>
 #alerts {
-  bottom: 3rem;
-  right: 1rem;
+  right: 0;
+  bottom: 0;
 }
 </style>

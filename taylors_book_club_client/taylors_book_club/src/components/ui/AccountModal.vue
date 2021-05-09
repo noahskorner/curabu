@@ -12,25 +12,35 @@
       <router-link
         to="/profile"
         tag="div"
-        class="flex justify-start items-center p-2 rounded-xl account-modal-link"
+        class="flex justify-start text-sm items-center p-2 rounded-xl account-modal-link"
       >
         <div
-          class="flex justify-center items-center bg-light-gray text-dark account-icon-btn rounded-full"
+          class="flex justify-center items-center bg-light-gray text-dark account-icon-btn rounded-full mr-4"
         >
           <i class="far fa-address-card fa-lg"></i>
         </div>
-        <div class="pl-2 font-medium">My Profile</div>
+        <div>My Profile</div>
       </router-link>
       <button
-        class="flex justify-start items-center p-2 rounded-xl account-modal-link w-full"
+        class="flex justify-start text-sm items-center p-2 rounded-xl account-modal-link w-full"
         @click="logoutUser()"
       >
         <div
-          class="flex justify-center items-center bg-light-gray text-dark account-icon-btn rounded-full"
+          class="flex justify-center items-center bg-light-gray text-dark account-icon-btn rounded-full mr-4"
         >
           <i class="fas fa-sign-out-alt fa-lg"></i>
         </div>
-        <div class="pl-2 font-medium">Log out</div>
+        <div>Log out</div>
+      </button>
+      <button
+        class="flex justify-start text-sm items-center p-2 rounded-xl account-modal-link w-full"
+      >
+        <div
+          class="flex justify-center items-center bg-light-gray text-dark account-icon-btn rounded-full mr-4"
+        >
+          <i class="fas fa-bell fa-lg"></i>
+        </div>
+        <div>Notifications</div>
       </button>
     </div>
     <div

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-16 w-72 sm:w-96 shadow-2xl rounded-xl flex justify-start items-stretch px-3 my-2"
+    class="min-h-16 w-screen max-w-xl sm:w-96 shadow-2xl rounded-xl flex justify-start items-stretch px-3 my-2"
     id="alert"
   >
     <div class="bg-red-500 w-4" :class="getAlertColor()"></div>

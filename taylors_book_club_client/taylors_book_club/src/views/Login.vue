@@ -209,7 +209,7 @@ export default {
 
 <style scoped>
 .login-header {
-  height: 4rem;
+  height: 3.5rem;
 }
 
 .link:hover {

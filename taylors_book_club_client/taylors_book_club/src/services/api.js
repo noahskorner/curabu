@@ -23,6 +23,11 @@ export default {
   getUser(auth) {
     return apiClient.get("rest-auth/user/", { headers: auth });
   },
+  changePassword(payload, auth) {
+    return apiClient.post("rest-auth/password/change", payload, {
+      headers: auth,
+    });
+  },
   getClubs() {
     return apiClient.get("api/clubs/");
   },

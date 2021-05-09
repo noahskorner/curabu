@@ -74,6 +74,10 @@
   border-color: var(--dark-purple);
 }
 
+.border-purple {
+  border-color: var(--purple);
+}
+
 /* Height */
 .min-h-16 {
   min-height: 4rem;
@@ -103,6 +107,8 @@
 .slide-right-leave-to {
   transform: translate(100%, 0);
 }
+
+/* Utilities */
 
 .shadow-top {
   -webkit-box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2);

@@ -26,7 +26,7 @@
     <!-- Route View -->
     <router-view
       :class="
-        $route.name !== 'login' && $route.name !== 'register' ? 'mt-24' : ''
+        $route.name !== 'login' && $route.name !== 'register' ? 'mt-20' : ''
       "
     />
     <!-- Alerts -->
