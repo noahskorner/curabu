@@ -1,7 +1,0 @@
-# status choices
-ACTION_ADVENTURE = "ACTION_ADVENTURE"
-ALTERNATE_HISTORY = "ALTERNATE_HISTORY"
-GENRE_CHOICES = [
-    (ACTION_ADVENTURE, 'Action and adventure'),
-    (ALTERNATE_HISTORY, 'Alternate history'),
-]
