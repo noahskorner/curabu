@@ -5,10 +5,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "authServer.js",
   "scripts": {
-    "serve": "nodemon index.js",
-    "start": "node index.js"
+    "authServer": "nodemon authServer.js"
   },
   "author": "",
   "license": "ISC",
