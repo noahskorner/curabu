@@ -2,14 +2,14 @@
   "engines": {
     "node": "14.17.5"
   },
-  "name": "server",
+  "name": "curabu",
   "version": "1.0.0",
   "description": "",
-  "main": "authServer.js",
+  "main": "auth/auth.route.js",
   "scripts": {
-    "authServer": "nodemon authServer.js"
+    "auth": "nodemon auth/auth.route.js"
   },
-  "author": "",
+  "author": "Noah Korner",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",

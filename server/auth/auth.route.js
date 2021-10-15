@@ -1,16 +1,16 @@
 const cors = require("cors");
 const express = require("express");
 const app = express();
-const pool = require("./db");
+const pool = require("../config/db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const {
   validateUser,
   generateAccessToken,
   generateRefreshToken,
-} = require("./common/functions");
-const { refreshTokenExpiration } = require("./common/constants");
-const { authenticateToken } = require("./middleware/auth");
+} = require("../common/functions");
+const { refreshTokenExpiration } = require("../common/constants");
+const { authenticateToken } = require("../middleware/auth");
 
 // MIDDLEWARE
 app.use(
