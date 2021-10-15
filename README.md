@@ -1,4 +1,4 @@
-# Taylors Book Club
+# Curabu (Koo-rah-boo)
 
 API Documentation : https://documenter.getpostman.com/view/12120504/TzCQZkew
 
