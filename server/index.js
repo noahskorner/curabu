@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const { createResponse } = require("./common/functions.js");
-const { authenticate, authorize } = require("./middleware/auth.js");
+const { authenticate } = require("./middleware/auth.js");
 const app = express();
 
 app.use(
@@ -10,7 +10,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.get("/", authenticate, authorize(["SUPERADMIN"]), async (req, res) => {
+app.get("/", authenticate, async (req, res) => {
   const response = createResponse(true, "Health check passed.", [], {});
   return res.status(200).json(response);
 });
