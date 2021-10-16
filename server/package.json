@@ -5,9 +5,9 @@
   "name": "curabu",
   "version": "1.0.0",
   "description": "",
-  "main": "auth/auth.route.js",
+  "main": "index.js",
   "scripts": {
-    "auth": "nodemon auth/auth.route.js"
+    "serve": "nodemon index.js"
   },
   "author": "Noah Korner",
   "license": "ISC",

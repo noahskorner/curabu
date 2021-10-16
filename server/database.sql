@@ -87,4 +87,7 @@ CREATE TABLE refresh_tokens (
     valid_until TIMESTAMP NOT NULL
 );
 
+INSERT INTO roles(name) VALUES ('SUPERADMIN');
+INSERT INTO user_roles(user_id, role_Id) VALUES ((SELECT id FROM users WHERE email = 'noahskorner@gmail.com'), 1);
+
 
