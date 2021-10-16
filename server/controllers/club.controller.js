@@ -27,7 +27,6 @@ const validateClub = async (name, clubType) => {
 
 const validateBookClub = async (name, clubType) => {
   const errors = await validateClub(name, clubType);
-
   return errors;
 };
 

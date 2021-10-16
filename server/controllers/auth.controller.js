@@ -173,17 +173,17 @@ const loginUser = async (req, res) => {
           ["User with that email / password combination does not exist."],
           {}
         );
-        return res.status(400).josn(response);
+        return res.status(400).json(response);
       }
     } catch (error) {
       console.log(error.message);
       const response = createUnkownErrorResponse();
-      return response;
+      return res.status(500).json(response);
     }
   } catch (error) {
     console.log(error.message);
     const response = createUnkownErrorResponse();
-    return response;
+    return res.status(500).json(response);
   }
 };
 
