@@ -1,4 +1,4 @@
-# taylors_book_club
+# curabu
 
 ## Project setup
 ```
