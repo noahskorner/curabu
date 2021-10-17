@@ -1,4 +1,4 @@
-const pool = require("../config/db");
+const pool = require("../config/db.config");
 const {
   createResponse,
   createUnkownErrorResponse,
@@ -10,7 +10,9 @@ const {
 
 // Controllers
 const getUser = async (req, res) => {
-  try {
+  const response = createResponse(true, "PLACEHOLDER", [], {});
+  return res.status(200).json(response);
+  /*   try {
     const userId = req.user.id;
 
     const results = await Promise.all([
@@ -43,7 +45,7 @@ const getUser = async (req, res) => {
     console.log(error.message);
     const response = createUnkownErrorResponse();
     return res.status(500).json(response);
-  }
+  } */
 };
 
 module.exports = {

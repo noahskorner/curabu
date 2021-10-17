@@ -1,29 +1,31 @@
-const pool = require("../config/db");
+const pool = require("../config/db.config");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const {
   createResponse,
   createUnkownErrorResponse,
 } = require("../common/functions");
+const { Users, RefreshTokens, Roles, UserRoles } = require("../models");
+const { Op } = require("sequelize");
 
 // Variables
 const usernameRegex = /^[a-z0-9-_\.]+$/;
 const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const accessTokenExpiration = 1800; //seconds = 15 minutes
-const refreshTokenExpiration = 15; //days
+const accessTokenExpiration = 900; // 15 minutes;
+const refreshTokenExpiration = "15 days";
 
 // Functions
 const validateUser = async (username, email, password1, password2) => {
   const errors = [];
-
   try {
-    const result = await pool.query(
-      "SELECT * FROM users WHERE email = $1 OR username = $2 LIMIT 1",
-      [email, username]
-    );
+    const findUsers = await Users.findAll({
+      where: {
+        [Op.or]: [{ username }, { email }],
+      },
+    });
 
-    if (result.rows[0])
+    if (findUsers.length)
       errors.push("User with that username or email already exists.");
 
     if (username.length < 5 || username.length > 25)
@@ -48,7 +50,8 @@ const validateUser = async (username, email, password1, password2) => {
       errors.push("Password must contain at least 1 uppercase letter.");
   } catch (error) {
     console.log(error.message);
-    errors.push("An unexpected error occurred. Please try again.");
+    const response = createUnkownErrorResponse();
+    return res.status(500).json(response);
   }
 
   return errors;
@@ -60,10 +63,25 @@ const generateAccessToken = (user) => {
   });
 };
 
-const generateRefreshToken = (user) => {
-  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: refreshTokenExpiration,
-  });
+const generateRefreshToken = async (user) => {
+  try {
+    const token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
+      expiresIn: refreshTokenExpiration,
+    });
+
+    // delete the old refresh tokens
+    await RefreshTokens.destroy({
+      where: { userId: user.id },
+    });
+
+    // create a new one
+    await RefreshTokens.create({ token, userId: user.id });
+
+    return token;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 // Controllers
@@ -84,21 +102,17 @@ const registerUser = async (req, res) => {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password1, salt);
 
-      const result = await pool.query(
-        "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *",
-        [username, email, hashedPassword]
-      );
-      const user = result.rows[0];
+      await Users.create({
+        username,
+        email,
+        password: hashedPassword,
+      });
 
       const response = createResponse(
         true,
         `Successfully created user ${username}`,
         [],
-        {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-        }
+        {}
       );
       return res.status(201).json(response);
     }
@@ -112,11 +126,12 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
+    const { dataValues: user } = await Users.findOne({
+      where: { email },
+      attributes: ["id", "email", "password"],
+    });
 
-    if (!result.rows.length) {
+    if (!user) {
       const response = createResponse(
         false,
         "Unable to login user.",
@@ -126,59 +141,29 @@ const loginUser = async (req, res) => {
       return res.status(400).json(response);
     }
 
-    try {
-      const user = result.rows[0];
-      if (await bcrypt.compare(password, user.password)) {
-        const accessToken = generateAccessToken({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-        });
-        const refreshToken = generateRefreshToken({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-        });
+    if (await bcrypt.compare(password, user.password)) {
+      delete user.password;
+      const accessToken = generateAccessToken(user);
+      const refreshToken = await generateRefreshToken(user);
 
-        try {
-          const validUntil = new Date();
-          validUntil.setDate(new Date().getDate() + refreshTokenExpiration);
-          await pool.query("DELETE FROM refresh_tokens WHERE user_id = $1", [
-            user.id,
-          ]);
-          await pool.query(
-            "INSERT INTO refresh_tokens (token, user_id, valid_until) VALUES ($1, $2, $3)",
-            [refreshToken, user.id, validUntil]
-          );
-        } catch (error) {
-          console.log(error.message);
-          const response = createUnkownErrorResponse();
-          return response;
+      const response = createResponse(
+        true,
+        `Successfully logged in ${user.email}`,
+        [],
+        {
+          accessToken,
+          refreshToken,
         }
-
-        const response = createResponse(
-          true,
-          `Successfully logged in ${user.email}`,
-          [],
-          {
-            accessToken,
-            refreshToken,
-          }
-        );
-        return res.status(200).json(response);
-      } else {
-        const response = createResponse(
-          false,
-          "Unable to login user.",
-          ["User with that email / password combination does not exist."],
-          {}
-        );
-        return res.status(400).json(response);
-      }
-    } catch (error) {
-      console.log(error.message);
-      const response = createUnkownErrorResponse();
-      return res.status(500).json(response);
+      );
+      return res.status(200).json(response);
+    } else {
+      const response = createResponse(
+        false,
+        "Unable to login user.",
+        ["User with that email / password combination does not exist."],
+        {}
+      );
+      return res.status(400).json(response);
     }
   } catch (error) {
     console.log(error.message);
@@ -191,89 +176,28 @@ const refreshUserToken = async (req, res) => {
   try {
     const refreshToken = req.body.token;
     if (!refreshToken) {
-      const response = createResponse(
-        false,
-        "Unable to refresh token.",
-        ["No token provided."],
-        {}
-      );
-      return res.status(401).json(response);
-    }
-    try {
-      // who do you even know here?
-      const result = await pool.query(
-        "SELECT * FROM refresh_tokens WHERE token = $1",
-        [refreshToken]
-      );
-      if (!result.rows.length) {
-        const response = createResponse(
-          false,
-          "Unable to refresh token.",
-          ["Token does not exist."],
-          {}
-        );
-        return res.status(403).json(response);
-      }
-
-      // how old are you chief?
-      if (new Date() > new Date(result.rows[0]["validUntil"])) {
-        // nah fam that token is expired, delete all them old tokens
-        try {
-          await pool.query(
-            "DELETE FROM refresh_tokens WHERE user_id IN (SELECT user_id FROM refresh_tokens WHERE token = $1 LIMIT 1)",
-            [refreshToken]
-          );
-          const response = createResponse(
-            false,
-            "Unable to refresh token.",
-            ["Token does not exist."],
-            {}
-          );
-          return res.status(403).json(response);
-        } catch (error) {
-          const response = createUnkownErrorResponse();
-          return response;
-        }
-      }
-    } catch (error) {
-      const response = createUnkownErrorResponse();
-      return response;
+      return res.sendStatus(401);
     }
 
-    // say bye to that old refresh token pal
-    try {
-      await pool.query(
-        "DELETE FROM refresh_tokens WHERE user_id IN (SELECT user_id FROM refresh_tokens WHERE token = $1 LIMIT 1)",
-        [refreshToken]
-      );
-    } catch (error) {
-      const response = createUnkownErrorResponse();
-      return response;
-    }
-
-    // alright buddy, come in for now
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       async (error, user) => {
-        if (error) res.sendStatus(403);
+        if (error) {
+          console.log(error);
+          return res.sendStatus(403);
+        }
         const accessToken = generateAccessToken({
           id: user.id,
           username: user.username,
           email: user.email,
         });
-        const refreshToken = generateRefreshToken({
+        const refreshToken = await generateRefreshToken({
           id: user.id,
           username: user.username,
           email: user.email,
         });
 
-        const validUntil = new Date();
-        validUntil.setDate(new Date().getDate() + refreshTokenExpiration);
-        await pool.query(
-          "INSERT INTO refresh_tokens (token, user_id, valid_until) VALUES ($1, $2, $3)",
-          [refreshToken, user.id, validUntil]
-        );
         const response = createResponse(
           true,
           `Successfully refreshed token for user ${user.email}`,
@@ -284,27 +208,22 @@ const refreshUserToken = async (req, res) => {
       }
     );
   } catch (error) {
+    console.log(error.message);
     const response = createUnkownErrorResponse();
-    return response;
+    return res.status(500).json(response);
   }
 };
 
 const logoutUser = async (req, res) => {
   try {
-    const userId = req.user.id;
+    await RefreshTokens.destroy({
+      where: { userId: req.user.id },
+    });
 
-    try {
-      await pool.query("DELETE FROM refresh_tokens WHERE user_id = $1", [
-        userId,
-      ]);
-
-      const response = createResponse(true, `Successfully logged out!`, [], {});
-      return res.status(200).json(response);
-    } catch (error) {
-      const response = createUnkownErrorResponse();
-      return res.status(500).json(response);
-    }
+    const response = createResponse(true, `Successfully logged out!`, [], {});
+    return res.status(200).json(response);
   } catch (error) {
+    console.log(error);
     const response = createUnkownErrorResponse();
     return res.status(500).json(response);
   }

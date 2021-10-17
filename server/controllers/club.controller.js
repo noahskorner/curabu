@@ -1,5 +1,3 @@
-const pool = require("../config/db");
-const { clubTypes } = require("../common/constants");
 const {
   createResponse,
   createUnkownErrorResponse,
@@ -32,7 +30,9 @@ const validateBookClub = async (name, clubType) => {
 
 // Controllers
 const addClub = async (req, res) => {
-  try {
+  const response = createResponse(true, "PLACEHOLDER", [], {});
+  return res.status(200).json(response);
+  /*   try {
     const { clubType } = req.body;
     switch (clubType) {
       case clubTypes.bookClub:
@@ -50,11 +50,11 @@ const addClub = async (req, res) => {
     console.log(error.message);
     const response = createUnkownErrorResponse();
     return res.status(500).json(response);
-  }
+  } */
 };
 
 const addBookClub = async (req, res) => {
-  const { name, clubType } = req.body;
+  /*   const { name, clubType } = req.body;
   const errors = validateBookClub(name, clubType);
 
   if (errors.length) {
@@ -66,19 +66,39 @@ const addBookClub = async (req, res) => {
     );
     return res.status(400).json(response);
   } else {
-    const result = await pool.query(
-      "INSERT INTO clubs(name, club_type) VALUES ($1, (SELECT id FROM club_types WHERE name = $2)) RETURNING *",
+    const clubResult = await pool.query(
+      "INSERT INTO clubs(name, club_type) VALUES ($1, (SELECT id FROM club_types WHERE name = $2)) RETURNING *;",
       [name, clubType]
     );
-    const club = result.rows[0];
+    const {
+      id,
+      date_created: dateCreated,
+      last_modified: lastModified,
+    } = clubResult.rows[0];
+    const bookClubResult = await pool.query(
+      "INSERT INTO book_clubs(club_id) VALUES($1) RETURNING *;",
+      [id]
+    );
+    const { id: bookClubId } = bookClubResult.rows[0];
+
+    const bookClub = {
+      id,
+      bookClubId,
+      name,
+      clubType,
+      dateCreated,
+      lastModified,
+      books: [],
+    };
+
     const response = createResponse(
       true,
       `Succesfully created club ${name}!`,
       [],
-      club
+      bookClub
     );
     return res.status(200).json(response);
-  }
+  } */
 };
 
 module.exports = {

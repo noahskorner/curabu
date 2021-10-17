@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { createResponse } = require("../common/functions");
-const pool = require("../config/db");
+const { Users, Roles } = require("../models");
 
 const authenticate = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -16,34 +16,30 @@ const authenticate = (req, res, next) => {
 };
 
 const authorize = (permittedRoles) => {
-  return (req, res, next) => {
+  return async (req, res, next) => {
     const userId = req.user.id;
 
-    pool.query(
-      "SELECT name FROM roles WHERE id IN (SELECT role_id FROM user_roles WHERE user_id = $1);",
-      [userId],
-      (err, result) => {
-        if (err) {
-          console.log(error.message);
-          const response = createUnkownErrorResponse();
-          return res.status(500).json(response);
+    await Users.findOne({
+      where: { id: userId },
+      include: { model: Roles, as: "roles", attributes: ["name"] },
+    })
+      .then((data) => {
+        const user = data.toJSON();
+        console.log(user);
+        if (
+          permittedRoles.some((r) =>
+            user.roles.map((role) => role["name"]).includes(r)
+          )
+        ) {
+          next();
         } else {
-          const userRoles = result.rows.map((role) => role.name);
-
-          if (permittedRoles.some((r) => userRoles.includes(r))) {
-            next();
-          } else {
-            const response = createResponse(
-              false,
-              "User does not have permission.",
-              [],
-              {}
-            );
-            return res.status(403).json(response);
-          }
+          return res.sendStatus(403);
         }
-      }
-    );
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.sendStatus(403);
+      });
   };
 };
 

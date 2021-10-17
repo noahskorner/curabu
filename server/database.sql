@@ -4,90 +4,87 @@ CREATE DATABASE curabu;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    date_created TIMESTAMP DEFAULT NOW(),
+    "dateCreated" TIMESTAMP DEFAULT NOW(),
     username VARCHAR(255),
     email VARCHAR(255),
     password VARCHAR(255)
 );
 
 CREATE TABLE roles (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
+    name VARCHAR(255) PRIMARY KEY
 );
 
-CREATE TABLE user_roles (
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE
+CREATE TABLE "userRoles" (
+    userId INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    role VARCHAR(255) REFERENCES roles(name) ON DELETE CASCADE,
+    PRIMARY KEY(userId, role)
 );
 
-CREATE TABLE club_types (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255)
+CREATE TABLE "clubTypes" (
+    name VARCHAR(255) PRIMARY KEY
 );
 
 CREATE TABLE clubs (
     id SERIAL PRIMARY KEY,
-    date_created TIMESTAMP DEFAULT NOW(),
+    "dateCreated" TIMESTAMP DEFAULT NOW(),
     name VARCHAR(255),
-    last_modified TIMESTAMP DEFAULT NOW(),
-    club_type INTEGER REFERENCES club_types(id) ON DELETE SET NULL
+    "lastModified" TIMESTAMP DEFAULT NOW(),
+    "clubType" VARCHAR(255) REFERENCES "clubTypes"(name) ON DELETE SET NULL
 );
 
-CREATE TABLE user_clubs (
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    club_id INTEGER REFERENCES clubs(id) ON DELETE CASCADE
+CREATE TABLE "userClubs" (
+    "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    "clubId" INTEGER REFERENCES clubs(id) ON DELETE CASCADE,
+    PRIMARY KEY ("userId", "clubId")
 );
 
 CREATE TABLE admins (
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    club_id INTEGER REFERENCES clubs(id) ON DELETE CASCADE
+    "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    "clubId" INTEGER REFERENCES clubs(id) ON DELETE CASCADE,
+    PRIMARY KEY ("userId", "clubId")
 );
 
 CREATE TABLE moderators (
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    club_id INTEGER REFERENCES clubs(id) ON DELETE CASCADE
+    "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    "clubId" INTEGER REFERENCES clubs(id) ON DELETE CASCADE,
+    PRIMARY KEY ("userId", "clubId")
 );
 
 CREATE TABLE books (
     id SERIAL PRIMARY KEY,
-    date_created TIMESTAMP DEFAULT NOW(),
+    "dateCreated" TIMESTAMP DEFAULT NOW(),
     author VARCHAR(255),
     summary VARCHAR(255),
-    num_pages INTEGER
+    numPages INTEGER
 );
 
-CREATE TABLE book_clubs (
+CREATE TABLE "bookClubs" (
     id SERIAL PRIMARY KEY,
-    club_id INTEGER REFERENCES clubs(id) ON DELETE CASCADE
+    "clubId" INTEGER REFERENCES clubs(id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE book_club_books (
+CREATE TABLE "bookClubBooks" (
     id SERIAL PRIMARY KEY,
-    date_created TIMESTAMP DEFAULT NOW(),
-    book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
-    is_current_book BOOLEAN,
-    start_date TIMESTAMP,
-    end_date TIMESTAMP
+    "dateCreated" TIMESTAMP DEFAULT NOW(),
+    "bookId" INTEGER REFERENCES books(id) ON DELETE CASCADE,
+    "isCurrentBook" BOOLEAN,
+    "startDate" TIMESTAMP,
+    "endDate" TIMESTAMP
 );
 
-CREATE TABLE user_books (
-    book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    date_created TIMESTAMP DEFAULT NOW(),
-    pages_read INTEGER,
+CREATE TABLE "userBooks" (
+    "bookId "INTEGER REFERENCES books(id) ON DELETE CASCADE,
+    "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    "dateCreated" TIMESTAMP DEFAULT NOW(),
+    "pagesRead" INTEGER,
     rating INTEGER,
-    has_read BOOLEAN
+    "hasRead" BOOLEAN
 );
 
-CREATE TABLE refresh_tokens (
+CREATE TABLE "refreshTokens" (
     token VARCHAR(255) PRIMARY KEY,
-    date_created TIMESTAMP DEFAULT NOW(),
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    valid_until TIMESTAMP NOT NULL
+    "dateCeated" TIMESTAMP DEFAULT NOW(),
+    "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
-
-INSERT INTO roles(name) VALUES ('SUPERADMIN');
-INSERT INTO user_roles(user_id, role_Id) VALUES ((SELECT id FROM users WHERE email = 'noahskorner@gmail.com'), 1);
 
 
