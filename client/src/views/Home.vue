@@ -1,9 +1,14 @@
 <template>
-  <div>Home</div>
+  <PageWrapper></PageWrapper>
 </template>
 
 <script>
-export default {};
+import PageWrapper from "../components/common/layout/PageWrapper.vue";
+export default {
+  components: {
+    PageWrapper,
+  },
+};
 </script>
 
 <style></style>

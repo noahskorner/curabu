@@ -1,6 +1,5 @@
 <template>
   <div>
-    HELLO WORLD
     <!-- Route View -->
     <router-view />
   </div>
