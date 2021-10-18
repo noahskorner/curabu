@@ -14,11 +14,11 @@ var _userRoles = require("./userRoles");
 var _users = require("./users");
 
 function initModels(sequelize) {
+  var clubTypes = _clubTypes(sequelize, DataTypes);
+  var books = _books(sequelize, DataTypes);
   var admins = _admins(sequelize, DataTypes);
   var bookClubBooks = _bookClubBooks(sequelize, DataTypes);
   var bookClubs = _bookClubs(sequelize, DataTypes);
-  var books = _books(sequelize, DataTypes);
-  var clubTypes = _clubTypes(sequelize, DataTypes);
   var clubs = _clubs(sequelize, DataTypes);
   var moderators = _moderators(sequelize, DataTypes);
   var refreshTokens = _refreshTokens(sequelize, DataTypes);
@@ -31,11 +31,11 @@ function initModels(sequelize) {
   clubs.belongsToMany(users, { as: 'userId_users', through: admins, foreignKey: "clubId", otherKey: "userId" });
   clubs.belongsToMany(users, { as: 'userId_users_moderators', through: moderators, foreignKey: "clubId", otherKey: "userId" });
   clubs.belongsToMany(users, { as: 'userId_users_userClubs', through: userClubs, foreignKey: "clubId", otherKey: "userId" });
-  roles.belongsToMany(users, { as: 'userid_users', through: userRoles, foreignKey: "role", otherKey: "userid" });
+  roles.belongsToMany(users, { as: 'userId_users_userRoles', through: userRoles, foreignKey: "role", otherKey: "userId" });
   users.belongsToMany(clubs, { as: 'clubId_clubs', through: admins, foreignKey: "userId", otherKey: "clubId" });
   users.belongsToMany(clubs, { as: 'clubId_clubs_moderators', through: moderators, foreignKey: "userId", otherKey: "clubId" });
   users.belongsToMany(clubs, { as: 'clubId_clubs_userClubs', through: userClubs, foreignKey: "userId", otherKey: "clubId" });
-  users.belongsToMany(roles, { as: 'roles', through: userRoles, foreignKey: "userid", otherKey: "role" });
+  users.belongsToMany(roles, { as: 'role_roles', through: userRoles, foreignKey: "userId", otherKey: "role" });
   bookClubBooks.belongsTo(books, { as: "book", foreignKey: "bookId"});
   books.hasMany(bookClubBooks, { as: "bookClubBooks", foreignKey: "bookId"});
   userBooks.belongsTo(books, { as: "bookId _book", foreignKey: "bookId "});
@@ -54,6 +54,8 @@ function initModels(sequelize) {
   roles.hasMany(userRoles, { as: "userRoles", foreignKey: "role"});
   admins.belongsTo(users, { as: "user", foreignKey: "userId"});
   users.hasMany(admins, { as: "admins", foreignKey: "userId"});
+  clubs.belongsTo(users, { as: "createdBy_user", foreignKey: "createdBy"});
+  users.hasMany(clubs, { as: "clubs", foreignKey: "createdBy"});
   moderators.belongsTo(users, { as: "user", foreignKey: "userId"});
   users.hasMany(moderators, { as: "moderators", foreignKey: "userId"});
   refreshTokens.belongsTo(users, { as: "user", foreignKey: "userId"});
@@ -62,8 +64,8 @@ function initModels(sequelize) {
   users.hasMany(userBooks, { as: "userBooks", foreignKey: "userId"});
   userClubs.belongsTo(users, { as: "user", foreignKey: "userId"});
   users.hasMany(userClubs, { as: "userClubs", foreignKey: "userId"});
-  userRoles.belongsTo(users, { as: "user", foreignKey: "userid"});
-  users.hasMany(userRoles, { as: "userRoles", foreignKey: "userid"});
+  userRoles.belongsTo(users, { as: "user", foreignKey: "userId"});
+  users.hasMany(userRoles, { as: "roles", foreignKey: "userId"});
 
   return {
     admins,

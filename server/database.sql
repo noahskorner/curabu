@@ -15,9 +15,9 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE "userRoles" (
-    userId INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE,
     role VARCHAR(255) REFERENCES roles(name) ON DELETE CASCADE,
-    PRIMARY KEY(userId, role)
+    PRIMARY KEY("userId", role)
 );
 
 CREATE TABLE "clubTypes" (
@@ -29,7 +29,8 @@ CREATE TABLE clubs (
     "dateCreated" TIMESTAMP DEFAULT NOW(),
     name VARCHAR(255),
     "lastModified" TIMESTAMP DEFAULT NOW(),
-    "clubType" VARCHAR(255) REFERENCES "clubTypes"(name) ON DELETE SET NULL
+    "clubType" VARCHAR(255) REFERENCES "clubTypes"(name) ON DELETE SET NULL,
+    "createdBy" INTEGER REFERENCES users(id) ON DELETE SET NULL
 );
 
 CREATE TABLE "userClubs" (
@@ -55,7 +56,7 @@ CREATE TABLE books (
     "dateCreated" TIMESTAMP DEFAULT NOW(),
     author VARCHAR(255),
     summary VARCHAR(255),
-    numPages INTEGER
+    "numPages" INTEGER
 );
 
 CREATE TABLE "bookClubs" (
@@ -87,4 +88,5 @@ CREATE TABLE "refreshTokens" (
     "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 
+INSERT INTO roles(name) VALUES("SUPERADMIN");
 

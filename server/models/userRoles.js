@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('userRoles', {
-    userid: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
         name: "userRoles_pkey",
         unique: true,
         fields: [
-          { name: "userid" },
+          { name: "userId" },
           { name: "role" },
         ]
       },

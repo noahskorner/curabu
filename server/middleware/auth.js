@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { createResponse } = require("../common/functions");
-const { Users, Roles } = require("../models");
+const { UserRoles } = require("../models");
 
 const authenticate = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -19,16 +18,12 @@ const authorize = (permittedRoles) => {
   return async (req, res, next) => {
     const userId = req.user.id;
 
-    await Users.findOne({
-      where: { id: userId },
-      include: { model: Roles, as: "roles", attributes: ["name"] },
-    })
+    await UserRoles.findAll({ where: { userId }, raw: true })
       .then((data) => {
-        const user = data.toJSON();
-        console.log(user);
+        const userRoles = data;
         if (
-          permittedRoles.some((r) =>
-            user.roles.map((role) => role["name"]).includes(r)
+          permittedRoles.some((permittedRole) =>
+            userRoles.map((userRole) => userRole["role"]).includes(permittedRole)
           )
         ) {
           next();

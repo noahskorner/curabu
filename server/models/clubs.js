@@ -28,6 +28,14 @@ module.exports = function(sequelize, DataTypes) {
         model: 'clubTypes',
         key: 'name'
       }
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
     }
   }, {
     sequelize,

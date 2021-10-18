@@ -18,41 +18,43 @@ const refreshTokenExpiration = "15 days";
 // Functions
 const validateUser = async (username, email, password1, password2) => {
   const errors = [];
-  try {
-    const findUsers = await Users.findAll({
-      where: {
-        [Op.or]: [{ username }, { email }],
-      },
+
+  const findUsers = await Users.findAll({
+    where: {
+      [Op.or]: [{ username }, { email }],
+    },
+    raw: true,
+  })
+    .then((data) => data)
+    .catch((error) => {
+      console.log(error);
+      errors.push("An unexpected error has occured. Please try again.");
+      return null;
     });
 
-    if (findUsers.length)
-      errors.push("User with that username or email already exists.");
+  if (findUsers.length)
+    errors.push("User with that username or email already exists.");
 
-    if (username.length < 5 || username.length > 25)
-      errors.push("Username must be 5 - 25 characters long.");
+  if (username.length < 5 || username.length > 25)
+    errors.push("Username must be 5 - 25 characters long.");
 
-    if (!usernameRegex.test(username))
-      errors.push(
-        "Username can only contain letters, numbers, hypens, underscores, and periods."
-      );
+  if (!usernameRegex.test(username))
+    errors.push(
+      "Username can only contain letters, numbers, hypens, underscores, and periods."
+    );
 
-    if (!emailRegex.test(email)) errors.push("Email must be valid.");
+  if (!emailRegex.test(email)) errors.push("Email must be valid.");
 
-    if (password1 !== password2) errors.push("Passwords do not match.");
+  if (password1 !== password2) errors.push("Passwords do not match.");
 
-    if (password1.length < 8)
-      errors.push("Password must be at least 8 characters.");
+  if (password1.length < 8)
+    errors.push("Password must be at least 8 characters.");
 
-    if (!/\d/.test(password1))
-      errors.push("Password must contain at least 1 number.");
+  if (!/\d/.test(password1))
+    errors.push("Password must contain at least 1 number.");
 
-    if (!/[A-Z]/.test(password1))
-      errors.push("Password must contain at least 1 uppercase letter.");
-  } catch (error) {
-    console.log(error.message);
-    const response = createUnkownErrorResponse();
-    return res.status(500).json(response);
-  }
+  if (!/[A-Z]/.test(password1))
+    errors.push("Password must contain at least 1 uppercase letter.");
 
   return errors;
 };
@@ -64,24 +66,19 @@ const generateAccessToken = (user) => {
 };
 
 const generateRefreshToken = async (user) => {
-  try {
-    const token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-      expiresIn: refreshTokenExpiration,
-    });
+  const token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: refreshTokenExpiration,
+  });
 
-    // delete the old refresh tokens
-    await RefreshTokens.destroy({
-      where: { userId: user.id },
-    });
+  // delete the old refresh tokens
+  await RefreshTokens.destroy({
+    where: { userId: user.id },
+  });
 
-    // create a new one
-    await RefreshTokens.create({ token, userId: user.id });
+  // create a new one
+  await RefreshTokens.create({ token, userId: user.id });
 
-    return token;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+  return token;
 };
 
 // Controllers
@@ -124,51 +121,51 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const { dataValues: user } = await Users.findOne({
-      where: { email },
-      attributes: ["id", "email", "password"],
+  const { email, password } = req.body;
+  const user = await Users.findOne({
+    where: { email },
+    attributes: ["id", "email", "password"],
+  })
+    .then((data) => data.toJSON())
+    .catch((error) => {
+      console.log(error.message);
+      const response = createUnkownErrorResponse();
+      return res.status(500).json(response);
     });
 
-    if (!user) {
-      const response = createResponse(
-        false,
-        "Unable to login user.",
-        ["User with that email / password combination does not exist."],
-        {}
-      );
-      return res.status(400).json(response);
-    }
+  if (!user) {
+    const response = createResponse(
+      false,
+      "Unable to login user.",
+      ["User with that email / password combination does not exist."],
+      {}
+    );
+    return res.status(400).json(response);
+  }
 
-    if (await bcrypt.compare(password, user.password)) {
-      delete user.password;
-      const accessToken = generateAccessToken(user);
-      const refreshToken = await generateRefreshToken(user);
+  if (await bcrypt.compare(password, user.password)) {
+    delete user.password;
+    const accessToken = generateAccessToken(user);
+    const refreshToken = await generateRefreshToken(user);
 
-      const response = createResponse(
-        true,
-        `Successfully logged in ${user.email}`,
-        [],
-        {
-          accessToken,
-          refreshToken,
-        }
-      );
-      return res.status(200).json(response);
-    } else {
-      const response = createResponse(
-        false,
-        "Unable to login user.",
-        ["User with that email / password combination does not exist."],
-        {}
-      );
-      return res.status(400).json(response);
-    }
-  } catch (error) {
-    console.log(error.message);
-    const response = createUnkownErrorResponse();
-    return res.status(500).json(response);
+    const response = createResponse(
+      true,
+      `Successfully logged in ${user.email}`,
+      [],
+      {
+        accessToken,
+        refreshToken,
+      }
+    );
+    return res.status(200).json(response);
+  } else {
+    const response = createResponse(
+      false,
+      "Unable to login user.",
+      ["User with that email / password combination does not exist."],
+      {}
+    );
+    return res.status(400).json(response);
   }
 };
 

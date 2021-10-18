@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    numpages: {
+    numPages: {
       type: DataTypes.INTEGER,
       allowNull: true
     }

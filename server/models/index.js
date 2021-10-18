@@ -41,10 +41,10 @@ const {
 } = initModels(sequelize);
 
 db.Admins = admins;
+db.ClubTypes = clubTypes;
 db.BookClubBooks = bookClubBooks;
 db.BookClubs = bookClubs;
 db.Books = books;
-db.ClubTypes = clubTypes;
 db.Clubs = clubs;
 db.Moderators = moderators;
 db.RefreshTokens = refreshTokens;
