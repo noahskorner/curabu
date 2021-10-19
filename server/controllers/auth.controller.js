@@ -17,46 +17,83 @@ const refreshTokenExpiration = "15 days";
 
 // Functions
 const validateUser = async (username, email, password1, password2) => {
-  const errors = [];
+  const fieldErrors = {
+    username: [],
+    email: [],
+    password1: [],
+    password2: [],
+  };
 
-  const findUsers = await Users.findAll({
-    where: {
-      [Op.or]: [{ username }, { email }],
-    },
-    raw: true,
-  })
-    .then((data) => data)
-    .catch((error) => {
-      console.log(error);
-      errors.push("An unexpected error has occured. Please try again.");
-      return null;
-    });
+  // validate username
+  if (!username) {
+    fieldErrors.username.push("Must provide a username.");
+  } else {
+    if (username.length < 5 || username.length > 25)
+      fieldErrors.username.push("Username must be 5 - 25 characters long.");
 
-  if (findUsers.length)
-    errors.push("User with that username or email already exists.");
+    if (!usernameRegex.test(username)) {
+      fieldErrors.username.push(
+        "Username can only contain letters, numbers, hypens, underscores, and periods."
+      );
+    }
 
-  if (username.length < 5 || username.length > 25)
-    errors.push("Username must be 5 - 25 characters long.");
+    const findUsername = await Users.findAll({
+      where: {
+        username,
+      },
+      raw: true,
+    })
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error);
+        fieldErrors.username.push(
+          "An unexpected error has occured. Please try again."
+        );
+      });
 
-  if (!usernameRegex.test(username))
-    errors.push(
-      "Username can only contain letters, numbers, hypens, underscores, and periods."
-    );
+    if (findUsername.length)
+      fieldErrors.username.push("User with that username already exists.");
+  }
 
-  if (!emailRegex.test(email)) errors.push("Email must be valid.");
+  // validate email
+  if (!emailRegex.test(email)) {
+    fieldErrors.email.push("Email must be valid.");
+  } else {
+    const findEmail = await Users.findAll({
+      where: {
+        email,
+      },
+      raw: true,
+    })
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error);
+        fieldErrors.email.push(
+          "An unexpected error has occured. Please try again."
+        );
+      });
 
-  if (password1 !== password2) errors.push("Passwords do not match.");
+    if (findEmail.length)
+      fieldErrors.email.push("User with that email already exists.");
+  }
 
-  if (password1.length < 8)
-    errors.push("Password must be at least 8 characters.");
+  // validate password
+  if (!password1) {
+    fieldErrors.password1.push("Must provide a password.");
+  } else {
+    if (password1.length < 8)
+    fieldErrors.password1.push("Password must be at least 8 characters.");
+    
+    if (!/\d/.test(password1))
+    fieldErrors.password1.push("Password must contain at least 1 number.");
+    
+    if (!/[A-Z]/.test(password1))
+    fieldErrors.password1.push("Password must contain at least 1 uppercase letter.");
 
-  if (!/\d/.test(password1))
-    errors.push("Password must contain at least 1 number.");
+    if (password1 !== password2) fieldErrors.password2.push("Passwords do not match.");
+  }
 
-  if (!/[A-Z]/.test(password1))
-    errors.push("Password must contain at least 1 uppercase letter.");
-
-  return errors;
+  return fieldErrors;
 };
 
 const generateAccessToken = (user) => {
@@ -85,13 +122,23 @@ const generateRefreshToken = async (user) => {
 const registerUser = async (req, res) => {
   try {
     const { username, email, password1, password2 } = req.body;
-    const errors = await validateUser(username, email, password1, password2);
+    const fieldErrors = await validateUser(
+      username,
+      email,
+      password1,
+      password2
+    );
 
-    if (errors.length) {
+    if (
+      fieldErrors.username.length ||
+      fieldErrors.email.length ||
+      fieldErrors.password1.length ||
+      fieldErrors.password2.length
+    ) {
       const response = createResponse(
         false,
         "Unable to register new user.",
-        errors,
+        fieldErrors,
         {}
       );
       return res.status(400).json(response);
