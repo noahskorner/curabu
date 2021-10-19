@@ -1,6 +1,7 @@
 <template>
-  <div class="w-screen h-screen">
+  <div class="w-screen h-screen relative">
     <Sidebar />
+    <Header />
     <div class="w-full flex justify-center items-center">
       <slot></slot>
     </div>
@@ -9,10 +10,12 @@
 
 <script>
 import Sidebar from "./Sidebar.vue";
+import Header from "./Header.vue";
 import useWindowSize from "../../../composables/useWindowSize";
 export default {
   components: {
     Sidebar,
+    Header,
   },
   setup() {
     const { width, height } = useWindowSize();

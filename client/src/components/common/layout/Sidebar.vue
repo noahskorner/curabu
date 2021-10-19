@@ -1,7 +1,7 @@
 <template>
   <div
     :style="{ maxHeight: `${height}px` }"
-    class="h-full w-full max-w-xs border-r"
+    class="h-full w-full border-r sidebar"
   ></div>
 </template>
 
@@ -18,4 +18,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.sidebar {
+  max-width: 16rem;
+}
+</style>

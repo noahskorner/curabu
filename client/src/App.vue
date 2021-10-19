@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <!-- Route View -->
-    <router-view />
-  </div>
+  <router-view class="font-primary" />
 </template>
 
 <script></script>
