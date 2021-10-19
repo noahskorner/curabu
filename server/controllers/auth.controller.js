@@ -82,15 +82,18 @@ const validateUser = async (username, email, password1, password2) => {
     fieldErrors.password1.push("Must provide a password.");
   } else {
     if (password1.length < 8)
-    fieldErrors.password1.push("Password must be at least 8 characters.");
-    
-    if (!/\d/.test(password1))
-    fieldErrors.password1.push("Password must contain at least 1 number.");
-    
-    if (!/[A-Z]/.test(password1))
-    fieldErrors.password1.push("Password must contain at least 1 uppercase letter.");
+      fieldErrors.password1.push("Password must be at least 8 characters.");
 
-    if (password1 !== password2) fieldErrors.password2.push("Passwords do not match.");
+    if (!/\d/.test(password1))
+      fieldErrors.password1.push("Password must contain at least 1 number.");
+
+    if (!/[A-Z]/.test(password1))
+      fieldErrors.password1.push(
+        "Password must contain at least 1 uppercase letter."
+      );
+
+    if (password1 !== password2)
+      fieldErrors.password2.push("Passwords do not match.");
   }
 
   return fieldErrors;
@@ -171,6 +174,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await Users.findOne({
     where: { email },
+    include: "roles",
     attributes: ["id", "email", "password"],
   })
     .then((data) => data.toJSON())
@@ -192,6 +196,7 @@ const loginUser = async (req, res) => {
 
   if (await bcrypt.compare(password, user.password)) {
     delete user.password;
+    user.roles = user.roles.map(role => role.role);
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
 
