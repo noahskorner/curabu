@@ -1,11 +1,14 @@
 <template>
   <div
     class="bg-green-100 w-screen h-screen flex justify-center items-start p-2"
+    @keypress.enter="register"
   >
     <div
       class="w-full max-w-md flex flex-col justify-center items-center mt-14 sm:mt-24"
     >
-      <div class="w-full bg-white rounded shadow p-8 pt-20 relative">
+      <div
+        class="w-full bg-white rounded shadow px-4 pb-4 sm:px-8 sm:pb-8 pt-20 relative"
+      >
         <div
           class="absolute w-full -top-14 left-0 flex justify-center items-center"
         >
@@ -13,7 +16,7 @@
             class="w-28 h-28 rounded-full bg-green-500 flex justify-center items-center text-white relative"
           ></div>
         </div>
-        <div class="grid grid-cols-1 gap-y-4">
+        <div class="grid grid-cols-1 gap-y-2">
           <div class="flex justify-between items-center">
             <h1 class="text-2xl font-semibold">Sign up</h1>
             <p>
@@ -25,6 +28,16 @@
             </p>
           </div>
 
+          <ul v-if="errors.length">
+            <li
+              v-for="(error, index) in errors"
+              :key="index"
+              class="text-sm text-red-500 font-semibold"
+            >
+              {{ error }}
+            </li>
+          </ul>
+
           <div>
             <label for="" class="font-medium text-sm">Username</label>
             <input
@@ -35,15 +48,14 @@
                 usernameErrors.length ? 'border border-red-500' : 'border'
               "
               type="text"
-              name=""
-              id=""
+              name="username"
               class="w-full bg-gray-100 p-2 rounded"
             />
             <ul>
               <li
                 v-for="(error, index) in usernameErrors"
                 :key="index"
-                class="text-sm text-red-500"
+                class="text-sm text-red-500 font-semibold"
               >
                 {{ error }}
               </li>
@@ -57,15 +69,14 @@
               @blur="validateUser"
               :class="emailErrors.length ? 'border border-red-500' : 'border'"
               type="text"
-              name=""
-              id=""
+              name="email"
               class="w-full bg-gray-100 p-2 rounded border"
             />
             <ul>
               <li
                 v-for="(error, index) in emailErrors"
                 :key="index"
-                class="text-sm text-red-500"
+                class="text-sm text-red-500 font-semibold"
               >
                 {{ error }}
               </li>
@@ -81,15 +92,14 @@
               "
               v-model="password1"
               type="password"
-              name=""
-              id=""
+              name="password1"
               class="w-full bg-gray-100 p-2 rounded border"
             />
             <ul>
               <li
                 v-for="(error, index) in password1Errors"
                 :key="index"
-                class="text-sm text-red-500"
+                class="text-sm text-red-500 font-semibold"
               >
                 {{ error }}
               </li>
@@ -105,15 +115,14 @@
               "
               v-model="password2"
               type="password"
-              name=""
-              id=""
+              name="password2"
               class="w-full bg-gray-100 p-2 rounded border"
             />
             <ul>
               <li
                 v-for="(error, index) in password2Errors"
                 :key="index"
-                class="text-sm text-red-500"
+                class="text-sm text-red-500 font-semibold"
               >
                 {{ error }}
               </li>
@@ -121,7 +130,7 @@
           </div>
           <button
             @click="register"
-            class="bg-green-500 hover:bg-green-600 text-white p-3 rounded font-semibold"
+            class="bg-green-500 hover:bg-green-600 text-white p-3 rounded font-semibold mt-4"
           >
             Sign up
           </button>
@@ -147,6 +156,7 @@ export default {
       password1Errors: [],
       password2: "",
       password2Errors: [],
+      errors: [],
     });
 
     const validateUser = () => {
@@ -221,6 +231,9 @@ export default {
             state.password2Errors = fieldErrors.password2;
           } else {
             console.log(error);
+            state.errors = [
+              "An unexpected error has occured. Please try again.",
+            ];
           }
         }
       }

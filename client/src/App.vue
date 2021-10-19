@@ -19,4 +19,11 @@ button:focus {
 input:focus {
   outline: 0 !important;
 }
+input[type="text"],
+input[type="password"] {
+  /* Remove First */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 </style>
