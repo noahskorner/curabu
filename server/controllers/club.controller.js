@@ -2,37 +2,48 @@ const {
   createResponse,
   createUnkownErrorResponse,
 } = require("../common/functions");
+const { clubTypes } = require("../common/constants");
+const { connectionString } = require("../config/db.config");
+const { Clubs, BookClubs } = require("../models");
+const clubs = require("../models/clubs");
 
 // Variables
-const clubNameRegex = /^([a-zA-Z\s]){5,25}$/;
+const clubNameRegex = /^([a-zA-Z\s']){5,25}$/;
 
 // Functions
-const validateClub = async (name, clubType) => {
+const validateClub = async (name) => {
   const errors = [];
-  try {
-    const result = await pool.query("SELECT * FROM clubs WHERE name = $1", [
-      name,
-    ]);
-    if (result.rows[0]) errors.push(`A club named ${name} already exists.`);
+
+  if (!name) {
+    errors.push("Must provide club name.");
+  } else {
+    const clubExists = await Clubs.findAll({
+      where: {
+        name,
+      },
+    })
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error.message);
+        errors.push("An unexpected error has occured. Please try again.");
+      });
+
+    if (clubExists.length) errors.push(`A club named ${name} already exists.`);
     if (!clubNameRegex.test(name))
-      errors.push("Club name can only consist of letters and spaces.");
-  } catch (error) {
-    console.log(error.message);
-    errors.push("An unexpected error has occured. Please try again");
+      errors.push("Club name can only consist of letters spaces and apostrophes.");
   }
+
   return errors;
 };
 
-const validateBookClub = async (name, clubType) => {
-  const errors = await validateClub(name, clubType);
+const validateBookClub = async (name) => {
+  const errors = await validateClub(name);
   return errors;
 };
 
 // Controllers
 const addClub = async (req, res) => {
-  const response = createResponse(true, "PLACEHOLDER", [], {});
-  return res.status(200).json(response);
-  /*   try {
+  try {
     const { clubType } = req.body;
     switch (clubType) {
       case clubTypes.bookClub:
@@ -50,12 +61,12 @@ const addClub = async (req, res) => {
     console.log(error.message);
     const response = createUnkownErrorResponse();
     return res.status(500).json(response);
-  } */
+  }
 };
 
 const addBookClub = async (req, res) => {
-  /*   const { name, clubType } = req.body;
-  const errors = validateBookClub(name, clubType);
+  const { name, clubType } = req.body;
+  const errors = await validateBookClub(name);
 
   if (errors.length) {
     const response = createResponse(
@@ -66,39 +77,31 @@ const addBookClub = async (req, res) => {
     );
     return res.status(400).json(response);
   } else {
-    const clubResult = await pool.query(
-      "INSERT INTO clubs(name, club_type) VALUES ($1, (SELECT id FROM club_types WHERE name = $2)) RETURNING *;",
-      [name, clubType]
-    );
-    const {
-      id,
-      date_created: dateCreated,
-      last_modified: lastModified,
-    } = clubResult.rows[0];
-    const bookClubResult = await pool.query(
-      "INSERT INTO book_clubs(club_id) VALUES($1) RETURNING *;",
-      [id]
-    );
-    const { id: bookClubId } = bookClubResult.rows[0];
-
-    const bookClub = {
-      id,
-      bookClubId,
-      name,
-      clubType,
-      dateCreated,
-      lastModified,
-      books: [],
-    };
+    const club = await Clubs.create(
+      {
+        name,
+        clubType,
+        createdBy: req.user.id,
+        bookClub: {},
+        admins: {
+          userId: req.user.id,
+        },
+      },
+      { include: ["bookClub", "admins"] }
+    ).catch((error) => {
+      console.log(error);
+      const response = createUnkownErrorResponse();
+      return res.status(500).json(response);
+    });
 
     const response = createResponse(
       true,
-      `Succesfully created club ${name}!`,
+      `Succesfully created new book club ${name}!`,
       [],
-      bookClub
+      club
     );
     return res.status(200).json(response);
-  } */
+  }
 };
 
 module.exports = {

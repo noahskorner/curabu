@@ -1,7 +1,3 @@
-CREATE DATABASE curabu;
-
-\c curabu;
-
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     "dateCreated" TIMESTAMP DEFAULT NOW(),
@@ -33,6 +29,10 @@ CREATE TABLE clubs (
     "createdBy" INTEGER REFERENCES users(id) ON DELETE SET NULL
 );
 
+CREATE TABLE "bookClubs" (
+    id INTEGER PRIMARY KEY REFERENCES clubs(id) ON DELETE CASCADE
+);
+
 CREATE TABLE "userClubs" (
     "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE,
     "clubId" INTEGER REFERENCES clubs(id) ON DELETE CASCADE,
@@ -53,15 +53,11 @@ CREATE TABLE moderators (
 
 CREATE TABLE books (
     id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
     "dateCreated" TIMESTAMP DEFAULT NOW(),
     author VARCHAR(255),
     summary VARCHAR(255),
     "numPages" INTEGER
-);
-
-CREATE TABLE "bookClubs" (
-    id SERIAL PRIMARY KEY,
-    "clubId" INTEGER REFERENCES clubs(id) ON DELETE CASCADE
 );
 
 CREATE TABLE "bookClubBooks" (
@@ -87,6 +83,4 @@ CREATE TABLE "refreshTokens" (
     "dateCeated" TIMESTAMP DEFAULT NOW(),
     "userId" INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
-
-INSERT INTO roles(name) VALUES("SUPERADMIN");
 

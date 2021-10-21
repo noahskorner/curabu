@@ -44,8 +44,8 @@ function initModels(sequelize) {
   clubTypes.hasMany(clubs, { as: "clubs", foreignKey: "clubType"});
   admins.belongsTo(clubs, { as: "club", foreignKey: "clubId"});
   clubs.hasMany(admins, { as: "admins", foreignKey: "clubId"});
-  bookClubs.belongsTo(clubs, { as: "club", foreignKey: "clubId"});
-  clubs.hasMany(bookClubs, { as: "bookClubs", foreignKey: "clubId"});
+  bookClubs.belongsTo(clubs, { as: "id_club", foreignKey: "id"});
+  clubs.hasOne(bookClubs, { as: "bookClub", foreignKey: "id"});
   moderators.belongsTo(clubs, { as: "club", foreignKey: "clubId"});
   clubs.hasMany(moderators, { as: "moderators", foreignKey: "clubId"});
   userClubs.belongsTo(clubs, { as: "club", foreignKey: "clubId"});
@@ -65,7 +65,7 @@ function initModels(sequelize) {
   userClubs.belongsTo(users, { as: "user", foreignKey: "userId"});
   users.hasMany(userClubs, { as: "userClubs", foreignKey: "userId"});
   userRoles.belongsTo(users, { as: "user", foreignKey: "userId"});
-  users.hasMany(userRoles, { as: "roles", foreignKey: "userId"});
+  users.hasMany(userRoles, { as: "userRoles", foreignKey: "userId"});
 
   return {
     admins,

@@ -40,6 +40,7 @@ module.exports = function (sequelize, DataTypes) {
         },
       ],
       defaultScope: {
+        include: ["userRoles", "clubs"],
         attributes: { exclude: ["password"] },
       },
     }

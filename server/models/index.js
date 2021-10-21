@@ -1,7 +1,7 @@
 require("dotenv").config();
 const dbConfig = require("../config/db.config.js");
 const Sequelize = require("sequelize");
-const initModels = require("./initModels");
+const initModels = require("./init-models");
 
 const sequelize = process.env.DEV_MODE
   ? new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {

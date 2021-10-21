@@ -174,7 +174,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await Users.findOne({
     where: { email },
-    include: "roles",
+    include: "userRoles",
     attributes: ["id", "email", "password"],
   })
     .then((data) => data.toJSON())
@@ -195,8 +195,9 @@ const loginUser = async (req, res) => {
   }
 
   if (await bcrypt.compare(password, user.password)) {
+    user.roles = user.userRoles.map((userRole) => userRole.role);
+    delete user.userRoles;
     delete user.password;
-    user.roles = user.roles.map(role => role.role);
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
 
