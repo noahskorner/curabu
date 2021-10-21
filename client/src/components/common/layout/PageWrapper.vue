@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-screen relative">
+  <div class="w-screen h-screen relative bg-gray-50">
     <Sidebar />
     <Header />
     <div class="w-full flex justify-center items-center">
