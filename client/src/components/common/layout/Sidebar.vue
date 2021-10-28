@@ -1,7 +1,7 @@
 <template>
   <div
     :style="{ maxHeight: `${height}px` }"
-    class="h-full w-full border-r sidebar p-2 bg-b-primary"
+    class="h-full w-full border-r border-bd-primary sidebar p-2 bg-b-primary"
   >
     <div class="w-full flex flex-col justify-center items-center">
       <div class="w-full px-2 mt-12">

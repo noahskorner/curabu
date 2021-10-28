@@ -1,5 +1,7 @@
 <template>
-  <div class="h-12 border-b absolute top-0 left-64 header px-2 bg-b-primary">
+  <div
+    class="h-12 border-b border-bd-primary absolute top-0 left-64 header px-2 bg-b-primary"
+  >
     <div class="w-full h-full flex justify-end items-center">
       <router-link
         :to="{ name: 'login' }"
@@ -25,6 +27,7 @@
       </router-link>
       <button
         class="hover:bg-gray-200 w-8 h-8 rounded flex justify-center items-center"
+        @click="setTheme('dark')"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +49,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  setup() {
+    const setTheme = (theme) => {
+      document.documentElement.setAttribute("data-theme", theme);
+
+      console.log(document.documentElement.getAttribute("data-theme"));
+    };
+
+    return {
+      setTheme,
+    };
+  },
+};
 </script>
 
 <style>

@@ -16,7 +16,8 @@
   --t-primary: theme("colors.black");
   --bd-primary: theme("colors.gray.200");
 }
-AND [data-theme="dark"] {
+AND 
+[data-theme="dark"] {
   --primary: theme("colors.green.500");
   --secondary: theme("colors.green.700");
   --b-primary: theme("colors.gray.800");
