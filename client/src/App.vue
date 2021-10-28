@@ -1,5 +1,5 @@
 <template>
-  <router-view class="font-primary" />
+  <router-view class="font-primary text-t-primary" />
 </template>
 
 <script></script>

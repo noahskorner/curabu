@@ -1,5 +1,5 @@
 <template>
-  <div class="h-12 border-b absolute top-0 left-64 header px-2 bg-white">
+  <div class="h-12 border-b absolute top-0 left-64 header px-2 bg-b-primary">
     <div class="w-full h-full flex justify-end items-center">
       <router-link
         :to="{ name: 'login' }"

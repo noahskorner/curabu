@@ -2,15 +2,16 @@
   <div>
     <label for="" class="font-medium text-sm">{{ label }}</label>
     <div
-      :class="errors.length ? 'border border-red-500' : 'border'"
-      class="w-full flex justify-between items-center bg-gray-100 px-2 rounded border"
+      :class="inputWrapperClass"
+      class="w-full flex justify-between items-center px-2 rounded border"
     >
       <input
         @input="setValue"
         @blur="$emit('blur')"
         :value="value"
         :type="showPassword ? 'text' : type"
-        class="w-full h-10 bg-gray-100"
+        class="w-full h-10"
+        :class="!value.length ? 'bg-b-secondary' : 'bg-b-tertiary'"
       />
       <button
         @click="toggleShowPassword"
@@ -73,6 +74,7 @@
 
 <script>
 import { reactive, toRefs } from "@vue/reactivity";
+import { computed } from "@vue/runtime-core";
 export default {
   props: {
     value: {
@@ -96,10 +98,21 @@ export default {
     },
   },
   emits: ["input", "blur"],
-  setup(_, { emit }) {
+  setup(props, { emit }) {
     const setValue = (e) => {
       emit("input", e.target.value);
     };
+
+    const inputWrapperClass = computed(() => {
+      const classes = [];
+      if (props.errors.length) classes.push("border-red-500");
+      else classes.push("border-bd-primary");
+
+      if (props.value.length) classes.push("bg-b-tertiary");
+      else classes.push("bg-b-secondary");
+
+      return classes;
+    });
 
     const state = reactive({
       showPassword: false,
@@ -111,6 +124,7 @@ export default {
 
     return {
       setValue,
+      inputWrapperClass,
       ...toRefs(state),
       toggleShowPassword,
     };

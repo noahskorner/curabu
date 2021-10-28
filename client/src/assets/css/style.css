@@ -8,6 +8,22 @@
 /* CSS Variables **/
 :root {
   --font-primary: "Urbanist", sans-serif;
+  --primary: theme("colors.green.500");
+  --secondary: theme("colors.green.700");
+  --b-primary: theme("colors.white");
+  --b-secondary: theme("colors.gray.100");
+  --b-tertiary: theme("colors.blue.50");
+  --t-primary: theme("colors.black");
+  --bd-primary: theme("colors.gray.200");
+}
+AND [data-theme="dark"] {
+  --primary: theme("colors.green.500");
+  --secondary: theme("colors.green.700");
+  --b-primary: theme("colors.gray.800");
+  --b-secondary: theme("colors.gray.900");
+  --b-tertiary: #18233a;
+  --t-primary: theme("colors.white");
+  --bd-primary: theme("colors.gray.700");
 }
 
 /* Fonts */
@@ -16,10 +32,80 @@
 }
 
 /* Background Colors */
+.bg-primary {
+  background-color: var(--primary);
+}
+.bg-secondary {
+  background-color: var(--secondary);
+}
+.bg-b-primary {
+  background-color: var(--b-primary);
+}
+.bg-b-secondary {
+  background-color: var(--b-secondary);
+}
+.bg-b-tertiary {
+  background-color: var(--b-tertiary);
+}
+.bg-text-primary {
+  background-color: var(--t-primary);
+}
+
+/* Background Colors Hover */
+.hover\:bg-primary:hover {
+  background-color: var(--primary);
+}
+.hover\:bg-secondary:hover {
+  background-color: var(--secondary);
+}
+.hover\:bg-b-primary:hover {
+  background-color: var(--b-primary);
+}
+.hover\:bg-b-secondary:hover {
+  background-color: var(--b-secondary);
+}
+.hover\:bg-text-primary:hover {
+  background-color: var(--t-primary);
+}
 
 /* Text Colors */
+.text-primary {
+  color: var(--primary);
+}
+.text-secondary {
+  color: var(--secondary);
+}
+.text-b-primary {
+  color: var(--b-primary);
+}
+.text-b-secondary {
+  color: var(--b-secondary);
+}
+.text-t-primary {
+  color: var(--t-primary);
+}
 
-/* Border Colors */
+/* Text Colors Hover */
+.hover\:text-primary:hover {
+  color: var(--primary);
+}
+.hover\:text-secondary:hover {
+  color: var(--secondary);
+}
+.hover\:text-b-primary:hover {
+  color: var(--b-primary);
+}
+.hover\:text-b-secondary:hover {
+  color: var(--b-secondary);
+}
+.hover\:text-t-primary:hover {
+  color: var(--t-primary);
+}
+
+/* Borders */
+.border-bd-primary {
+  border-color: var(--bd-primary);
+}
 
 /* Height */
 

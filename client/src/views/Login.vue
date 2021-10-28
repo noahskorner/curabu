@@ -1,14 +1,12 @@
 <template>
   <div
-    class="bg-gray-50 w-screen h-screen flex justify-center items-start p-2"
+    class="bg-b-secondary w-screen h-screen flex justify-center items-start p-2"
     @keypress.enter="login"
   >
     <div
       class="w-full max-w-md flex flex-col justify-center items-center mt-14 sm:mt-24"
     >
-      <div
-        class="w-full bg-white rounded shadow px-4 pb-4 sm:px-8 sm:pb-8 pt-20 relative"
-      >
+      <div class="w-full bg-b-primary rounded shadow px-8 pb-8 pt-20 relative">
         <div
           class="absolute w-full -top-14 left-0 flex justify-center items-center"
         >
@@ -29,7 +27,7 @@
             <li
               v-for="(error, index) in errors"
               :key="index"
-              class="text-sm text-red-500 font-semibold"
+              class="text-sm text-red-500"
             >
               {{ error }}
             </li>
@@ -50,7 +48,7 @@
           />
           <button
             @click="login"
-            class="bg-green-500 hover:bg-green-600 text-white p-3 rounded font-semibold mt-4"
+            class="bg-primary hover:bg-green-600 text-white p-3 rounded font-semibold mt-4"
           >
             Sign in
           </button>
@@ -120,6 +118,7 @@ export default {
             email: state.email,
             password: state.password,
           };
+          console.log(payload);
           const response = await API.login(payload);
 
           const { message, data } = response.data;
