@@ -12,15 +12,7 @@
         <div
           class="absolute w-full -top-14 left-0 flex justify-center items-center"
         >
-          <div
-            class="w-28 h-28 rounded-full bg-green-500 flex justify-center items-center text-white relative"
-          >
-            <span
-              class="text-7xl font-bold relative flex justify-center items-center"
-              >C
-              <span class="absolute text-green-700 text-6xl font-bold">C</span>
-            </span>
-          </div>
+          <Logo />
         </div>
         <div class="grid grid-cols-1 gap-y-4">
           <div class="flex justify-between items-center">
@@ -74,10 +66,12 @@ import { emailRegex } from "../common/constants";
 import { useRouter } from "vue-router";
 import API from "../services/api";
 import Input from "../components/common/ui/Input.vue";
+import Logo from "../components/common/ui/Logo.vue";
 
 export default {
   components: {
     Input,
+    Logo,
   },
   setup() {
     const router = useRouter();

@@ -12,9 +12,7 @@
         <div
           class="absolute w-full -top-14 left-0 flex justify-center items-center"
         >
-          <div
-            class="w-28 h-28 rounded-full bg-green-500 flex justify-center items-center text-white relative"
-          ></div>
+          <Logo />
         </div>
         <div class="grid grid-cols-1 gap-y-2">
           <div class="flex justify-between items-center">
@@ -87,10 +85,12 @@ import { reactive, toRefs } from "@vue/reactivity";
 import { emailRegex, usernameRegex } from "../common/constants";
 import API from "../services/api";
 import Input from "../components/common/ui/Input.vue";
+import Logo from "../components/common/ui/Logo.vue";
 
 export default {
   components: {
     Input,
+    Logo,
   },
   setup() {
     const state = reactive({
