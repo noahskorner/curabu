@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-green-100 w-screen h-screen flex justify-center items-start p-2"
+    class="bg-gray-50 w-screen h-screen flex justify-center items-start p-2"
     @keypress.enter="register"
   >
     <div
@@ -37,97 +37,39 @@
               {{ error }}
             </li>
           </ul>
+          <Input
+            @input="setUsername"
+            @blur="validateUser"
+            :value="username"
+            :errors="usernameErrors"
+            type="text"
+            label="Username"
+          />
+          <Input
+            @input="setEmail"
+            @blur="validateUser"
+            :value="email"
+            :errors="emailErrors"
+            type="text"
+            label="Email"
+          />
+          <Input
+            @input="setPassword1"
+            @blur="validateUser"
+            :value="password1"
+            :errors="password1Errors"
+            type="password"
+            label="Password"
+          />
+          <Input
+            @input="setPassword2"
+            @blur="validateUser"
+            :value="password2"
+            :errors="password2Errors"
+            type="password"
+            label="Confirm Password"
+          />
 
-          <div>
-            <label for="" class="font-medium text-sm">Username</label>
-            <input
-              v-model="username"
-              @input="validateUser"
-              @blur="validateUser"
-              :class="
-                usernameErrors.length ? 'border border-red-500' : 'border'
-              "
-              type="text"
-              name="username"
-              class="w-full bg-gray-100 p-2 rounded"
-            />
-            <ul>
-              <li
-                v-for="(error, index) in usernameErrors"
-                :key="index"
-                class="text-sm text-red-500 font-semibold"
-              >
-                {{ error }}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <label for="" class="font-medium text-sm">Email</label>
-            <input
-              v-model="email"
-              @input="validateUser"
-              @blur="validateUser"
-              :class="emailErrors.length ? 'border border-red-500' : 'border'"
-              type="text"
-              name="email"
-              class="w-full bg-gray-100 p-2 rounded border"
-            />
-            <ul>
-              <li
-                v-for="(error, index) in emailErrors"
-                :key="index"
-                class="text-sm text-red-500 font-semibold"
-              >
-                {{ error }}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <label for="" class="font-medium text-sm">Password</label>
-            <input
-              @input="validateUser"
-              @blur="validateUser"
-              :class="
-                password1Errors.length ? 'border border-red-500' : 'border'
-              "
-              v-model="password1"
-              type="password"
-              name="password1"
-              class="w-full bg-gray-100 p-2 rounded border"
-            />
-            <ul>
-              <li
-                v-for="(error, index) in password1Errors"
-                :key="index"
-                class="text-sm text-red-500 font-semibold"
-              >
-                {{ error }}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <label for="" class="font-medium text-sm">Confirm Password</label>
-            <input
-              @input="validateUser"
-              @blur="validateUser"
-              :class="
-                password2Errors.length ? 'border border-red-500' : 'border'
-              "
-              v-model="password2"
-              type="password"
-              name="password2"
-              class="w-full bg-gray-100 p-2 rounded border"
-            />
-            <ul>
-              <li
-                v-for="(error, index) in password2Errors"
-                :key="index"
-                class="text-sm text-red-500 font-semibold"
-              >
-                {{ error }}
-              </li>
-            </ul>
-          </div>
           <button
             @click="register"
             class="bg-green-500 hover:bg-green-600 text-white p-3 rounded font-semibold mt-4"
@@ -144,8 +86,12 @@
 import { reactive, toRefs } from "@vue/reactivity";
 import { emailRegex, usernameRegex } from "../common/constants";
 import API from "../services/api";
+import Input from "../components/common/ui/Input.vue";
 
 export default {
+  components: {
+    Input,
+  },
   setup() {
     const state = reactive({
       username: "",
@@ -158,6 +104,25 @@ export default {
       password2Errors: [],
       errors: [],
     });
+
+    const setUsername = (username) => {
+      state.username = username;
+      validateUser();
+    };
+
+    const setEmail = (email) => {
+      state.email = email;
+      validateUser();
+    };
+
+    const setPassword1 = (password1) => {
+      state.password1 = password1;
+      validateUser();
+    };
+    const setPassword2 = (password2) => {
+      state.password2 = password2;
+      validateUser();
+    };
 
     const validateUser = () => {
       state.emailErrors = [];
@@ -214,7 +179,13 @@ export default {
         !state.password2Errors.length
       ) {
         try {
-          const payload = state;
+          const payload = {
+            username: state.username,
+            email: state.email,
+            password1: state.password1,
+            password2: state.password2,
+          };
+
           const response = await API.register(payload);
 
           console.log(response);
@@ -241,6 +212,10 @@ export default {
 
     return {
       ...toRefs(state),
+      setUsername,
+      setEmail,
+      setPassword1,
+      setPassword2,
       register,
       validateUser,
     };

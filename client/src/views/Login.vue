@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-green-100 w-screen h-screen flex justify-center items-start p-2"
+    class="bg-gray-50 w-screen h-screen flex justify-center items-start p-2"
     @keypress.enter="login"
   >
     <div
@@ -42,99 +42,20 @@
               {{ error }}
             </li>
           </ul>
-          <div>
-            <label for="" class="font-medium text-sm">Email</label>
-            <div
-              :class="
-                passwordErrors.length ? 'border border-red-500' : 'border'
-              "
-              class="w-full flex justify-between items-center bg-gray-100 px-2 rounded border"
-            >
-              <input
-                v-model="email"
-                type="text"
-                name="text"
-                class="w-full h-10 bg-gray-100"
-              />
-            </div>
-            <ul>
-              <li
-                v-for="(error, index) in emailErrors"
-                :key="index"
-                class="text-sm text-red-500"
-              >
-                {{ error }}
-              </li>
-            </ul>
-          </div>
-          <div>
-            <label for="" class="font-medium text-sm">Password</label>
-            <div
-              :class="
-                passwordErrors.length ? 'border border-red-500' : 'border'
-              "
-              class="w-full flex justify-between items-center bg-gray-100 px-2 rounded border"
-            >
-              <input
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
-                name="password"
-                class="w-full h-10 bg-gray-100"
-              />
-              <button @click="toggleShowPassword">
-                <svg
-                  v-if="!showPassword"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="ai ai-EyeSlashed"
-                >
-                  <path
-                    d="M6.873 17.129c-1.845-1.31-3.305-3.014-4.13-4.09a1.693 1.693 0 0 1 0-2.077C4.236 9.013 7.818 5 12 5c1.876 0 3.63.807 5.13 1.874"
-                  />
-                  <path d="M14.13 9.887a3 3 0 1 0-4.243 4.242" />
-                  <path d="M4 20L20 4" />
-                  <path
-                    d="M10 18.704A7.124 7.124 0 0 0 12 19c4.182 0 7.764-4.013 9.257-5.962a1.694 1.694 0 0 0-.001-2.078A22.939 22.939 0 0 0 19.57 9"
-                  />
-                </svg>
-                <svg
-                  v-else
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="ai ai-EyeOpen"
-                >
-                  <path
-                    d="M21.257 10.962c.474.62.474 1.457 0 2.076C19.764 14.987 16.182 19 12 19c-4.182 0-7.764-4.013-9.257-5.962a1.692 1.692 0 0 1 0-2.076C4.236 9.013 7.818 5 12 5c4.182 0 7.764 4.013 9.257 5.962z"
-                  />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              </button>
-            </div>
-
-            <ul>
-              <li
-                v-for="(error, index) in passwordErrors"
-                :key="index"
-                class="text-sm text-red-500"
-              >
-                {{ error }}
-              </li>
-            </ul>
-          </div>
+          <Input
+            @input="setEmail"
+            :value="email"
+            :errors="emailErrors"
+            label="Email"
+            type="text"
+          />
+          <Input
+            @input="setPassword"
+            :value="password"
+            :errors="passwordErrors"
+            label="Password"
+            type="password"
+          />
           <button
             @click="login"
             class="bg-green-500 hover:bg-green-600 text-white p-3 rounded font-semibold mt-4"
@@ -150,10 +71,14 @@
 <script>
 import { reactive, toRefs } from "@vue/reactivity";
 import { emailRegex } from "../common/constants";
-import API from "../services/api";
 import { useRouter } from "vue-router";
+import API from "../services/api";
+import Input from "../components/common/ui/Input.vue";
 
 export default {
+  components: {
+    Input,
+  },
   setup() {
     const router = useRouter();
 
@@ -165,6 +90,14 @@ export default {
       errors: [],
       showPassword: false,
     });
+
+    const setEmail = (email) => {
+      state.email = email;
+    };
+
+    const setPassword = (password) => {
+      state.password = password;
+    };
 
     const toggleShowPassword = () => {
       state.showPassword = !state.showPassword;
@@ -189,7 +122,10 @@ export default {
       validateUser();
       if (!state.emailErrors.length && !state.passwordErrors.length) {
         try {
-          const payload = state;
+          const payload = {
+            email: state.email,
+            password: state.password,
+          };
           const response = await API.login(payload);
 
           const { message, data } = response.data;
@@ -216,6 +152,8 @@ export default {
 
     return {
       ...toRefs(state),
+      setEmail,
+      setPassword,
       toggleShowPassword,
       login,
       validateUser,
