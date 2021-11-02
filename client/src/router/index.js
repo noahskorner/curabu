@@ -33,6 +33,8 @@ router.beforeEach(async (to, from, next) => {
   await loadAuth();
   if (to.meta.authorize && !isAuthenticated.value) {
     next({ name: "login" });
+  } else if (isAuthenticated.value && to.name === "login") {
+    next({ name: "home" });
   } else {
     next();
   }

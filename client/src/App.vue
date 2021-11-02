@@ -1,8 +1,18 @@
 <template>
-  <router-view class="font-primary text-t-primary" />
+  <div>
+    <router-view class="font-primary text-t-primary" />
+    <Alerts />
+  </div>
 </template>
 
-<script></script>
+<script>
+import Alerts from "./components/common/layout/Alerts.vue";
+export default {
+  components: {
+    Alerts,
+  },
+};
+</script>
 
 <style>
 html,

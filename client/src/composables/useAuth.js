@@ -58,15 +58,15 @@ const loadAuth = async () => {
 };
 
 const logout = async () => {
-  localStorage.removeItem("refreshToken");
-  state.isAuthenticated = false;
   try {
     await API.logout(state.accessToken);
   } catch (error) {
     console.log(error);
   }
 
+  localStorage.removeItem("refreshToken");
   router.push({ name: "login" });
+  state.isAuthenticated = false;
 };
 
 export default () => {
