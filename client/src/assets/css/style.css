@@ -12,17 +12,14 @@
   --secondary: theme("colors.green.700");
   --b-primary: theme("colors.white");
   --b-secondary: theme("colors.gray.100");
-  --b-tertiary: theme("colors.blue.50");
   --t-primary: theme("colors.black");
   --bd-primary: theme("colors.gray.200");
 }
-AND 
 [data-theme="dark"] {
   --primary: theme("colors.green.500");
   --secondary: theme("colors.green.700");
   --b-primary: theme("colors.gray.800");
   --b-secondary: theme("colors.gray.900");
-  --b-tertiary: #18233a;
   --t-primary: theme("colors.white");
   --bd-primary: theme("colors.gray.700");
 }
@@ -108,7 +105,14 @@ AND
   border-color: var(--bd-primary);
 }
 
-/* Height */
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: var(--secondary);
+}
 
 /* Transitions */
 .slide-left-enter-active,

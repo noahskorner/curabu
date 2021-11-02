@@ -17,4 +17,12 @@ export default {
   register(payload) {
     return apiClient.post("auth/register", payload);
   },
+  refreshToken(payload) {
+    return apiClient.post("auth/refresh-token", payload);
+  },
+  logout(accessToken) {
+    return apiClient.delete("auth/logout", {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  },
 };

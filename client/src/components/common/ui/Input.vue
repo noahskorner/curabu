@@ -3,15 +3,14 @@
     <label for="" class="font-medium text-sm">{{ label }}</label>
     <div
       :class="inputWrapperClass"
-      class="w-full flex justify-between items-center px-2 rounded border"
+      class="w-full flex justify-between items-center px-2 mt-1 rounded border"
     >
       <input
         @input="setValue"
         @blur="$emit('blur')"
         :value="value"
         :type="showPassword ? 'text' : type"
-        class="w-full h-10"
-        :class="!value.length ? 'bg-b-secondary' : 'bg-b-tertiary'"
+        class="w-full h-10 bg-b-secondary"
       />
       <button
         @click="toggleShowPassword"
@@ -19,7 +18,7 @@
         tabindex="-1"
       >
         <svg
-          v-if="!showPassword"
+          v-if="showPassword"
           xmlns="http://www.w3.org/2000/svg"
           width="18"
           height="18"
@@ -64,7 +63,7 @@
       <li
         v-for="(error, index) in errors"
         :key="index"
-        class="text-sm text-red-500"
+        class="text-sm text-red-500 font-medium"
       >
         {{ error }}
       </li>
@@ -108,8 +107,7 @@ export default {
       if (props.errors.length) classes.push("border-red-500");
       else classes.push("border-bd-primary");
 
-      if (props.value.length) classes.push("bg-b-tertiary");
-      else classes.push("bg-b-secondary");
+      classes.push("bg-b-secondary");
 
       return classes;
     });

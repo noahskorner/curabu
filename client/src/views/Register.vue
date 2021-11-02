@@ -6,7 +6,9 @@
     <div
       class="w-full max-w-md flex flex-col justify-center items-center mt-14 sm:mt-24"
     >
-      <div class="w-full bg-b-primary rounded shadow px-8 pb-8 pt-20 relative">
+      <div
+        class="w-full bg-b-primary rounded shadow px-4 pb-4 sm:px-8 sm:pb-8 pt-20 relative"
+      >
         <div
           class="absolute w-full -top-14 left-0 flex justify-center items-center"
         >
@@ -28,7 +30,7 @@
             <li
               v-for="(error, index) in errors"
               :key="index"
-              class="text-sm text-red-500 font-semibold"
+              class="text-sm text-red-500 font-medium"
             >
               {{ error }}
             </li>
@@ -68,7 +70,7 @@
 
           <button
             @click="register"
-            class="bg-primary hover:bg-green-600 text-white p-3 rounded font-semibold mt-4"
+            class="btn-primary text-white p-3 rounded font-semibold mt-4"
           >
             Sign up
           </button>

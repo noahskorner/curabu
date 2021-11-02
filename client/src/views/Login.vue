@@ -6,7 +6,9 @@
     <div
       class="w-full max-w-md flex flex-col justify-center items-center mt-14 sm:mt-24"
     >
-      <div class="w-full bg-b-primary rounded shadow px-8 pb-8 pt-20 relative">
+      <div
+        class="w-full bg-b-primary rounded shadow px-4 pb-4 sm:px-8 sm:pb-8 pt-20 relative"
+      >
         <div
           class="absolute w-full -top-14 left-0 flex justify-center items-center"
         >
@@ -27,7 +29,7 @@
             <li
               v-for="(error, index) in errors"
               :key="index"
-              class="text-sm text-red-500"
+              class="text-sm text-red-500 font-medium"
             >
               {{ error }}
             </li>
@@ -48,7 +50,7 @@
           />
           <button
             @click="login"
-            class="bg-primary hover:bg-green-600 text-white p-3 rounded font-semibold mt-4"
+            class="btn-primary text-white p-3 rounded font-semibold mt-4"
           >
             Sign in
           </button>
@@ -62,6 +64,7 @@
 import { reactive, toRefs } from "@vue/reactivity";
 import { emailRegex } from "../common/constants";
 import { useRouter } from "vue-router";
+import useAuth from "../composables/useAuth";
 import API from "../services/api";
 import Input from "../components/common/ui/Input.vue";
 import Logo from "../components/common/ui/Logo.vue";
@@ -72,6 +75,7 @@ export default {
     Logo,
   },
   setup() {
+    const { setAccessToken, setRefreshToken } = useAuth();
     const router = useRouter();
 
     const state = reactive({
@@ -113,18 +117,22 @@ export default {
     const login = async () => {
       validateUser();
       if (!state.emailErrors.length && !state.passwordErrors.length) {
+        state.errors = [];
+
         try {
           const payload = {
             email: state.email,
             password: state.password,
           };
-          console.log(payload);
           const response = await API.login(payload);
 
           const { message, data } = response.data;
+          const { accessToken, refreshToken } = data;
 
-          console.log(message, data);
-          alert(message);
+          console.log(message); // TO DO: Create alerts component
+          setAccessToken(accessToken);
+          setRefreshToken(refreshToken);
+
           router.push({ name: "home" });
         } catch (error) {
           if (

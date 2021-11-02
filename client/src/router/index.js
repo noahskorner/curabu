@@ -1,10 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
+import useAuth from "../composables/useAuth";
+
+const { isAuthenticated, loadAuth } = useAuth();
 
 const routes = [
   {
     path: "/",
     name: "home",
     component: () => import("../views/Home.vue"),
+    meta: {
+      authorize: true,
+    },
   },
   {
     path: "/login",
@@ -21,6 +27,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  await loadAuth();
+  if (to.meta.authorize && !isAuthenticated.value) {
+    next({ name: "login" });
+  } else {
+    next();
+  }
 });
 
 export default router;

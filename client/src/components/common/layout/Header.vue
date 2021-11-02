@@ -4,7 +4,15 @@
   >
     <div class="w-full h-full flex justify-end items-center">
       <router-link
+        v-if="!isAuthenticated"
         :to="{ name: 'login' }"
+        class="btn-primary py-1 px-3 rounded flex justify-center items-center mr-1 text-white font-semibold"
+      >
+        Login
+      </router-link>
+      <button
+        v-else
+        @click="logout"
         class="hover:bg-gray-200 w-8 h-8 rounded flex justify-center items-center mr-1"
       >
         <svg
@@ -24,10 +32,9 @@
             d="M17 14h.352a3 3 0 0 1 2.976 2.628l.391 3.124A2 2 0 0 1 18.734 22H5.266a2 2 0 0 1-1.985-2.248l.39-3.124A3 3 0 0 1 6.649 14H7"
           />
         </svg>
-      </router-link>
+      </button>
       <button
         class="hover:bg-gray-200 w-8 h-8 rounded flex justify-center items-center"
-        @click="setTheme('dark')"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -49,16 +56,14 @@
 </template>
 
 <script>
+import useAuth from "../../../composables/useAuth";
 export default {
   setup() {
-    const setTheme = (theme) => {
-      document.documentElement.setAttribute("data-theme", theme);
-
-      console.log(document.documentElement.getAttribute("data-theme"));
-    };
+    const { isAuthenticated, logout } = useAuth();
 
     return {
-      setTheme,
+      isAuthenticated,
+      logout,
     };
   },
 };
