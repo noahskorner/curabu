@@ -23,17 +23,17 @@ app.use("/club", require("./routes/club.route.js"));
 
 // SETUP DB
 const db = require("./models/index.js");
-/* db.sequelize.sync(); */
+db.sequelize.sync();
 
 /* DEV ONLY */
-db.sequelize.sync({ force: true }).then(async () => {
-  await db.sequelize.query("INSERT INTO public.roles(name) VALUES ('SUPERADMIN');");
-  await db.sequelize.query("INSERT INTO public.roles(name) VALUES ('ADMIN');");
-  await db.sequelize.query("INSERT INTO public.users(id, username, email, password) VALUES (1,'noah-got-hacked', 'noahskorner@gmail.com', '$2b$10$KhJqZrmfX73RIUyhLw5zHOaBORx.d689EeqTEUkq0jAoMUHKDkfxe');");
-  await db.sequelize.query("INSERT INTO public.\"userRoles\"(\"userId\", \"role\") VALUES (1, 'SUPERADMIN');");
-  await db.sequelize.query("INSERT INTO public.\"clubTypes\"(name) VALUES ('BOOK_CLUB');");
-  console.log("Drop and re-sync db...");
-});
+// db.sequelize.sync({ force: true }).then(async () => {
+//   await db.sequelize.query("INSERT INTO public.roles(name) VALUES ('SUPERADMIN');");
+//   await db.sequelize.query("INSERT INTO public.roles(name) VALUES ('ADMIN');");
+//   await db.sequelize.query("INSERT INTO public.users(id, username, email, password) VALUES (1,'noah-got-hacked', 'noahskorner@gmail.com', '$2b$10$KhJqZrmfX73RIUyhLw5zHOaBORx.d689EeqTEUkq0jAoMUHKDkfxe');");
+//   await db.sequelize.query("INSERT INTO public.\"userRoles\"(\"userId\", \"role\") VALUES (1, 'SUPERADMIN');");
+//   await db.sequelize.query("INSERT INTO public.\"clubTypes\"(name) VALUES ('BOOK_CLUB');");
+//   console.log("Drop and re-sync db...");
+// });
 
 // START SERVER
 const PORT = 3001;
