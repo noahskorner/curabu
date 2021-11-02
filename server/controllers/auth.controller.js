@@ -177,7 +177,10 @@ const loginUser = async (req, res) => {
     include: "userRoles",
     attributes: ["id", "email", "password"],
   })
-    .then((data) => data.toJSON())
+    .then((data) => {
+      if (data) return data.toJSON();
+      else return null;
+    })
     .catch((error) => {
       console.log(error.message);
       const response = createUnkownErrorResponse();
