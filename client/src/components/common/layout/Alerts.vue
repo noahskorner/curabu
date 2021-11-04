@@ -96,11 +96,10 @@
 </template>
 
 <script>
-import { alertTypes } from "../../../common/constants";
 import useAlerts from "../../../composables/useAlerts";
 export default {
   setup() {
-    const { alerts, addAlert, removeAlert } = useAlerts();
+    const { alertTypes, alerts, removeAlert } = useAlerts();
 
     const alertBarClass = (alertType) => {
       switch (alertType) {
@@ -114,42 +113,6 @@ export default {
           return ["bg-blue-500"];
       }
     };
-
-    addAlert({
-      title: "Uh oh, something went wrong",
-      message: "Sorry! There was a problem with your request",
-      type: alertTypes.error,
-    });
-
-    setTimeout(
-      () =>
-        addAlert({
-          title: "Uh oh, something went wrong",
-          message: "Sorry! There was a problem with your request",
-          type: alertTypes.warning,
-        }),
-      1500
-    );
-
-    setTimeout(
-      () =>
-        addAlert({
-          title: "Uh oh, something went wrong",
-          message: "Sorry! There was a problem with your request",
-          type: alertTypes.success,
-        }),
-      3000
-    );
-
-    setTimeout(
-      () =>
-        addAlert({
-          title: "Uh oh, something went wrong",
-          message: "Sorry! There was a problem with your request",
-          type: alertTypes.info,
-        }),
-      4500
-    );
 
     return {
       alertTypes,

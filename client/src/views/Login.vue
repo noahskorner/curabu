@@ -68,6 +68,7 @@ import useAuth from "../composables/useAuth";
 import API from "../services/api";
 import Input from "../components/common/ui/Input.vue";
 import Logo from "../components/common/ui/Logo.vue";
+import useAlerts from "../composables/useAlerts";
 
 export default {
   components: {
@@ -76,6 +77,7 @@ export default {
   },
   setup() {
     const { setAccessToken, setRefreshToken } = useAuth();
+    const { alertTypes, addAlert } = useAlerts();
     const router = useRouter();
 
     const state = reactive({
@@ -129,10 +131,13 @@ export default {
           const { message, data } = response.data;
           const { accessToken, refreshToken } = data;
 
-          console.log(message); // TO DO: Create alerts component
           setAccessToken(accessToken);
           setRefreshToken(refreshToken);
 
+          addAlert({
+            message,
+            type: alertTypes.success,
+          });
           router.push({ name: "home" });
         } catch (error) {
           if (

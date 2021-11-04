@@ -1,7 +1,10 @@
 import API from "../services/api";
+import useAlert from "./useAlerts";
 import jwt_decode from "jwt-decode";
 import { reactive, toRefs } from "vue";
 import router from "../router";
+
+const { alertTypes, addAlert } = useAlert();
 
 const state = reactive({
   isAuthenticated: false,
@@ -13,8 +16,6 @@ const state = reactive({
 });
 
 const setAccessToken = (accessToken) => {
-  const decoded = jwt_decode(accessToken);
-  console.log(decoded);
   const { email, exp, id, roles } = jwt_decode(accessToken);
 
   state.isAuthenticated = true;
@@ -69,6 +70,11 @@ const logout = async () => {
   localStorage.removeItem("refreshToken");
   router.push({ name: "login" });
   state.isAuthenticated = false;
+
+  addAlert({
+    message: "Succesfully logged out!",
+    type: alertTypes.success,
+  });
 };
 
 export default () => {

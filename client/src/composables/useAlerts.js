@@ -1,5 +1,12 @@
 import { reactive, toRefs } from "vue";
 
+const alertTypes = {
+  error: 0,
+  success: 1,
+  info: 2,
+  warning: 3,
+};
+
 const state = reactive({
   totalAlerts: 0,
   alerts: [],
@@ -26,6 +33,7 @@ const removeAlert = (alertId) => {
 
 export default () => {
   return {
+    alertTypes,
     ...toRefs(state),
     addAlert,
     removeAlert,

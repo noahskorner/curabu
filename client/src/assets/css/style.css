@@ -14,7 +14,7 @@
   /* Background Colors */
   --b-primary: theme("colors.white");
   --b-secondary: theme("colors.gray.100");
-  --b-secondary-op: rgba(243, 244, 246, 0.6);
+  --b-secondary-op: rgba(243, 244, 246, 0.8);
   --b-tertiary: theme("colors.gray.200");
   /* Text Colors */
   --t-primary: theme("colors.black");
