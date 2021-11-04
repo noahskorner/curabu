@@ -11,16 +11,18 @@ const state = reactive({
   accessToken: "",
   refreshToken: "",
   userId: "",
+  username: "",
   email: "",
   roles: [],
 });
 
 const setAccessToken = (accessToken) => {
-  const { email, exp, id, roles } = jwt_decode(accessToken);
+  const { email, exp, id, username, roles } = jwt_decode(accessToken);
 
   state.isAuthenticated = true;
   state.accessToken = accessToken;
   state.userId = id;
+  state.username = username;
   state.email = email;
   state.roles = roles;
 
