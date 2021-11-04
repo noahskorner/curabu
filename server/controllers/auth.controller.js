@@ -244,11 +244,13 @@ const refreshUserToken = async (req, res) => {
           id: user.id,
           username: user.username,
           email: user.email,
+          roles: user.roles,
         });
         const refreshToken = await generateRefreshToken({
           id: user.id,
           username: user.username,
           email: user.email,
+          roles: user.roles,
         });
 
         const response = createResponse(
