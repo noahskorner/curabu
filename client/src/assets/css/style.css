@@ -8,21 +8,33 @@
 /* CSS Variables **/
 :root {
   --font-primary: "Urbanist", sans-serif;
+  /* Theme Colors */
   --primary: theme("colors.green.500");
   --secondary: theme("colors.green.700");
+  /* Background Colors */
   --b-primary: theme("colors.white");
   --b-secondary: theme("colors.gray.100");
+  --b-secondary-op: rgba(243, 244, 246, 0.6);
+  --b-tertiary: theme("colors.gray.200");
+  /* Text Colors */
   --t-primary: theme("colors.black");
   --t-secondary: theme("colors.gray.700");
+  --t-tertiary: theme("colors.gray.500");
   --bd-primary: theme("colors.gray.200");
 }
 :root[data-theme="dark"] {
+  /* Theme Colors */
   --primary: theme("colors.green.500");
   --secondary: theme("colors.green.700");
+  /* Background Colors */
   --b-primary: theme("colors.gray.800");
   --b-secondary: theme("colors.gray.900");
+  --b-secondary-op: rgba(17, 24, 39, 0.4);
+  --b-tertiary: theme("colors.gray.700");
+  /* Text Colors */
   --t-primary: theme("colors.white");
   --t-secondary: theme("colors.blue.200");
+  --t-tertiary: theme("colors.gray.300");
   --bd-primary: theme("colors.gray.700");
 }
 
@@ -43,6 +55,9 @@
 }
 .bg-b-secondary {
   background-color: var(--b-secondary);
+}
+.hover\:bg-b-secondary-op:hover {
+  background-color: var(--b-secondary-op);
 }
 .bg-b-tertiary {
   background-color: var(--b-tertiary);
@@ -86,6 +101,9 @@
 }
 .text-t-secondary {
   color: var(--t-secondary);
+}
+.text-t-tertiary {
+  color: var(--t-tertiary);
 }
 
 /* Text Colors Hover */

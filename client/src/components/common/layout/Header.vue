@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-12 border-b border-bd-primary absolute top-0 left-64 header px-2 bg-b-primary"
+    class="h-12 border-b border-bd-primary absolute top-0 left-20 header px-2 bg-b-primary"
   >
     <div class="w-full h-full flex justify-end items-center">
       <router-link
@@ -53,6 +53,6 @@ export default {
 
 <style>
 .header {
-  width: calc(100% - 16rem);
+  width: calc(100% - 5rem);
 }
 </style>

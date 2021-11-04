@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper></PageWrapper>
+  <PageWrapper> </PageWrapper>
 </template>
 
 <script>

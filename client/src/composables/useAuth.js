@@ -13,6 +13,8 @@ const state = reactive({
 });
 
 const setAccessToken = (accessToken) => {
+  const decoded = jwt_decode(accessToken);
+  console.log(decoded);
   const { email, exp, id, roles } = jwt_decode(accessToken);
 
   state.isAuthenticated = true;
