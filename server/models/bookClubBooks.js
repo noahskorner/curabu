@@ -7,6 +7,14 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    bookClubId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'bookClubs',
+        key: 'id'
+      }
+    },
     dateCreated: {
       type: DataTypes.DATE,
       allowNull: true,
