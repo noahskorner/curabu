@@ -49,6 +49,7 @@ const validateUser = async (username, email, password1, password2) => {
         fieldErrors.username.push(
           "An unexpected error has occured. Please try again."
         );
+        return fieldErrors;
       });
 
     if (findUsername.length)
@@ -71,6 +72,7 @@ const validateUser = async (username, email, password1, password2) => {
         fieldErrors.email.push(
           "An unexpected error has occured. Please try again."
         );
+        return fieldErrors;
       });
 
     if (findEmail.length)
@@ -175,7 +177,7 @@ const loginUser = async (req, res) => {
   const user = await Users.findOne({
     where: { email },
     include: "userRoles",
-    attributes: ["id", "email", "password"],
+    attributes: ["id", "username", "email", "password"],
   })
     .then((data) => {
       if (data) return data.toJSON();
@@ -201,6 +203,7 @@ const loginUser = async (req, res) => {
     user.roles = user.userRoles.map((userRole) => userRole.role);
     delete user.userRoles;
     delete user.password;
+
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
 

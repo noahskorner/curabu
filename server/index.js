@@ -18,8 +18,9 @@ app.get("/", authenticate, authorize(["SUPERADMIN"]), async (req, res) => {
   return res.status(200).json(response);
 });
 app.use("/auth", require("./routes/auth.route.js"));
-app.use("/user", require("./routes/user.route.js"));
-app.use("/club", require("./routes/club.route.js"));
+app.use("/users", require("./routes/user.route.js"));
+app.use("/clubs", require("./routes/club.route.js"));
+app.use("/books", require("./routes/book.route.js"));
 
 // SETUP DB
 const db = require("./models/index.js");

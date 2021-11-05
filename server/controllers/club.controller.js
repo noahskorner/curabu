@@ -26,11 +26,14 @@ const validateClub = async (name) => {
       .catch((error) => {
         console.log(error.message);
         errors.push("An unexpected error has occured. Please try again.");
+        return errors;
       });
 
     if (clubExists.length) errors.push(`A club named ${name} already exists.`);
     if (!clubNameRegex.test(name))
-      errors.push("Club name can only consist of letters spaces and apostrophes.");
+      errors.push(
+        "Club name can only consist of letters spaces and apostrophes."
+      );
   }
 
   return errors;
@@ -104,6 +107,53 @@ const addBookClub = async (req, res) => {
   }
 };
 
+const getClubs = async (req, res) => {
+  try {
+    const clubs = await Clubs.findAll()
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error.message);
+        const response = createUnkownErrorResponse();
+        return res.status(500).json(response);
+      });
+
+    const response = createResponse(
+      true,
+      `Found ${clubs.length} clubs.`,
+      [],
+      clubs
+    );
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log(error.message);
+    const response = createUnkownErrorResponse();
+    return res.status(500).json(response);
+  }
+};
+
+const addBookClubBook = async (req, res) => {
+  try {
+    const { clubType } = req.body;
+    switch (clubType) {
+      case clubTypes.bookClub:
+        return addBookClub(req, res);
+      default:
+        const response = createResponse(
+          false,
+          "Unable to add new club.",
+          [`Club type ${clubType} does not exist`],
+          {}
+        );
+        return res.status(500).json(response);
+    }
+  } catch (error) {
+    console.log(error.message);
+    const response = createUnkownErrorResponse();
+    return res.status(500).json(response);
+  }
+};
+
 module.exports = {
   addClub,
+  getClubs,
 };
