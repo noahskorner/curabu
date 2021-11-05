@@ -1,7 +1,9 @@
 <template>
   <div class="relative">
     <slot name="button" :toggleMenu="toggleMenu"></slot>
-    <slot name="menu" :toggleMenu="toggleMenu" :showMenu="showMenu"></slot>
+    <transition name="fade-in">
+      <slot name="menu" :toggleMenu="toggleMenu" :showMenu="showMenu"></slot>
+    </transition>
   </div>
 </template>
 
