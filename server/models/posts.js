@@ -49,6 +49,9 @@ module.exports = function(sequelize, DataTypes) {
           { name: "id" },
         ]
       },
-    ]
+    ],
+    defaultScope: {
+      include: ["comments"],
+    },
   });
 };

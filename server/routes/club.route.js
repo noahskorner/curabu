@@ -3,6 +3,7 @@ const { authenticate, authorize } = require("../middleware/auth");
 const {
   addClub,
   getClubs,
+  getClub,
   addClubBook,
   updateClubBook,
   addPost,
@@ -11,6 +12,7 @@ const { roles } = require("../common/constants");
 
 router.post("/", authenticate, authorize([roles.superadmin]), addClub);
 router.get("/", getClubs);
+router.get("/:clubId", getClub);
 router.post("/books", authenticate, authorize([roles.superadmin]), addClubBook);
 router.put(
   "/books",

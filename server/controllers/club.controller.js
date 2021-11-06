@@ -273,6 +273,31 @@ const getClubs = async (req, res) => {
   }
 };
 
+const getClub = async (req, res) => {
+  try {
+    const { clubId } = req.params;
+    const club = await Clubs.findByPk(clubId, { include: ["posts"]})
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error.message);
+        const response = createUnkownErrorResponse();
+        return res.status(500).json(response);
+      });
+
+    const response = createResponse(
+      true,
+      `Successfully found club: ${club.dataValues.name}`,
+      [],
+      club
+    );
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log(error.message);
+    const response = createUnkownErrorResponse();
+    return res.status(500).json(response);
+  }
+};
+
 const addClubBook = async (req, res) => {
   try {
     const { bookClubId, bookId, isCurrentBook, startDate, endDate } = req.body;
@@ -417,6 +442,7 @@ const addPost = async (req, res) => {
 module.exports = {
   addClub,
   getClubs,
+  getClub,
   addClubBook,
   updateClubBook,
   addPost,
