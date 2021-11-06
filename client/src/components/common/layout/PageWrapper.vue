@@ -9,8 +9,13 @@
       class="bg-black fixed top-0 left-0 right-0 bottom-0 z-20 lg:hidden opacity-20"
     ></div>
     <Header />
-    <div class="w-full flex justify-center items-center">
-      <slot></slot>
+    <div
+      class="w-full flex justify-center items-center pt-12"
+      :class="showSidebar && ['lg:pl-72']"
+    >
+      <div class="w-full p-2">
+        <slot name="default"></slot>
+      </div>
     </div>
   </div>
 </template>

@@ -100,7 +100,6 @@
 
 <script>
 import useWindowSize from "../../../composables/useWindowSize";
-import { setTheme } from "../../../composables/useTheme";
 import Logo from "../ui/Logo.vue";
 export default {
   components: {
@@ -111,7 +110,6 @@ export default {
 
     return {
       height,
-      setTheme,
     };
   },
 };

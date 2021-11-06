@@ -25,4 +25,7 @@ export default {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   },
+  getClubs() {
+    return apiClient.get("clubs");
+  },
 };
