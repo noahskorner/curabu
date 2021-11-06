@@ -5,6 +5,7 @@ const {
   getClubs,
   addClubBook,
   updateClubBook,
+  addPost,
 } = require("../controllers/club.controller");
 const { roles } = require("../common/constants");
 
@@ -16,6 +17,11 @@ router.put(
   authenticate,
   authorize([roles.superadmin]),
   updateClubBook
+);
+router.post(
+  "/posts",
+  authenticate,
+  addPost
 );
 
 module.exports = router;

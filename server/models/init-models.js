@@ -12,6 +12,8 @@ var _userBooks = require("./userBooks");
 var _userClubs = require("./userClubs");
 var _userRoles = require("./userRoles");
 var _users = require("./users");
+var _posts = require("./posts");
+var _comments = require("./comments");
 
 function initModels(sequelize) {
   var clubTypes = _clubTypes(sequelize, DataTypes);
@@ -27,6 +29,8 @@ function initModels(sequelize) {
   var userClubs = _userClubs(sequelize, DataTypes);
   var userRoles = _userRoles(sequelize, DataTypes);
   var users = _users(sequelize, DataTypes);
+  var posts = _posts(sequelize, DataTypes);
+  var comments = _comments(sequelize, DataTypes);
 
   clubs.belongsToMany(users, {
     as: "userId_users",
@@ -114,6 +118,19 @@ function initModels(sequelize) {
   userRoles.belongsTo(users, { as: "user", foreignKey: "userId" });
   users.hasMany(userRoles, { as: "userRoles", foreignKey: "userId" });
   bookClubs.hasMany(bookClubBooks, { as: "books", foreignKey: "bookClubId" });
+  posts.belongsTo(clubs, { as: "club", foreignKey: "clubId" });
+  clubs.hasMany(posts, { as: "posts", foreignKey: "clubId" });
+  comments.belongsTo(posts, { as: "post", foreignKey: "postId" });
+  posts.hasMany(comments, { as: "comments", foreignKey: "postId" });
+  posts.belongsTo(users, { as: "user", foreignKey: "userId" });
+  users.hasMany(posts, { as: "posts", foreignKey: "userId" });
+  comments.belongsTo(comments, {
+    as: "parentComment",
+    foreignKey: "parentCommentId",
+  });
+  comments.hasMany(comments, { as: "comments", foreignKey: "parentCommentId" });
+  comments.belongsTo(users, { as: "user", foreignKey: "userId" });
+  users.hasMany(comments, { as: "comments", foreignKey: "userId" });
 
   return {
     admins,
@@ -129,6 +146,8 @@ function initModels(sequelize) {
     userClubs,
     userRoles,
     users,
+    posts,
+    comments,
   };
 }
 module.exports = initModels;

@@ -3,11 +3,19 @@ const {
   createUnkownErrorResponse,
 } = require("../common/functions");
 const { clubTypes } = require("../common/constants");
-const { connectionString } = require("../config/db.config");
-const { Clubs, BookClubs, Books, BookClubBooks } = require("../models");
+const {
+  Clubs,
+  BookClubs,
+  Books,
+  BookClubBooks,
+  Users,
+  Posts,
+} = require("../models");
 
 // Variables
 const clubNameRegex = /^([a-zA-Z\s']){5,25}$/;
+const MAX_POST_TITLE_LENGTH = 25;
+const MAX_POST_BODY_LENGTH = 255;
 
 // Functions
 const validateClub = async (name) => {
@@ -138,6 +146,43 @@ const removeCurrentBook = async (bookClubId) => {
   currentBooks.save();
 };
 
+const validatePost = async (post) => {
+  const { userId, clubId, title, body } = post;
+  const errors = [];
+
+  const user = await Users.findByPk(userId)
+    .then((data) => data)
+    .catch((error) => {
+      console.log(error.message);
+      errors.push("An unknown error has occured. Please try again.");
+      return errors;
+    });
+
+  if (!user) {
+    errors.push("User does not exist.");
+  } else {
+    const { clubs } = user.toJSON();
+    if (!clubs.some((club) => club.id === clubId)) {
+      errors.push("Must belong to club to post in it.");
+    }
+  }
+
+  if (!title) {
+    errors.push("Must provide a title.");
+  } else if (title.length > MAX_POST_TITLE_LENGTH) {
+    errors.push(
+      `Post title must contain less than ${MAX_POST_TITLE_LENGTH} characters.`
+    );
+  }
+  if (body.length > MAX_POST_BODY_LENGTH) {
+    errors.push(
+      `Post body must contain less then ${MAX_POST_BODY_LENGTH} characters.`
+    );
+  }
+
+  return errors;
+};
+
 // Controllers
 const addClub = async (req, res) => {
   try {
@@ -183,8 +228,11 @@ const addBookClub = async (req, res) => {
         admins: {
           userId: req.user.id,
         },
+        userClubs: {
+          userId: req.user.id,
+        },
       },
-      { include: ["bookClub", "admins"] }
+      { include: ["bookClub", "admins", "userClubs"] }
     ).catch((error) => {
       console.log(error);
       const response = createUnkownErrorResponse();
@@ -314,7 +362,6 @@ const updateClubBook = async (req, res) => {
     bookClubBook.set(updatedValues);
     await bookClubBook.save();
 
-
     const response = createResponse(
       true,
       "Successfully updated club book!",
@@ -329,9 +376,48 @@ const updateClubBook = async (req, res) => {
   }
 };
 
+const addPost = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { clubId, title, body } = req.body;
+
+    const errors = await validatePost({ userId, clubId, title, body });
+    if (errors.length) {
+      const response = createResponse(
+        false,
+        "Unable to create post.",
+        errors,
+        {}
+      );
+      return res.status(400).json(response);
+    }
+
+    const post = await Posts.create({ userId, clubId, title, body })
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error.message);
+        const response = createUnkownErrorResponse();
+        return res.status(500).json(response);
+      });
+
+    const response = createResponse(
+      true,
+      "Successfully created post!",
+      [],
+      post
+    );
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log(error.message);
+    const response = createUnkownErrorResponse();
+    return res.status(500).json(response);
+  }
+};
+
 module.exports = {
   addClub,
   getClubs,
   addClubBook,
   updateClubBook,
+  addPost,
 };

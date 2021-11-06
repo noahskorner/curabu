@@ -38,6 +38,8 @@ const {
   userClubs,
   userRoles,
   users,
+  posts,
+  comments,
 } = initModels(sequelize);
 
 db.Admins = admins;
@@ -53,5 +55,7 @@ db.UserBooks = userBooks;
 db.UserClubs = userClubs;
 db.UserRoles = userRoles;
 db.Users = users;
+db.Posts = posts;
+db.Comments = comments;
 
 module.exports = db;
