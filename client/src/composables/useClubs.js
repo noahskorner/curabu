@@ -1,22 +1,40 @@
-import { ref } from "vue";
+import { reactive, toRefs } from "vue";
+import router from "../router";
 import API from "../services/api";
 
-const clubs = ref([]);
+const state = reactive({
+  clubs: [],
+});
 
-const setClubs = (newClubs) => {
-  clubs.value = newClubs;
+const setClubs = (clubs) => {
+  state.clubs = clubs;
 };
 
 const loadClubs = async () => {
   try {
     const response = await API.getClubs();
-    setClubs(response.data);
+    const clubs = response.data.data;
+    setClubs(clubs);
   } catch (error) {
     console.log(error);
   }
 };
 
-return {
-  clubs,
-  loadClubs,
+const loadClub = async (clubId) => {
+  try {
+    const response = await API.getClub(clubId);
+    const club = response.data.data;
+    return club;
+  } catch (error) {
+    console.log(error);
+    router.push({ name: "clubs" });
+  }
+};
+
+export default () => {
+  return {
+    ...toRefs(state),
+    loadClubs,
+    loadClub,
+  };
 };

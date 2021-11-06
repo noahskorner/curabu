@@ -28,4 +28,7 @@ export default {
   getClubs() {
     return apiClient.get("clubs");
   },
+  getClub(clubId) {
+    return apiClient.get(`clubs/${clubId}`);
+  },
 };

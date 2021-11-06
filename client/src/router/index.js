@@ -27,6 +27,12 @@ const routes = [
     name: "clubs",
     component: () => import("../views/Clubs.vue"),
   },
+  {
+    path: "/club/:id",
+    name: "club",
+    component: () => import("../views/Club.vue"),
+    params: true,
+  },
 ];
 
 const router = createRouter({

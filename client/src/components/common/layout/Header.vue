@@ -79,7 +79,7 @@
                   <p class="text-sm">Dark Mode</p>
                 </div>
                 <div
-                  class="w-10 h-6 border-bd-primary border rounded-full flex items-center"
+                  class="w-9 h-5 border-bd-primary border rounded-full flex items-center"
                   :class="
                     theme === themes.light
                       ? ['justify-start', 'bg-gray-200']
@@ -87,7 +87,7 @@
                   "
                 >
                   <div
-                    class="w-5 h-5 rounded-full bg-white"
+                    class="w-4 h-4 rounded-full bg-white"
                     :class="
                       theme === themes.light ? ['bg-white'] : ['bg-t-primary']
                     "

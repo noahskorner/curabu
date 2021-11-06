@@ -1,9 +1,13 @@
 <template>
-  <PageWrapper> </PageWrapper>
+  <PageWrapper>
+    <div class="w-full">
+      <h1 class="text-4xl font-semibold">Home</h1>
+    </div>
+  </PageWrapper>
 </template>
 
 <script>
-import PageWrapper from "../components/common/layout/PageWrapper.vue";
+import PageWrapper from "../components/common/layout/PageWrapper";
 export default {
   components: {
     PageWrapper,
