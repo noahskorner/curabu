@@ -5,14 +5,14 @@
       <transition name="fade-in">
         <div
           v-show="showModal"
-          class="fixed z-30 top-0 left-0 right-0 bottom-0 flex justify-center items-center"
+          class="fixed z-30 top-0 left-0 right-0 bottom-0 flex justify-center items-start p-2"
         >
-          <slot name="content">
+          <slot name="content" :hideModal="hideModal">
             <div class="w-64 h-64 bg-white relative z-10"></div>
           </slot>
           <div
             @click="hideModal"
-            class="bg-black opacity-30 absolute top-0 left-0 right-0 bottom-0"
+            class="bg-black opacity-60 absolute top-0 left-0 right-0 bottom-0"
           ></div>
         </div>
       </transition>

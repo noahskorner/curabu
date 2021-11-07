@@ -2,7 +2,7 @@
   <div class="relative">
     <slot name="button" :toggleMenu="toggleMenu"></slot>
     <transition name="fade-in">
-      <slot name="menu" :toggleMenu="toggleMenu" :showMenu="showMenu"></slot>
+      <slot name="menu" :hideMenu="hideMenu" :showMenu="showMenu"></slot>
     </transition>
   </div>
 </template>
@@ -17,9 +17,14 @@ export default {
       showMenu.value = !showMenu.value;
     };
 
+    const hideMenu = () => {
+      showMenu.value = false;
+    };
+
     return {
       showMenu,
       toggleMenu,
+      hideMenu,
     };
   },
 };

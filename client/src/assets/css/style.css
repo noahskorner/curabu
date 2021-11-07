@@ -16,13 +16,14 @@
   --b-secondary: theme("colors.gray.100");
   --b-secondary-op: rgba(243, 244, 246, 0.8);
   --b-tertiary: theme("colors.gray.200");
+  --b-opacity: rgba(0, 0, 0, 0.1);
   /* Text Colors */
   --t-primary: theme("colors.black");
   --t-secondary: theme("colors.gray.700");
   --t-tertiary: theme("colors.gray.500");
   --bd-primary: theme("colors.gray.200");
 }
-:root[data-theme="dark"] {
+:root[data-dark="true"] {
   /* Theme Colors */
   --primary: theme("colors.green.500");
   --secondary: theme("colors.green.700");
@@ -31,11 +32,40 @@
   --b-secondary: theme("colors.gray.900");
   --b-secondary-op: rgba(17, 24, 39, 0.4);
   --b-tertiary: theme("colors.gray.700");
+  --b-opacity: rgba(0, 0, 0, 0.5);
   /* Text Colors */
   --t-primary: theme("colors.white");
   --t-secondary: theme("colors.blue.200");
   --t-tertiary: theme("colors.gray.300");
   --bd-primary: theme("colors.gray.700");
+}
+:root[data-theme="red"] {
+  --primary: theme("colors.red.500");
+  --secondary: theme("colors.red.700");
+}
+:root[data-theme="yellow"] {
+  --primary: theme("colors.yellow.500");
+  --secondary: theme("colors.yellow.700");
+}
+:root[data-theme="green"] {
+  --primary: theme("colors.green.500");
+  --secondary: theme("colors.green.700");
+}
+:root[data-theme="blue"] {
+  --primary: theme("colors.blue.500");
+  --secondary: theme("colors.blue.700");
+}
+:root[data-theme="indigo"] {
+  --primary: theme("colors.indigo.500");
+  --secondary: theme("colors.indigo.700");
+}
+:root[data-theme="purple"] {
+  --primary: theme("colors.purple.500");
+  --secondary: theme("colors.purple.700");
+}
+:root[data-theme="pink"] {
+  --primary: theme("colors.pink.500");
+  --secondary: theme("colors.pink.700");
 }
 
 /* Fonts */
@@ -85,6 +115,9 @@
 .hover\:bg-text-primary:hover {
   background-color: var(--t-primary);
 }
+.hover\:bg-b-opacity:hover {
+  background-color: var(--b-opacity);
+}
 
 /* Text Colors */
 .text-primary {
@@ -130,6 +163,9 @@
 }
 
 /* Borders */
+.border-primary {
+  border-color: var(--primary);
+}
 .border-bd-primary {
   border-color: var(--bd-primary);
 }

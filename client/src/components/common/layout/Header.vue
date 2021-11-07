@@ -46,51 +46,92 @@
               <p class="text-xs mr-1">{{ username }}</p>
             </button></template
           >
-          <template #menu="{ showMenu, toggleMenu }">
+          <template #menu="{ showMenu, hideMenu }">
             <div
               v-if="showMenu"
-              v-click-away="toggleMenu"
-              class="absolute w-48 h-64 bg-b-primary border border-bd-primary shadow-sm right-0 top-full mt-1 flex flex-col justify-end"
+              class="absolute w-48 h-64 bg-b-primary border border-bd-primary shadow-lg right-0 top-full mt-1 flex flex-col justify-end"
             >
+              <Modal>
+                <template #button="{ displayModal }">
+                  <button
+                    @click="displayModal()"
+                    class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center"
+                  >
+                    <p class="text-sm">Themes</p>
+                  </button></template
+                >
+                <template #content="{ hideModal }">
+                  <div
+                    class="bg-b-primary w-full max-w-lg relative z-10 mt-24 rounded shadow text-t-primary"
+                  >
+                    <div
+                      class="h-10 bg-b-secondary rounded-t px-2 flex items-center justify-between"
+                    >
+                      <h3 class="uppercase text-xs tracking-wide font-medium">
+                        Theme settings
+                      </h3>
+                      <button
+                        @click="
+                          hideModal();
+                          hideMenu();
+                        "
+                        class="w-6 h-6 rounded hover:bg-b-opacity flex justify-center items-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          class="ai ai-Cross"
+                        >
+                          <path d="M20 20L4 4m16 0L4 20" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div class="grid grid-cols-6 gap-4 p-4">
+                      <button
+                        v-for="theme in themes"
+                        :key="theme"
+                        @click="setTheme(theme)"
+                        class="col-span-1 h-12 flex justify-between items-center rounded bg-blue-300"
+                      >
+                        <div
+                          class="w-full h-full rounded-l"
+                          :class="`bg-${theme}-500`"
+                        ></div>
+                        <div
+                          class="w-full h-full rounded-r"
+                          :class="`bg-${theme}-700`"
+                        ></div>
+                      </button>
+                    </div>
+                  </div>
+                </template>
+              </Modal>
+
               <button
                 class="w-full px-3 py-2 text-left hover:bg-b-secondary flex justify-between items-center"
-                @click="toggleTheme()"
+                @click="setDarkMode(!darkMode)"
               >
                 <div class="flex items-center">
-                  <div class="w-8 flex justify-center items-center relative">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="ai ai-Moon relative"
-                      style="left: -2px"
-                    >
-                      <path
-                        d="M20.958 15.165c.204-.486-.379-.9-.868-.684a7.684 7.684 0 0 1-3.101.648c-4.185 0-7.577-3.324-7.577-7.425a7.28 7.28 0 0 1 1.134-3.91c.284-.448-.057-1.068-.577-.936C5.96 4.041 3 7.613 3 11.862 3 16.909 7.175 21 12.326 21c3.9 0 7.24-2.345 8.632-5.675z"
-                      />
-                    </svg>
-                  </div>
                   <p class="text-sm">Dark Mode</p>
                 </div>
                 <div
                   class="w-9 h-5 border-bd-primary border rounded-full flex items-center"
                   :class="
-                    theme === themes.light
+                    !darkMode
                       ? ['justify-start', 'bg-gray-200']
                       : ['justify-end', 'bg-green-500']
                   "
                 >
                   <div
                     class="w-4 h-4 rounded-full bg-white"
-                    :class="
-                      theme === themes.light ? ['bg-white'] : ['bg-t-primary']
-                    "
+                    :class="!darkMode ? ['bg-white'] : ['bg-t-primary']"
                   ></div>
                 </div>
               </button>
@@ -101,25 +142,6 @@
                 class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center"
                 @click="logout"
               >
-                <div class="w-8 flex justify-center items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="ai ai-SignOut"
-                  >
-                    <path d="M13 12h9m0 0l-3.333-4M22 12l-3.333 4" />
-                    <path
-                      d="M14 7V5.174a2 2 0 0 0-2.166-1.993l-8 .666A2 2 0 0 0 2 5.84v12.32a2 2 0 0 0 1.834 1.993l8 .667A2 2 0 0 0 14 18.826V17"
-                    />
-                  </svg>
-                </div>
                 <p class="text-sm">Logout</p>
               </button>
             </div>
@@ -136,14 +158,22 @@ import useAuth from "../../../composables/useAuth";
 import useTheme from "../../../composables/useTheme";
 import useSidebar from "../../../composables/useSidebar";
 import Dropdown from "../ui/Dropdown.vue";
+import Modal from "../ui/Modal.vue";
 export default {
   components: {
     Dropdown,
+    Modal,
   },
   setup() {
     const { isAuthenticated, username, logout } = useAuth();
     const { showSidebar, displaySidebar } = useSidebar();
-    const { toggleTheme, theme, themes } = useTheme();
+    const {
+      themes,
+      darkMode,
+      theme: currentTheme,
+      setDarkMode,
+      setTheme,
+    } = useTheme();
 
     const headerClass = computed(() => {
       if (showSidebar.value) {
@@ -160,9 +190,11 @@ export default {
       showSidebar,
       headerClass,
       displaySidebar,
-      toggleTheme,
-      theme,
       themes,
+      darkMode,
+      currentTheme,
+      setDarkMode,
+      setTheme,
     };
   },
 };

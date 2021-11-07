@@ -47,7 +47,7 @@
                     'text-t-tertiary',
                   ]
             "
-            class="w-full p-2 rounded text-left font-semibold flex items-center"
+            class="w-full p-2 rounded text-left font-medium flex items-center"
           >
             <div class="w-8 h-8 flex justify-center items-center mr-2">
               <svg
@@ -82,7 +82,7 @@
                     'text-t-tertiary',
                   ]
             "
-            class="w-full p-2 rounded text-left font-semibold flex items-center"
+            class="w-full p-2 rounded text-left font-medium flex items-center"
           >
             <div class="w-8 h-8 flex justify-center items-center mr-2">
               <svg

@@ -1,19 +1,22 @@
 <template>
-  <div class="w-screen h-screen relative bg-b-secondary">
+  <div
+    class="w-screen relative bg-b-secondary"
+    :style="{ height: `${height}px` }"
+  >
     <transition name="slide-left">
       <Sidebar v-show="showSidebar" />
     </transition>
     <div
       v-show="showSidebar"
       @click="hideSidebar"
-      class="bg-black fixed top-0 left-0 right-0 bottom-0 z-20 lg:hidden opacity-20"
+      class="bg-black fixed top-0 left-0 right-0 bottom-0 z-20 lg:hidden opacity-60"
     ></div>
     <Header />
     <div
-      class="w-full flex justify-center items-center pt-12"
-      :class="showSidebar && ['lg:pl-72']"
+      class="w-full h-full flex justify-center items-center pt-12"
+      :class="showSidebar && ['lg:pl-72', 'pr-page-wrapper']"
     >
-      <div class="w-full p-2">
+      <div class="w-full h-full p-2">
         <slot name="default"></slot>
       </div>
     </div>
@@ -43,3 +46,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.pr-page-wrapper {
+  padding-right: 0;
+}
+
+@media (min-width: 2040px) {
+  .pr-page-wrapper {
+    padding-right: 18rem;
+  }
+}
+</style>

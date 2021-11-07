@@ -1,37 +1,36 @@
 import { reactive, toRefs } from "vue";
 
-const themes = {
-  light: "light",
-  dark: "dark",
-};
+const themes = ["green", "red", "yellow", "blue", "indigo", "purple", "pink"];
 
 const state = reactive({
-  theme: themes.light,
+  darkMode: false,
+  theme: themes[0],
 });
 
+const setDarkMode = (darkMode) => {
+  state.darkMode = darkMode;
+  localStorage.setItem("darkMode", darkMode);
+  document.documentElement.setAttribute("data-dark", darkMode);
+};
+
 const setTheme = (theme) => {
-  state.theme = theme;
+  state.theme = themes[theme];
   localStorage.setItem("theme", theme);
   document.documentElement.setAttribute("data-theme", theme);
 };
 
-const toggleTheme = () => {
-  if (localStorage.getItem("theme") === themes.light) {
-    setTheme(themes.dark);
-  } else {
-    setTheme(themes.light);
-  }
-};
-
 const loadTheme = () => {
+  const darkMode = localStorage.getItem("darkMode");
+  if (darkMode) {
+    setDarkMode(JSON.parse(darkMode));
+  }
+
   const theme = localStorage.getItem("theme");
   if (theme) {
     setTheme(theme);
-  } else {
-    setTheme(themes.light);
   }
 };
 
 export default () => {
-  return { themes, ...toRefs(state), setTheme, loadTheme, toggleTheme };
+  return { themes, ...toRefs(state), setDarkMode, setTheme, loadTheme };
 };
