@@ -2,6 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const { createResponse } = require("./common/functions.js");
 const { authenticate, authorize } = require("./middleware/auth.js");
+const { seed } = require("./utils/seed.js");
 const app = express();
 
 // APP SETTINGS
@@ -28,11 +29,7 @@ db.sequelize.sync();
 
 /* DEV ONLY */
 // db.sequelize.sync({ force: true }).then(async () => {
-//   await db.sequelize.query("INSERT INTO public.roles(name) VALUES ('SUPERADMIN');");
-//   await db.sequelize.query("INSERT INTO public.roles(name) VALUES ('ADMIN');");
-//   await db.sequelize.query("INSERT INTO public.users(id, username, email, password) VALUES (1,'noah-got-hacked', 'noahskorner@gmail.com', '$2b$10$KhJqZrmfX73RIUyhLw5zHOaBORx.d689EeqTEUkq0jAoMUHKDkfxe');");
-//   await db.sequelize.query("INSERT INTO public.\"userRoles\"(\"userId\", \"role\") VALUES (1, 'SUPERADMIN');");
-//   await db.sequelize.query("INSERT INTO public.\"clubTypes\"(name) VALUES ('BOOK_CLUB');");
+//   await seed();
 //   console.log("Drop and re-sync db...");
 // });
 
