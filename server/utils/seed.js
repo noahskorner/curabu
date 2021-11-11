@@ -24,21 +24,21 @@ const seed = async () => {
   await db.sequelize.query(
     'INSERT INTO public."userClubs"("userId", "clubId") VALUES (1, 1);'
   );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (1, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (2, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (3, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (4, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (5, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (1, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (2, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (3, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (4, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (5, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
   // Example Club 2
   await db.sequelize.query(
     "INSERT INTO public.clubs(id, name, \"clubType\", \"createdBy\") VALUES (2, 'Noahs Book Club', 'BOOK_CLUB', 1);"
@@ -49,21 +49,21 @@ const seed = async () => {
   await db.sequelize.query(
     'INSERT INTO public."userClubs"("userId", "clubId") VALUES (1, 2);'
   );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (6, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (7, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (8, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (9, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
-  await db.sequelize.query(
-    "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (10, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
-  );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (6, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (7, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (8, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (9, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (10, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
+  // );
 };
 
 module.exports = {

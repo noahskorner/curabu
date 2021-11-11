@@ -1,5 +1,9 @@
-const { createResponse } = require("../common/functions");
+const {
+  createResponse,
+  createUnkownErrorResponse,
+} = require("../common/functions");
 const { Books } = require("../models");
+const axios = require("axios");
 
 // Functions
 const validateBook = async (book) => {
@@ -41,6 +45,56 @@ const validateBook = async (book) => {
   }
 
   return errors;
+};
+
+const searchGoogleBooks = async (query) => {
+  // https://developers.google.com/books/docs/v1/using#APIKey
+  // intitle: Returns results where the text following this keyword is found in the title.
+  // inauthor: Returns results where the text following this keyword is found in the author.
+  // inpublisher: Returns results where the text following this keyword is found in the publisher.
+  // subject: Returns results where the text following this keyword is listed in the category list of the volume.
+  // isbn: Returns results where the text following this keyword is the ISBN number.
+  // lccn: Returns results where the text following this keyword is the Library of Congress Control Number.
+  // oclc: Returns results where the text following this keyword is the Online Computer Library Center number.
+
+  const apiResponse = await axios.get(
+    `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${process.env.GOOGLE_BOOKS_API_KEY}`
+  );
+
+  const googleBooks = apiResponse.data.items.sort((a, b) => {
+    if (
+      a.volumeInfo.averageRating === undefined &&
+      b.volumeInfo.averageRating !== undefined
+    ) {
+      return 1;
+    } else if (
+      a.volumeInfo.averageRating !== undefined &&
+      b.volumeInfo.averageRating === undefined
+    ) {
+      return -1;
+    } else if (
+      a.volumeInfo.averageRating === undefined &&
+      b.volumeInfo.averageRating === undefined
+    ) {
+      return 0;
+    } else if (a.volumeInfo.averageRating < b.volumeInfo.averageRating) {
+      return 1;
+    } else if (a.volumeInfo.averageRating > b.volumeInfo.averageRating) {
+      return -1;
+    } else return 0;
+  });
+
+  return googleBooks.map((book) => {
+    return {
+      id: null,
+      name: book.volumeInfo.title,
+      imageURL: book.volumeInfo.imageLinks.thumbnail,
+      dateCreated: null,
+      author: book.volumeInfo.authors[0],
+      summary: book.volumeInfo.description,
+      numPages: book.volumeInfo.pageCount,
+    };
+  });
 };
 
 // Controllers
@@ -85,6 +139,20 @@ const addBook = async (req, res) => {
   }
 };
 
+const searchBook = async (req, res) => {
+  try {
+    const { q: query } = req.query;
+    const googleBooks = await searchGoogleBooks(query);
+
+    return res.status(200).json(googleBooks);
+  } catch (error) {
+    console.log(error.message);
+    const response = createUnkownErrorResponse();
+    return res.status(500).json(response);
+  }
+};
+
 module.exports = {
   addBook,
+  searchBook,
 };

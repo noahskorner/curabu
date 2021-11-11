@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
+    imageURL: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
     dateCreated: {
       type: DataTypes.DATE,
       allowNull: true,

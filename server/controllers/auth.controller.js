@@ -115,10 +115,16 @@ const generateRefreshToken = async (user) => {
   // delete the old refresh tokens
   await RefreshTokens.destroy({
     where: { userId: user.id },
+  }).catch((error) => {
+    console.log(error);
+    return;
   });
 
   // create a new one
-  await RefreshTokens.create({ token, userId: user.id });
+  await RefreshTokens.create({ token, userId: user.id }).catch((error) => {
+    console.log(error);
+    return;
+  });
 
   return token;
 };
