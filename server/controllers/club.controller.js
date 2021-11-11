@@ -149,6 +149,10 @@ const removeCurrentBook = async (bookClubId) => {
 const validatePost = async (post) => {
   const { userId, clubId, title, body } = post;
   const errors = [];
+  const fieldErrors = {
+    title: [],
+    body: [],
+  };
 
   const user = await Users.findByPk(userId)
     .then((data) => data)
@@ -168,19 +172,19 @@ const validatePost = async (post) => {
   }
 
   if (!title) {
-    errors.push("Must provide a title.");
+    fieldErrors.title.push("Must provide a title.");
   } else if (title.length > MAX_POST_TITLE_LENGTH) {
-    errors.push(
+    fieldErrors.title.push(
       `Post title must contain less than ${MAX_POST_TITLE_LENGTH} characters.`
     );
   }
   if (body.length > MAX_POST_BODY_LENGTH) {
-    errors.push(
+    fieldErrors.body.push(
       `Post body must contain less then ${MAX_POST_BODY_LENGTH} characters.`
     );
   }
 
-  return errors;
+  return { errors, fieldErrors };
 };
 
 // Controllers
@@ -276,7 +280,7 @@ const getClubs = async (req, res) => {
 const getClub = async (req, res) => {
   try {
     const { clubId } = req.params;
-    const club = await Clubs.findByPk(clubId, { include: ["posts"]})
+    const club = await Clubs.findByPk(clubId, { include: ["posts"] })
       .then((data) => data)
       .catch((error) => {
         console.log(error.message);
@@ -290,6 +294,7 @@ const getClub = async (req, res) => {
       [],
       club
     );
+
     return res.status(200).json(response);
   } catch (error) {
     console.log(error.message);
@@ -406,19 +411,23 @@ const addPost = async (req, res) => {
     const userId = req.user.id;
     const { clubId, title, body } = req.body;
 
-    const errors = await validatePost({ userId, clubId, title, body });
-    if (errors.length) {
-      const response = createResponse(
-        false,
-        "Unable to create post.",
-        errors,
-        {}
-      );
+    const { errors, fieldErrors } = await validatePost({
+      userId,
+      clubId,
+      title,
+      body,
+    });
+    if (errors.length || fieldErrors.title.length || fieldErrors.body.length) {
+      const response = createResponse(false, "Unable to create post.", errors, {
+        fieldErrors,
+      });
       return res.status(400).json(response);
     }
 
     const post = await Posts.create({ userId, clubId, title, body })
-      .then((data) => data)
+      .then((data) => {
+        return data;
+      })
       .catch((error) => {
         console.log(error.message);
         const response = createUnkownErrorResponse();
