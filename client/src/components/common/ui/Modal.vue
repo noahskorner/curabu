@@ -11,7 +11,10 @@
             <div class="w-64 h-64 bg-white relative z-10"></div>
           </slot>
           <div
-            @click="hideModal"
+            @click="
+              $emit('hideModal');
+              hideModal();
+            "
             class="bg-black opacity-60 absolute top-0 left-0 right-0 bottom-0"
           ></div>
         </div>

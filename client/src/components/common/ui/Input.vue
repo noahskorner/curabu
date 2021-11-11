@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div :class="wrapperClass">
     <label for="" class="font-medium text-sm">{{ label }}</label>
     <div
       :class="inputWrapperClass"
-      class="w-full flex justify-between items-center px-2 mt-1 rounded border"
+      class="w-full flex justify-between items-center px-2 rounded border"
     >
       <input
         @input="setValue"
         @blur="$emit('blur')"
         :value="value"
         :type="showPassword ? 'text' : type"
+        :placeholder="placeholder"
         class="w-full h-10 bg-b-secondary"
       />
       <button
@@ -76,14 +77,24 @@ import { reactive, toRefs } from "@vue/reactivity";
 import { computed } from "@vue/runtime-core";
 export default {
   props: {
+    wrapperClass: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
     value: {
       type: String,
       required: true,
     },
     label: {
       type: String,
-      required: true,
-      default: "Label",
+      required: false,
+      default: "",
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: "",
     },
     errors: {
       type: Array,
@@ -130,4 +141,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+input::-webkit-input-placeholder {
+  font-weight: 300;
+}
+input::-moz-placeholder {
+  font-weight: 300;
+}
+input::-ms-input-placeholder {
+  font-weight: 300;
+}
+</style>

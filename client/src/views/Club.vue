@@ -42,6 +42,7 @@
         </div>
         <!-- Posts -->
         <div class="w-full h-full p-2" v-if="view === views.posts">
+          <Toolbar :clubName="club.name" :clubId="club.id" />
           <Post
             v-for="post in club.posts"
             :key="post.id"
@@ -68,14 +69,16 @@ import { onMounted, reactive, toRefs } from "@vue/runtime-core";
 import useClubs from "../composables/useClubs";
 import PageWrapper from "../components/common/layout/PageWrapper";
 import Post from "../components/club/ui/Post.vue";
+import Toolbar from "../components/club/ui/Toolbar.vue";
 export default {
   components: {
     PageWrapper,
     Post,
+    Toolbar,
   },
   setup() {
     const route = useRoute();
-    const { loadClub } = useClubs();
+    const { currentClub: club, loadClub } = useClubs();
 
     const views = {
       posts: 1,
@@ -83,7 +86,6 @@ export default {
       about: 3,
     };
     const state = reactive({
-      club: {},
       view: views.posts,
     });
     const setView = (view) => {
@@ -92,11 +94,12 @@ export default {
 
     onMounted(async () => {
       const clubId = route.params.id;
-      state.club = await loadClub(clubId);
+      await loadClub(clubId);
     });
 
     return {
       views,
+      club,
       ...toRefs(state),
       setView,
     };

@@ -31,4 +31,9 @@ export default {
   getClub(clubId) {
     return apiClient.get(`clubs/${clubId}`);
   },
+  postPost(accessToken, payload) {
+    return apiClient.post(`clubs/posts`, payload, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  },
 };

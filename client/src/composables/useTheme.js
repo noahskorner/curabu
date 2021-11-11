@@ -1,10 +1,10 @@
 import { reactive, toRefs } from "vue";
 
-const themes = ["green", "red", "yellow", "blue", "indigo", "purple", "pink"];
+const themes = ["red", "yellow", "green", "blue", "indigo", "purple", "pink"];
 
 const state = reactive({
   darkMode: false,
-  theme: themes[0],
+  theme: "green",
 });
 
 const setDarkMode = (darkMode) => {

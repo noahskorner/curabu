@@ -36,4 +36,13 @@ input[type="password"] {
   -moz-appearance: none;
   appearance: none;
 }
+div[contenteditable="true"]:focus {
+  outline: 0 !important;
+}
+div[contenteditable="true"] {
+  /* Remove First */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 </style>

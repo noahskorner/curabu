@@ -2,8 +2,15 @@
   <div class="relative">
     <slot name="button" :toggleMenu="toggleMenu"></slot>
     <transition name="fade-in">
-      <slot name="menu" :hideMenu="hideMenu" :showMenu="showMenu"></slot>
+      <div class="relative z-50">
+        <slot name="menu" :hideMenu="hideMenu" :showMenu="showMenu"></slot>
+      </div>
     </transition>
+    <div
+      v-show="showMenu"
+      @click="hideMenu"
+      class="fixed top-0 bottom-0 left-0 right-0"
+    ></div>
   </div>
 </template>
 

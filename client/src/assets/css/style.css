@@ -8,6 +8,9 @@
 /* CSS Variables **/
 :root {
   --font-primary: "Urbanist", sans-serif;
+  --font-secondary: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* Theme Colors */
   --primary: theme("colors.green.500");
   --secondary: theme("colors.green.700");
@@ -71,6 +74,9 @@
 /* Fonts */
 .font-primary {
   font-family: var(--font-primary);
+}
+.font-secondary {
+  font-family: var(--font-secondary);
 }
 
 /* Background Colors */
@@ -190,6 +196,18 @@
 }
 .slide-left-leave-to {
   transform: translate(-100%, 0);
+}
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: 0.4s;
+}
+
+.slide-down-enter-from {
+  transform: translate(0, -10%);
+}
+.slide-down-leave-to {
+  transform: translate(0, -10%);
 }
 
 .slide-right-enter-active,
