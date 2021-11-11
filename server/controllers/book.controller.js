@@ -88,9 +88,10 @@ const searchGoogleBooks = async (query) => {
     return {
       id: null,
       name: book.volumeInfo.title,
-      imageURL: book.volumeInfo.imageLinks.thumbnail,
+      imageURL:
+        book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail,
       dateCreated: null,
-      author: book.volumeInfo.authors[0],
+      author: book.volumeInfo.authors.length && book.volumeInfo.authors[0],
       summary: book.volumeInfo.description,
       numPages: book.volumeInfo.pageCount,
     };
@@ -144,7 +145,13 @@ const searchBook = async (req, res) => {
     const { q: query } = req.query;
     const googleBooks = await searchGoogleBooks(query);
 
-    return res.status(200).json(googleBooks);
+    const response = createResponse(
+      true,
+      `Found ${googleBooks.length} books!`,
+      [],
+      googleBooks
+    );
+    return res.status(200).json(response);
   } catch (error) {
     console.log(error.message);
     const response = createUnkownErrorResponse();
