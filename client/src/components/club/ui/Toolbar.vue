@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full">
-    <Modal>
+  <div class="w-full flex items-center">
+    <Modal v-show="view === views.posts">
       <template #button="{ displayModal }">
         <button
           @click="displayModal"
@@ -96,7 +96,105 @@
                   createPost();
                   hideModal();
                 "
-                class="px-3 py-2 text-sm rounded bg-primary hover:bg-secondary"
+                class="px-3 py-2 text-sm rounded bg-primary hover:bg-secondary text-white"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </Modal>
+    <Modal v-show="view === views.books">
+      <template #button="{ displayModal }">
+        <button
+          @click="displayModal"
+          class="px-3 py-2 text-left bg-primary text-white hover:bg-secondary rounded flex items-center font-medium"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="ai ai-Book mr-1"
+          >
+            <path d="M2 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+            <path d="M12 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+          </svg>
+          <p class="text-sm">Add book</p>
+        </button></template
+      >
+      <template #content="{ hideModal }">
+        <div
+          class="bg-b-primary w-full max-w-lg relative z-10 mt-24 rounded shadow text-t-primary font-primary"
+        >
+          <div
+            class="h-10 bg-b-secondary rounded-t px-2 flex items-center justify-between"
+          >
+            <h3
+              class="uppercase text-xs tracking-wide font-medium font-secondary"
+            >
+              Add book
+            </h3>
+            <button
+              @click="hideModal"
+              class="w-6 h-6 rounded hover:bg-b-opacity flex justify-center items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="ai ai-Cross"
+              >
+                <path d="M20 20L4 4m16 0L4 20" />
+              </svg>
+            </button>
+          </div>
+          <div class="p-4">
+            <h6
+              class="text-sm font-light text-t-secondary w-full border-b border-bd-primary pb-1 mb-4 font-primary"
+            >
+              Add a book to {{ clubName }}
+            </h6>
+            <Input
+              :wrapperClass="['w-full']"
+              label="Title"
+              :value="title"
+              @input="setTitle"
+            />
+            <Text
+              :wrapperClass="['w-full', 'mt-2']"
+              label="Body"
+              :value="body"
+              @input="setBody"
+            />
+            <div class="w-full flex justify-end items-center mt-4">
+              <button
+                @click="
+                  cancelPost();
+                  hideModal();
+                "
+                class="px-3 py-2 text-sm rounded border border-bd-primary hover:bg-b-secondary mx-2"
+              >
+                Cancel
+              </button>
+              <button
+                @click="
+                  createPost();
+                  hideModal();
+                "
+                class="px-3 py-2 text-sm rounded bg-primary hover:bg-secondary text-white"
               >
                 Submit
               </button>
@@ -126,6 +224,14 @@ export default {
       required: true,
     },
     clubId: {
+      type: Number,
+      required: true,
+    },
+    views: {
+      type: Object,
+      required: true,
+    },
+    view: {
       type: Number,
       required: true,
     },

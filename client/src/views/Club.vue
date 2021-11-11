@@ -6,7 +6,7 @@
         v-if="club"
       >
         <!-- Club Header -->
-        <div class="w-full py-2 bg-b-secondary-op">
+        <div class="w-full pt-2 px-2 bg-b-secondary-op">
           <h1 class="text-2xl font-semibold">{{ club.name }}</h1>
           <div
             class="w-full flex justify-start items-center my-2 border-b border-bd-primary text-t-secondary"
@@ -14,7 +14,9 @@
             <button
               class="px-4 text-sm py-1 font-semibold uppercase"
               :class="
-                view === views.posts ? ['border-b-2', 'border-primary'] : []
+                view === views.posts
+                  ? ['border-b-2', 'border-primary']
+                  : ['hover:border-b-2', 'hover:border-primary']
               "
               @click="setView(views.posts)"
             >
@@ -23,26 +25,46 @@
             <button
               class="px-4 text-sm py-1 font-semibold uppercase"
               :class="
-                view === views.book ? ['border-b-2', 'border-primary'] : []
+                view === views.chat
+                  ? ['border-b-2', 'border-primary']
+                  : ['hover:border-b-2', 'hover:border-primary']
               "
-              @click="setView(views.book)"
+              @click="setView(views.chat)"
+            >
+              Chat
+            </button>
+            <button
+              class="px-4 text-sm py-1 font-semibold uppercase"
+              :class="
+                view === views.books
+                  ? ['border-b-2', 'border-primary']
+                  : ['hover:border-b-2', 'hover:border-primary']
+              "
+              @click="setView(views.books)"
             >
               Books
             </button>
             <button
               class="px-4 text-sm py-1 font-semibold uppercase"
               :class="
-                view === views.about ? ['border-b-2', 'border-primary'] : []
+                view === views.about
+                  ? ['border-b-2', 'border-primary']
+                  : ['hover:border-b-2', 'hover:border-primary']
               "
               @click="setView(views.about)"
             >
               About
             </button>
           </div>
+          <Toolbar
+            :clubName="club.name"
+            :clubId="club.id"
+            :views="views"
+            :view="view"
+          />
         </div>
         <!-- Posts -->
-        <div class="w-full h-full p-2" v-if="view === views.posts">
-          <Toolbar :clubName="club.name" :clubId="club.id" />
+        <div class="w-full h-full px-2 pb-2" v-if="view === views.posts">
           <Post
             v-for="post in club.posts"
             :key="post.id"
@@ -82,8 +104,9 @@ export default {
 
     const views = {
       posts: 1,
-      books: 2,
-      about: 3,
+      chat: 2,
+      books: 3,
+      about: 4,
     };
     const state = reactive({
       view: views.posts,

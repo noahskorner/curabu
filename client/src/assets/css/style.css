@@ -172,8 +172,17 @@
 .border-primary {
   border-color: var(--primary);
 }
+.border-secondary {
+  border-color: var(--secondary);
+}
 .border-bd-primary {
   border-color: var(--bd-primary);
+}
+.hover\:border-primary:hover {
+  border-color: var(--primary);
+}
+.hover\:border-secondary:hover {
+  border-color: var(--secondary);
 }
 
 /* Buttons */
@@ -237,4 +246,12 @@
 /* Utilities */
 .min-h-16 {
   min-height: 4rem;
+}
+
+.hover\:border-b-2:hover {
+  border-bottom-width: 2px;
+}
+
+.max-w-720 {
+  max-width: 720px;
 }

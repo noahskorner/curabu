@@ -59,7 +59,7 @@ export default {
 
     const headerClass = computed(() => {
       if (showSidebar.value) {
-        return ["lg:left-72", "header"];
+        return ["lg:left-20", "header"];
       } else {
         return ["left-0", "w-full"];
       }
@@ -83,7 +83,7 @@ export default {
 
 @media (min-width: 1024px) {
   .header {
-    width: calc(100% - 18rem);
+    width: calc(100% - 5rem);
   }
 }
 </style>

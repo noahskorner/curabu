@@ -33,7 +33,7 @@
       </button>
     </div>
     <!-- Navigation -->
-    <div class="navbar flex flex-col justify-start items-center">
+    <div class="navbar flex flex-col justify-start items-center lg:pt-12">
       <div class="w-full p-1">
         <div class="mb-1">
           <router-link
@@ -110,6 +110,84 @@
             <p>Clubs</p>
           </router-link>
         </div>
+        <div class="mb-1">
+          <router-link
+            :to="{ name: 'books' }"
+            :class="
+              $route.name === 'books'
+                ? ['bg-b-secondary-op', 'text-t-primary']
+                : [
+                    'hover:text-t-primary',
+                    'hover:bg-b-secondary-op',
+                    'text-t-tertiary',
+                  ]
+            "
+            class="w-full p-2 rounded text-left font-medium flex items-center"
+          >
+            <div class="w-8 h-8 flex justify-center items-center mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="ai ai-Book"
+              >
+                <path d="M2 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+                <path d="M12 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+              </svg>
+            </div>
+            <p>Books</p>
+          </router-link>
+        </div>
+        <transition name="slide-down">
+          <div class="mb-1" v-if="currentClub">
+            <router-link
+              :to="{ name: 'club', params: { id: currentClub.id } }"
+              :class="
+                $route.name === 'club'
+                  ? ['bg-b-secondary-op', 'text-t-primary']
+                  : [
+                      'hover:text-t-primary',
+                      'hover:bg-b-secondary-op',
+                      'text-t-tertiary',
+                    ]
+              "
+              class="w-full p-2 rounded text-left font-medium flex items-center"
+            >
+              <div class="w-8 h-8 flex justify-center items-center mr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="ai ai-Trophy"
+                >
+                  <path
+                    d="M5 4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5a7 7 0 0 1-7 7v0a7 7 0 0 1-7-7V4z"
+                  />
+                  <path d="M9 22h6l-3-5-3 5z" />
+                  <path
+                    d="M5 4H4a2 2 0 0 0-2 2v1.239a4 4 0 0 0 2.128 3.535L5.5 11.5"
+                  />
+                  <path
+                    d="M19 4h1a2 2 0 0 1 2 2v.637a5 5 0 0 1-2.66 4.419l-.84.444"
+                  />
+                </svg>
+              </div>
+              <p class="text-sm">{{ currentClub.name }}</p>
+            </router-link>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -117,6 +195,7 @@
 
 <script>
 import useWindowSize from "../../../composables/useWindowSize";
+import useClubs from "../../../composables/useClubs";
 import Logo from "../ui/Logo.vue";
 export default {
   components: {
@@ -124,9 +203,11 @@ export default {
   },
   setup() {
     const { height } = useWindowSize();
+    const { currentClub } = useClubs();
 
     return {
       height,
+      currentClub,
     };
   },
 };
