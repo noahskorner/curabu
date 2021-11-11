@@ -20,7 +20,7 @@ const loadClubs = async () => {
     const clubs = response.data.data;
     setClubs(clubs);
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -29,7 +29,7 @@ const loadClub = async (clubId) => {
     const response = await API.getClub(clubId);
     state.currentClub = response.data.data;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     router.push({ name: "clubs" });
   }
 };
@@ -39,7 +39,7 @@ const addPost = async (post) => {
     const response = await API.postPost(accessToken.value, post);
     state.currentClub.posts.push(response.data.data);
   } catch (error) {
-    console.log(error.message);
+    console.log(error.response);
   }
 };
 

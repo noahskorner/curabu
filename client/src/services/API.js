@@ -32,7 +32,12 @@ export default {
     return apiClient.get(`clubs/${clubId}`);
   },
   postPost(accessToken, payload) {
-    return apiClient.post(`clubs/posts`, payload, {
+    return apiClient.post("clubs/posts", payload, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  },
+  searchBooks(accessToken, query) {
+    return apiClient.get(`books/search?q=${query.replace(" ", "+")}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   },

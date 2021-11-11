@@ -19,6 +19,7 @@
   --b-secondary: theme("colors.gray.100");
   --b-secondary-op: rgba(243, 244, 246, 0.8);
   --b-tertiary: theme("colors.gray.200");
+  --b-quaternary: theme("colors.gray.300");
   --b-opacity: rgba(0, 0, 0, 0.1);
   /* Text Colors */
   --t-primary: theme("colors.black");
@@ -35,6 +36,7 @@
   --b-secondary: theme("colors.gray.900");
   --b-secondary-op: rgba(17, 24, 39, 0.4);
   --b-tertiary: theme("colors.gray.700");
+  --b-quaternary: theme("colors.gray.600");
   --b-opacity: rgba(0, 0, 0, 0.5);
   /* Text Colors */
   --t-primary: theme("colors.white");
@@ -98,6 +100,9 @@
 .bg-b-tertiary {
   background-color: var(--b-tertiary);
 }
+.bg-b-quaternary {
+  background-color: var(--b-quaternary);
+}
 .bg-t-primary {
   background-color: var(--t-primary);
 }
@@ -117,6 +122,12 @@
 }
 .hover\:bg-b-secondary-op:hover {
   background-color: var(--b-secondary-op);
+}
+.hover\:bg-b-tertiary:hover {
+  background-color: var(--b-tertiary);
+}
+.hover\:bg-b-quaternary:hover {
+  background-color: var(--b-quaternary);
 }
 .hover\:bg-text-primary:hover {
   background-color: var(--t-primary);
@@ -243,15 +254,56 @@
   opacity: 0;
 }
 
+/* Animations */
+@-webkit-keyframes spin /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.spin {
+  -webkit-animation: spin 2s linear infinite;
+  -moz-animation: spin 2s linear infinite;
+  -ms-animation: spin 2s linear infinite;
+  -o-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
 /* Utilities */
 .min-h-16 {
   min-height: 4rem;
 }
-
+.min-h-24 {
+  min-height: 6rem;
+}
 .hover\:border-b-2:hover {
   border-bottom-width: 2px;
 }
-
 .max-w-720 {
   max-width: 720px;
 }

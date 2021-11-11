@@ -9,7 +9,7 @@
         @input="setValue"
         @blur="$emit('blur')"
         :placeholder="placeholder"
-        class="w-full bg-b-secondary"
+        class="w-full bg-b-secondary min-h-24"
         contenteditable="true"
       >
         {{ value }}

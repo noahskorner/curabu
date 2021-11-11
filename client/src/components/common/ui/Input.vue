@@ -5,6 +5,7 @@
       :class="inputWrapperClass"
       class="w-full flex justify-between items-center px-2 rounded border"
     >
+      <slot name="icon"> </slot>
       <input
         @input="setValue"
         @blur="$emit('blur')"
@@ -82,6 +83,11 @@ export default {
       required: false,
       default: () => [],
     },
+    inputClass: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
     value: {
       type: String,
       required: true,
@@ -120,7 +126,7 @@ export default {
 
       classes.push("bg-b-secondary");
 
-      return classes;
+      return classes.concat(props.inputClass);
     });
 
     const state = reactive({
