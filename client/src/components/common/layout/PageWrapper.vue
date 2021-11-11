@@ -16,7 +16,7 @@
       class="w-full h-full flex justify-center items-center pt-12"
       :class="showSidebar && ['lg:pl-72', 'pr-page-wrapper']"
     >
-      <div class="w-full h-full p-2">
+      <div class="w-full h-full p-2 overflow-y-auto">
         <slot name="default"></slot>
       </div>
     </div>
