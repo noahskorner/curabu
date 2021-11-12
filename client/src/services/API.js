@@ -41,4 +41,9 @@ export default {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   },
+  postClubBook(accessToken, payload) {
+    return apiClient.post("clubs/books", payload, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  },
 };

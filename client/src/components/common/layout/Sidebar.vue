@@ -13,7 +13,8 @@
           :size="['w-14', 'h-14']"
         />
       </button>
-      <button
+      <router-link
+        :to="{ name: 'clubs' }"
         class="w-12 h-12 rounded-full bg-b-tertiary my-2 flex justify-center items-center hover:bg-primary hover:text-white"
       >
         <svg
@@ -30,7 +31,7 @@
         >
           <path d="M12 20v-8m0 0V4m0 8h8m-8 0H4" />
         </svg>
-      </button>
+      </router-link>
     </div>
     <!-- Navigation -->
     <div class="navbar flex flex-col justify-start items-center lg:pt-12">

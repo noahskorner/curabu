@@ -7,7 +7,9 @@
       >
         <!-- Club Header -->
         <div class="w-full pt-2 px-2 bg-b-secondary-op">
-          <h1 class="text-2xl font-semibold">{{ club.name }}</h1>
+          <div class="w-full flex justify-start items-center">
+            <h1 class="text-2xl font-semibold mr-2">{{ club.name }}</h1>
+          </div>
           <div
             class="w-full flex justify-start items-center my-2 border-b border-bd-primary text-t-secondary"
           >
@@ -109,7 +111,7 @@ export default {
       about: 4,
     };
     const state = reactive({
-      view: views.posts,
+      view: views.books,
     });
     const setView = (view) => {
       state.view = view;

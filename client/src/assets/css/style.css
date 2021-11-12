@@ -22,7 +22,7 @@
   --b-quaternary: theme("colors.gray.300");
   --b-opacity: rgba(0, 0, 0, 0.1);
   /* Text Colors */
-  --t-primary: theme("colors.black");
+  --t-primary: theme("colors.gray.900");
   --t-secondary: theme("colors.gray.700");
   --t-tertiary: theme("colors.gray.500");
   --bd-primary: theme("colors.gray.200");

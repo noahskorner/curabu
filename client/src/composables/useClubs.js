@@ -43,11 +43,17 @@ const addPost = async (post) => {
   }
 };
 
+const addClubBook = (book) => {
+  console.log(state.currentClub);
+  state.currentClub.bookClub.books.push(book);
+};
+
 export default () => {
   return {
     ...toRefs(state),
     loadClubs,
     loadClub,
     addPost,
+    addClubBook,
   };
 };

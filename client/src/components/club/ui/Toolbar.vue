@@ -105,7 +105,7 @@
         </div>
       </template>
     </Modal>
-    <AddBook v-show="view === views.books" />
+    <AddBook v-show="view === views.books" :clubId="clubId" />
   </div>
 </template>
 
