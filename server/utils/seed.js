@@ -15,15 +15,15 @@ const seed = async () => {
     "INSERT INTO public.\"clubTypes\"(name) VALUES ('BOOK_CLUB');"
   );
   // Example Club 1
-  await db.sequelize.query(
-    "INSERT INTO public.clubs(id, name, \"clubType\", \"createdBy\") VALUES (1, 'Taylors Book Club', 'BOOK_CLUB', 1);"
-  );
-  await db.sequelize.query(
-    'INSERT INTO public.admins("userId", "clubId") VALUES (1, 1);'
-  );
-  await db.sequelize.query(
-    'INSERT INTO public."userClubs"("userId", "clubId") VALUES (1, 1);'
-  );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.clubs(id, name, \"clubType\", \"createdBy\") VALUES (1, 'Taylors Book Club', 'BOOK_CLUB', 1);"
+  // );
+  // await db.sequelize.query(
+  //   'INSERT INTO public.admins("userId", "clubId") VALUES (1, 1);'
+  // );
+  // await db.sequelize.query(
+  //   'INSERT INTO public."userClubs"("userId", "clubId") VALUES (1, 1);'
+  // );
   // await db.sequelize.query(
   //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (1, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
   // );
@@ -40,15 +40,15 @@ const seed = async () => {
   //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (5, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
   // );
   // Example Club 2
-  await db.sequelize.query(
-    "INSERT INTO public.clubs(id, name, \"clubType\", \"createdBy\") VALUES (2, 'Noahs Book Club', 'BOOK_CLUB', 1);"
-  );
-  await db.sequelize.query(
-    'INSERT INTO public.admins("userId", "clubId") VALUES (1, 2);'
-  );
-  await db.sequelize.query(
-    'INSERT INTO public."userClubs"("userId", "clubId") VALUES (1, 2);'
-  );
+  // await db.sequelize.query(
+  //   "INSERT INTO public.clubs(id, name, \"clubType\", \"createdBy\") VALUES (2, 'Noahs Book Club', 'BOOK_CLUB', 1);"
+  // );
+  // await db.sequelize.query(
+  //   'INSERT INTO public.admins("userId", "clubId") VALUES (1, 2);'
+  // );
+  // await db.sequelize.query(
+  //   'INSERT INTO public."userClubs"("userId", "clubId") VALUES (1, 2);'
+  // );
   // await db.sequelize.query(
   //   "INSERT INTO public.posts(id, \"userId\", \"clubId\", title, body) VALUES (6, 1, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit', 'Vivamus ac tellus at turpis vestibulum ullamcorper. Nullam eu faucibus magna. Suspendisse potenti. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.');"
   // );

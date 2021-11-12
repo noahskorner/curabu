@@ -4,6 +4,7 @@ const {
 } = require("../common/functions");
 const { Books } = require("../models");
 const axios = require("axios");
+const { v4: uuidv4 } = require("uuid");
 
 // Functions
 const validateBook = async (book) => {
@@ -86,8 +87,8 @@ const searchGoogleBooks = async (query) => {
 
   return googleBooks.map((book) => {
     return {
-      id: null,
-      name: book.volumeInfo.title,
+      id: uuidv4(),
+      title: book.volumeInfo.title,
       imageURL:
         book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail,
       dateCreated: null,

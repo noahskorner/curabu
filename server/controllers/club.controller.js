@@ -52,51 +52,60 @@ const validateBookClub = async (name) => {
 };
 
 const validateClubBook = async (book) => {
-  const { bookClubId, bookId, isCurrentBook, startDate, endDate } = book;
+  const { clubId, isCurrentBook, title, author, summary, numPages } = book;
 
-  const errors = [];
+  const fieldErrors = {
+    clubId: [],
+    isCurrentBook: [],
+    title: [],
+    author: [],
+    summary: [],
+    numPages: [],
+  };
 
-  if (startDate && new Date(startDate) >= new Date()) {
-    errors.push("Start date must be today or later.");
-  }
-  if (endDate && endDate < startDate) {
-    errors.push("End date must be after start date.");
-  }
-  if (isCurrentBook !== true && isCurrentBook !== false) {
-    errors.push("Must provide if this will be the current book.");
-  }
-  if (!bookClubId) {
-    errors.push("Must provide book id.");
+  if (!clubId) {
+    fieldErrors.clubId.push("Must provide club id.");
   } else {
-    const bookExists = await Books.findByPk(bookId)
+    const clubExists = await BookClubs.findByPk(clubId)
       .then((data) => data)
       .catch((error) => {
         console.log(error.message);
-        errors.push("An unknown error has occured. Please try again.");
-        return errors;
-      });
-
-    if (!bookExists) {
-      errors.push(`Book with id: ${bookId} does not exist.`);
-    }
-  }
-  if (!bookClubId) {
-    errors.push("Must provide book club id.");
-  } else {
-    const clubExists = await BookClubs.findByPk(bookClubId)
-      .then((data) => data)
-      .catch((error) => {
-        console.log(error.message);
-        errors.push("An unknown error has occured. Please try again.");
-        return errors;
+        fieldErrors.clubId.push(
+          "An unknown error has occured. Please try again."
+        );
+        return fieldErrors.clubId;
       });
 
     if (!clubExists) {
-      errors.push(`Book with id: ${bookClubId} does not exist.`);
+      fieldErrors.clubId.push(`Club with id: ${clubId} does not exist.`);
     }
   }
 
-  return errors;
+  if (isCurrentBook !== true && isCurrentBook !== false) {
+    fieldErrors.isCurrentBook.push(
+      "Must provide if this will be the current book."
+    );
+  }
+
+  if (!title || title.length < 1 || title.length > 255) {
+    fieldErrors.title.push("Book title must be between 1 and 255 characters.");
+  }
+
+  if (!author || author.length < 1 || author.length > 255) {
+    fieldErrors.author.push(
+      "Book author must be between 1 and 255 characters."
+    );
+  }
+
+  if (!summary || summary.length < 1) {
+    fieldErrors.summary.push("Book summary must > 1 characters.");
+  }
+
+  if (!numPages || numPages < 1) {
+    fieldErrors.numPages.push("Must provide valid number of pages.");
+  }
+
+  return fieldErrors;
 };
 
 const validateClubBookUpdate = async (book) => {
@@ -305,42 +314,87 @@ const getClub = async (req, res) => {
 
 const addClubBook = async (req, res) => {
   try {
-    const { bookClubId, bookId, isCurrentBook, startDate, endDate } = req.body;
-
-    const errors = await validateClubBook({
-      bookClubId,
+    const {
+      clubId,
       bookId,
       isCurrentBook,
-      startDate,
-      endDate,
-    });
+      imageURL,
+      title,
+      author,
+      summary,
+      numPages,
+    } = req.body;
 
-    if (errors.length) {
-      const response = createResponse(
-        false,
-        "Unable to add new club book.",
-        errors,
-        {}
-      );
-      return res.status(400).json(response);
-    }
-
-    const clubBook = await BookClubBooks.create(
-      {
-        bookClubId,
-        bookId,
-        isCurrentBook,
-        startDate,
-        endDate,
-      },
-      { include: ["book"] }
-    )
+    const bookExists = await Books.findByPk(bookId)
       .then((data) => data)
       .catch((error) => {
-        console.log(error.message);
-        const response = createUnkownErrorResponse();
-        return res.status(500).json(response);
+        console.log(error);
+        return res.status(500).json(createUnkownErrorResponse());
       });
+
+    let clubBook = null;
+
+    if (bookExists) {
+      clubBook = await BookClubBooks.create({
+        bookClubId: clubId,
+        bookId,
+        isCurrentBook,
+      })
+        .then((data) => data)
+        .catch((error) => {
+          console.log(error.message);
+          const response = createUnkownErrorResponse();
+          return res.status(500).json(response);
+        });
+    } else {
+      const fieldErrors = await validateClubBook({
+        clubId,
+        isCurrentBook,
+        title,
+        author,
+        summary,
+        numPages,
+      });
+      if (
+        fieldErrors.clubId.length ||
+        fieldErrors.isCurrentBook.length ||
+        fieldErrors.title.length ||
+        fieldErrors.author.length ||
+        fieldErrors.summary.length ||
+        fieldErrors.numPages.length
+      ) {
+        const response = createResponse(
+          false,
+          "Unable to add new club book.",
+          fieldErrors,
+          {}
+        );
+        return res.status(400).json(response);
+      }
+      clubBook = await Books.create(
+        {
+          title,
+          author,
+          summary,
+          numPages,
+          imageURL,
+          bookClubBooks: [
+            {
+              bookClubId: clubId,
+              bookId,
+              isCurrentBook,
+            },
+          ],
+        },
+        { include: ["bookClubBooks"] }
+      )
+        .then((data) => data)
+        .catch((error) => {
+          console.log(error.message);
+          const response = createUnkownErrorResponse();
+          return res.status(500).json(response);
+        });
+    }
 
     const response = createResponse(
       true,
