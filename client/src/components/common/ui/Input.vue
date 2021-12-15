@@ -12,7 +12,8 @@
         :value="value"
         :type="showPassword ? 'text' : type"
         :placeholder="placeholder"
-        class="w-full h-10 bg-b-secondary"
+        class="w-full bg-b-secondary"
+        :class="inputClass"
       />
       <button
         @click="toggleShowPassword"
@@ -86,7 +87,7 @@ export default {
     inputClass: {
       type: Array,
       required: false,
-      default: () => [],
+      default: () => ["h-10"],
     },
     value: {
       type: [String, Number],

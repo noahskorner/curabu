@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-screen relative bg-b-secondary"
+    class="w-screen relative bg-b-primary"
     :style="{ height: `${height}px` }"
   >
     <transition name="slide-left">

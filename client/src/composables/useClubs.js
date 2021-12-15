@@ -44,7 +44,7 @@ const addPost = async (post) => {
 };
 
 const addClubBook = (book) => {
-  console.log(state.currentClub);
+  console.log(book);
   state.currentClub.bookClub.books.push(book);
 };
 

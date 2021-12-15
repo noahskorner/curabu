@@ -1,5 +1,7 @@
 <template>
-  <div class="w-full flex items-center">
+  <div
+    class="w-full flex items-center py-2 border-t border-b border-bd-primary"
+  >
     <Modal v-show="view === views.posts">
       <template #button="{ displayModal }">
         <button

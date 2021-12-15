@@ -11,13 +11,23 @@
     <template #menu="{ showMenu, hideMenu }">
       <div
         v-if="showMenu"
-        class="absolute w-48 h-64 bg-b-primary border border-bd-primary shadow-lg right-0 top-full mt-1 flex flex-col justify-end font-primary"
+        class="absolute w-48 bg-b-primary border border-bd-primary shadow-lg right-0 top-0 mt-1 flex flex-col justify-end font-primary rounded p-2"
       >
+        <button
+          class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center rounded"
+        >
+          <p class="text-sm">Profile</p>
+        </button>
+        <button
+          class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center rounded"
+        >
+          <p class="text-sm">Settings</p>
+        </button>
         <Modal @hideModal="hideMenu">
           <template #button="{ displayModal }">
             <button
               @click="displayModal()"
-              class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center"
+              class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center rounded"
             >
               <p class="text-sm">Themes</p>
             </button></template
@@ -86,7 +96,7 @@
         </Modal>
 
         <button
-          class="w-full px-3 py-2 text-left hover:bg-b-secondary flex justify-between items-center"
+          class="w-full px-3 py-2 text-left hover:bg-b-secondary flex justify-between items-center rounded"
           @click="setDarkMode(!darkMode)"
         >
           <div class="flex items-center">
@@ -106,11 +116,11 @@
             ></div>
           </div>
         </button>
-        <div class="w-full px-3">
+        <div class="w-full px-3 my-1">
           <hr class="border-bd-primary px-3" />
         </div>
         <button
-          class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center"
+          class="w-full px-3 py-2 text-left hover:bg-b-secondary flex items-center rounded"
           @click="logout"
         >
           <p class="text-sm">Logout</p>

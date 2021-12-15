@@ -1,7 +1,7 @@
 <template>
   <div
     :class="size"
-    class="rounded-full bg-primary flex justify-center items-center text-white relative"
+    class="rounded-full bg-primary flex justify-center items-center text-white relative font-logo"
   >
     <span
       :class="outerRingSize"
@@ -36,4 +36,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.font-logo {
+  font-family: "Urbanist", sans-serif;
+}
+</style>

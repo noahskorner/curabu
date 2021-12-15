@@ -10,6 +10,7 @@ const {
   BookClubBooks,
   Users,
   Posts,
+  Comments,
 } = require("../models");
 
 // Variables
@@ -196,6 +197,68 @@ const validatePost = async (post) => {
   return { errors, fieldErrors };
 };
 
+const validateComment = async (comment) => {
+  const { userId, postId, parentCommentId, body } = comment;
+  const errors = [];
+  const fieldErrors = {
+    body: [],
+  };
+
+  const user = await Users.findByPk(userId)
+    .then((data) => data)
+    .catch((error) => {
+      console.log(error.message);
+      errors.push("An unknown error has occured. Please try again.");
+      return errors;
+    });
+
+  if (!user) {
+    errors.push("User does not exist.");
+  }
+
+  const post = await Posts.findByPk(postId)
+    .then((data) => data)
+    .catch((error) => {
+      console.log(error.message);
+      errors.push("An unknown error has occured. Please try again.");
+      return errors;
+    });
+
+  if (!post) {
+    errors.push("Post does not exist.");
+  } else {
+    const { clubId } = post.dataValues;
+    const { clubs } = user.toJSON();
+    if (!clubs.some((club) => club.id === clubId)) {
+      errors.push("Must belong to club to comment on a post.");
+    }
+  }
+
+  if (parentCommentId) {
+    const parentComment = Comments.findByPk(parentCommentId)
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error.message);
+        errors.push("An unknown error has occured. Please try again.");
+        return errors;
+      });
+
+    if (!parentComment) {
+      errors.push("Parent comment does not exist.");
+    }
+  }
+
+  if (!body) {
+    fieldErrors.body.push("Must provide comment body");
+  } else if (body.length > MAX_POST_BODY_LENGTH) {
+    fieldErrors.body.push(
+      `Post body must contain less then ${MAX_POST_BODY_LENGTH} characters.`
+    );
+  }
+
+  return { errors, fieldErrors };
+};
+
 // Controllers
 const addClub = async (req, res) => {
   try {
@@ -297,6 +360,16 @@ const getClub = async (req, res) => {
         return res.status(500).json(response);
       });
 
+    if (!club) {
+      const response = createResponse(
+        false,
+        `Club with id: ${clubId} does not exist.`,
+        [],
+        {}
+      );
+      return res.status(400).json(response);
+    }
+
     const response = createResponse(
       true,
       `Successfully found club: ${club.dataValues.name}`,
@@ -396,11 +469,18 @@ const addClubBook = async (req, res) => {
         });
     }
 
+    const book = await BookClubBooks.findOne({
+      where: {
+        bookId: clubBook.dataValues.id,
+        bookClubId: clubId,
+      },
+    });
+
     const response = createResponse(
       true,
       "Club has successfully added book.",
       [],
-      clubBook
+      book
     );
 
     return res.status(200).json(response);
@@ -502,6 +582,61 @@ const addPost = async (req, res) => {
   }
 };
 
+const addComment = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { postId, parentCommentId, body } = req.body;
+
+    const { errors, fieldErrors } = await validateComment({
+      userId,
+      postId,
+      parentCommentId,
+      body,
+    });
+    if (errors.length || fieldErrors.body.length) {
+      const response = createResponse(
+        false,
+        "Unable to create comment.",
+        errors,
+        {
+          fieldErrors,
+        }
+      );
+      return res.status(400).json(response);
+    }
+
+    const comment = await Comments.create({
+      postId,
+      userId,
+      parentCommentId,
+      body,
+    })
+      .then((data) => data)
+      .catch((error) => {
+        console.log(error.message);
+        const response = createUnkownErrorResponse();
+        return res.status(500).json(response);
+      });
+
+    const response = createResponse(
+      true,
+      "Successfully created comment!",
+      [],
+      comment
+    );
+    return res.status(200).json(response);
+  } catch (error) {
+    console.log(error.message);
+    const response = createUnkownErrorResponse();
+    return res.status(500).json(response);
+  }
+};
+
+const findComment = async (req, res) => {
+  const comment = await Comments.findByPk(1).then((data) => data);
+  return res.status(200).json(comment);
+};
+
 module.exports = {
   addClub,
   getClubs,
@@ -509,4 +644,6 @@ module.exports = {
   addClubBook,
   updateClubBook,
   addPost,
+  addComment,
+  findComment
 };

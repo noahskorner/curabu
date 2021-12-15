@@ -1,11 +1,7 @@
 <template>
   <div class="my-2">
-    <div
-      class="flex justify-start bg-b-primary p-2 border border-bd-primary rounded"
-    >
-      <div
-        class="w-10 h-10 bg-b-secondary rounded-full mr-4 flex-shrink-0"
-      ></div>
+    <div class="flex justify-start p-2 border border-bd-primary rounded">
+      <div class="w-10 h-10 rounded-full mr-4 flex-shrink-0"></div>
       <div class="text-sm">
         <div class="flex items-center">
           <router-link :to="{ name: 'club' }" class="hover:underline">

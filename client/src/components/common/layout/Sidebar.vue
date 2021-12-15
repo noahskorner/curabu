@@ -1,10 +1,10 @@
 <template>
   <div
     :style="{ maxHeight: `${height}px` }"
-    class="h-full w-72 fixed top-0 bg-b-primary border-r border-bd-primary flex z-30 lg:z-0"
+    class="h-full w-72 fixed top-0 bg-b-primary flex z-30 lg:z-0"
   >
     <div
-      class="w-20 h-full border-r border-bd-primary flex flex-col justify-start items-center"
+      class="w-20 h-full border-bd-primary flex flex-col justify-start items-center bg-b-secondary"
     >
       <button class="my-2">
         <Logo
@@ -36,56 +36,12 @@
     <!-- Navigation -->
     <div class="navbar flex flex-col justify-start items-center lg:pt-12">
       <div class="w-full p-1">
-        <transition name="slide-down">
-          <div class="mb-1" v-if="currentClub">
-            <router-link
-              :to="{ name: 'club', params: { id: currentClub.id } }"
-              :class="
-                $route.name === 'club'
-                  ? ['bg-b-secondary-op', 'text-t-primary']
-                  : [
-                      'hover:text-t-primary',
-                      'hover:bg-b-secondary-op',
-                      'text-t-tertiary',
-                    ]
-              "
-              class="w-full p-2 rounded text-left font-medium flex items-center"
-            >
-              <div class="w-8 h-8 flex justify-center items-center mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="ai ai-Trophy text-primary"
-                >
-                  <path
-                    d="M5 4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5a7 7 0 0 1-7 7v0a7 7 0 0 1-7-7V4z"
-                  />
-                  <path d="M9 22h6l-3-5-3 5z" />
-                  <path
-                    d="M5 4H4a2 2 0 0 0-2 2v1.239a4 4 0 0 0 2.128 3.535L5.5 11.5"
-                  />
-                  <path
-                    d="M19 4h1a2 2 0 0 1 2 2v.637a5 5 0 0 1-2.66 4.419l-.84.444"
-                  />
-                </svg>
-              </div>
-              <p class="text-sm">{{ currentClub.name }}</p>
-            </router-link>
-          </div>
-        </transition>
         <div class="mb-1">
           <router-link
             :to="{ name: 'home' }"
             :class="
               $route.name === 'home'
-                ? ['bg-b-secondary-op', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-t-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -120,7 +76,7 @@
             :to="{ name: 'clubs' }"
             :class="
               $route.name === 'clubs'
-                ? ['bg-b-secondary-op', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-t-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -160,7 +116,7 @@
             :to="{ name: 'books' }"
             :class="
               $route.name === 'books'
-                ? ['bg-b-secondary-op', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-t-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -187,6 +143,74 @@
               </svg>
             </div>
             <p>Books</p>
+          </router-link>
+        </div>
+        <div class="mb-1">
+          <router-link
+            :to="{ name: 'my-clubs' }"
+            :class="
+              $route.name === 'my-clubs'
+                ? ['bg-b-secondary', 'text-t-primary']
+                : [
+                    'hover:text-t-primary',
+                    'hover:bg-b-secondary-op',
+                    'text-t-tertiary',
+                  ]
+            "
+            class="w-full p-2 rounded text-left font-medium flex items-center"
+          >
+            <div class="w-8 h-8 flex justify-center items-center mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="ai ai-Book"
+              >
+                <path d="M2 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+                <path d="M12 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+              </svg>
+            </div>
+            <p>My Clubs</p>
+          </router-link>
+        </div>
+        <div class="mb-1">
+          <router-link
+            :to="{ name: 'my-books' }"
+            :class="
+              $route.name === 'my-books'
+                ? ['bg-b-secondary', 'text-t-primary']
+                : [
+                    'hover:text-t-primary',
+                    'hover:bg-b-secondary-op',
+                    'text-t-tertiary',
+                  ]
+            "
+            class="w-full p-2 rounded text-left font-medium flex items-center"
+          >
+            <div class="w-8 h-8 flex justify-center items-center mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="ai ai-Book"
+              >
+                <path d="M2 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+                <path d="M12 6s1.5-2 5-2 5 2 5 2v14s-1.5-1-5-1-5 1-5 1V6z" />
+              </svg>
+            </div>
+            <p>My Books</p>
           </router-link>
         </div>
       </div>
