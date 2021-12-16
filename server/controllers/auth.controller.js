@@ -5,8 +5,7 @@ const {
   createResponse,
   createUnkownErrorResponse,
 } = require("../common/functions");
-const { Users, RefreshTokens, Roles, UserRoles } = require("../models");
-const { Op } = require("sequelize");
+const { User, RefreshToken } = require("../models.mongo");
 
 // Variables
 const usernameRegex = /^[a-z0-9-_\.]+$/;
@@ -37,11 +36,8 @@ const validateUser = async (username, email, password1, password2) => {
       );
     }
 
-    const findUsername = await Users.findAll({
-      where: {
-        username,
-      },
-      raw: true,
+    const findUsername = await User.find({
+      username,
     })
       .then((data) => data)
       .catch((error) => {
@@ -60,11 +56,8 @@ const validateUser = async (username, email, password1, password2) => {
   if (!emailRegex.test(email)) {
     fieldErrors.email.push("Email must be valid.");
   } else {
-    const findEmail = await Users.findAll({
-      where: {
-        email,
-      },
-      raw: true,
+    const findEmail = await User.find({
+      email,
     })
       .then((data) => data)
       .catch((error) => {
@@ -113,17 +106,15 @@ const generateRefreshToken = async (user) => {
   });
 
   // delete the old refresh tokens
-  await RefreshTokens.destroy({
-    where: { userId: user.id },
-  }).catch((error) => {
+  await RefreshToken.deleteMany({ user: user._id }).catch((error) => {
     console.log(error);
-    return;
+    return null;
   });
 
   // create a new one
-  await RefreshTokens.create({ token, userId: user.id }).catch((error) => {
+  await RefreshToken.create({ token, user: user._id }).catch((error) => {
     console.log(error);
-    return;
+    return null;
   });
 
   return token;
@@ -157,10 +148,14 @@ const registerUser = async (req, res) => {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password1, salt);
 
-      await Users.create({
-        username,
+      await User.create({
         email,
+        username,
         password: hashedPassword,
+      }).catch((error) => {
+        console.log(error.message);
+        const response = createUnkownErrorResponse();
+        return res.status(500).json(response);
       });
 
       const response = createResponse(
@@ -180,14 +175,14 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await Users.findOne({
-    where: { email },
-    include: "userRoles",
-    attributes: ["id", "username", "email", "password"],
+
+  const user = await User.findOne({
+    email,
   })
-    .then((data) => {
-      if (data) return data.toJSON();
-      else return null;
+    .select(["email", "username", "password"])
+    .then((q) => {
+      if (!q) return q;
+      else return q.toJSON();
     })
     .catch((error) => {
       console.log(error.message);
@@ -206,12 +201,15 @@ const loginUser = async (req, res) => {
   }
 
   if (await bcrypt.compare(password, user.password)) {
-    user.roles = user.userRoles.map((userRole) => userRole.role);
-    delete user.userRoles;
     delete user.password;
 
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
+
+    if (refreshToken === null) {
+      const response = createUnkownErrorResponse();
+      return res.status(400).json(response);
+    }
 
     const response = createResponse(
       true,
@@ -280,9 +278,7 @@ const refreshUserToken = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   try {
-    await RefreshTokens.destroy({
-      where: { userId: req.user.id },
-    });
+    await RefreshToken.deleteMany({ token: req.user.id });
 
     const response = createResponse(true, `Successfully logged out!`, [], {});
     return res.status(200).json(response);

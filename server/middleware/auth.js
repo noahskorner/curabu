@@ -18,18 +18,12 @@ const authorize = (permittedRoles) => {
   return async (req, res, next) => {
     const userId = req.user.id;
 
-    await UserRoles.findAll({ where: { userId }, raw: true })
-      .then((data) => {
-        const userRoles = data;
-        if (
-          permittedRoles.some((permittedRole) =>
-            userRoles.map((userRole) => userRole["role"]).includes(permittedRole)
-          )
-        ) {
-          next();
-        } else {
+    await User.findOne({ _id: userId })
+      .then((user) => {
+        if (!user) return res.sendStatus(403);
+        else if (!user.roles.some((role) => permittedRoles.includes(role)))
           return res.sendStatus(403);
-        }
+        next();
       })
       .catch((error) => {
         console.log(error);

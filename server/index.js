@@ -24,14 +24,27 @@ app.use("/clubs", require("./routes/club.route.js"));
 app.use("/books", require("./routes/book.route.js"));
 
 // SETUP DB
-const db = require("./models/index.js");
-db.sequelize.sync();
+// const db = require("./models/index.js");
+// db.sequelize.sync();
 
 /* DEV ONLY */
 // db.sequelize.sync({ force: true }).then(async () => {
 //   await seed();
 //   console.log("Drop and re-sync db...");
 // });
+
+const mongoose = require("mongoose");
+const { User } = require("./models.mongo/index.js");
+mongoose.connect(
+  process.env.CONNECTION_STRING,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log("Successfully connected to MongoDB");
+  }
+);
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // START SERVER
 const PORT = 3001;
