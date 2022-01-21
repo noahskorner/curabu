@@ -16,7 +16,7 @@ https://lucid.app/lucidchart/ab4c7429-7298-482a-ba26-6c5568364fe8/edit?viewport_
 
 ## Project Screen Shot(s)
 
-![Screenshot 1](/client/screenshots/login.png?raw=true "Login functionality")
+![Screenshot 1](/client/screenshots/login-page.png?raw=true "Login functionality")
 ![Screenshot 2](/client/screenshots/themes.png?raw=true "Different themes")
 ![Screenshot 3](/client/screenshots/club-page.png?raw=true "Club page")
 ![Screenshot 4](/client/screenshots/create-post.png?raw=true "Add a post")
