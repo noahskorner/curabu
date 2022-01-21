@@ -84,6 +84,7 @@
         <div class="w-full h-full p-2" v-if="view === views.books">
           <div
             class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 gap-2 mt-2"
+            v-if="club.bookClub"
           >
             <div
               v-for="clubBook in club.bookClub.books"
@@ -179,6 +180,7 @@ export default {
     onMounted(async () => {
       const clubId = route.params.id;
       await loadClub(clubId);
+      console.log(club);
     });
 
     return {

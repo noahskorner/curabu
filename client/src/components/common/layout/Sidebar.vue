@@ -1,47 +1,16 @@
 <template>
   <div
     :style="{ maxHeight: `${height}px` }"
-    class="h-full w-72 fixed top-0 bg-b-primary flex z-30 lg:z-0"
+    class="h-full w-72 fixed top-0 bg-b-primary flex z-30 lg:z-0 border-r border-bd-primary"
   >
-    <div
-      class="w-20 h-full border-bd-primary flex flex-col justify-start items-center bg-b-secondary"
-    >
-      <button class="my-2">
-        <Logo
-          :outerRingSize="['text-6xl']"
-          :innerRingSize="['text-5xl']"
-          :size="['w-14', 'h-14']"
-        />
-      </button>
-      <router-link
-        :to="{ name: 'clubs' }"
-        class="w-12 h-12 rounded-full bg-b-tertiary my-2 flex justify-center items-center hover:bg-primary hover:text-white"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
-          viewBox="0 0 24 24"
-          fill="text-primary"
-          stroke="currentColor"
-          stroke-width="1"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="ai ai-Plus"
-        >
-          <path d="M12 20v-8m0 0V4m0 8h8m-8 0H4" />
-        </svg>
-      </router-link>
-    </div>
-    <!-- Navigation -->
-    <div class="navbar flex flex-col justify-start items-center lg:pt-12">
+    <div class="w-full flex flex-col justify-start items-center lg:pt-12">
       <div class="w-full p-1">
         <div class="mb-1">
           <router-link
             :to="{ name: 'home' }"
             :class="
               $route.name === 'home'
-                ? ['bg-b-secondary', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -76,7 +45,7 @@
             :to="{ name: 'clubs' }"
             :class="
               $route.name === 'clubs'
-                ? ['bg-b-secondary', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -116,7 +85,7 @@
             :to="{ name: 'books' }"
             :class="
               $route.name === 'books'
-                ? ['bg-b-secondary', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -150,7 +119,7 @@
             :to="{ name: 'my-clubs' }"
             :class="
               $route.name === 'my-clubs'
-                ? ['bg-b-secondary', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -184,7 +153,7 @@
             :to="{ name: 'my-books' }"
             :class="
               $route.name === 'my-books'
-                ? ['bg-b-secondary', 'text-t-primary']
+                ? ['bg-b-secondary', 'text-primary']
                 : [
                     'hover:text-t-primary',
                     'hover:bg-b-secondary-op',
@@ -221,11 +190,7 @@
 <script>
 import useWindowSize from "../../../composables/useWindowSize";
 import useClubs from "../../../composables/useClubs";
-import Logo from "../ui/Logo.vue";
 export default {
-  components: {
-    Logo,
-  },
   setup() {
     const { height } = useWindowSize();
     const { currentClub } = useClubs();

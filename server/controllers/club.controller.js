@@ -645,5 +645,5 @@ module.exports = {
   updateClubBook,
   addPost,
   addComment,
-  findComment
+  findComment,
 };

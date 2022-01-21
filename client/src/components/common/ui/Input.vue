@@ -12,7 +12,7 @@
         :value="value"
         :type="showPassword ? 'text' : type"
         :placeholder="placeholder"
-        class="w-full bg-b-secondary"
+        class="w-full bg-b-secondary border-t border-b border-bd-primary"
         :class="inputClass"
       />
       <button

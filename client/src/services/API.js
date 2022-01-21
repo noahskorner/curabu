@@ -29,7 +29,7 @@ export default {
     return apiClient.get("clubs");
   },
   getClub(clubId) {
-    return apiClient.get(`clubs/${clubId}`);
+    return apiClient.get(`clubs/get-club/${clubId}`);
   },
   postPost(accessToken, payload) {
     return apiClient.post("clubs/posts", payload, {

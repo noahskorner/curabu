@@ -1,11 +1,13 @@
 <template>
-  <div
-    :class="headerClass"
-    class="h-12 border-b border-bd-primary fixed top-0 px-2 bg-b-primary z-10"
-  >
+  <div class="w-full h-12 shadow fixed top-0 left-0 px-2 bg-b-primary z-10">
     <div class="w-full h-full flex justify-between items-center">
+      <Logo
+        :size="['h-10', 'w-10']"
+        :outerRingSize="['text-4xl']"
+        :innerRingSize="['text-3xl']"
+      />
       <button
-        class="flex justify-center items-center lg:hidden hover:bg-b-secondary-op p-1 rounded"
+        class="flex justify-center items-center lg:hidden hover:bg-b-secondary-op p-1 rounded hidden"
         @click="displaySidebar"
       >
         <svg
@@ -43,47 +45,27 @@
 </template>
 
 <script>
-import { computed } from "@vue/runtime-core";
 import useAuth from "../../../composables/useAuth";
 import useSidebar from "../../../composables/useSidebar";
 import UserDropdown from "../ui/UserDropdown.vue";
 import Search from "../ui/Search.vue";
+import Logo from "../ui/Logo.vue";
 export default {
   components: {
     UserDropdown,
     Search,
+    Logo,
   },
   setup() {
     const { isAuthenticated, logout } = useAuth();
     const { showSidebar, displaySidebar } = useSidebar();
 
-    const headerClass = computed(() => {
-      if (showSidebar.value) {
-        return ["lg:left-20", "header"];
-      } else {
-        return ["left-0", "w-full"];
-      }
-    });
-
     return {
       isAuthenticated,
       logout,
       showSidebar,
-      headerClass,
       displaySidebar,
     };
   },
 };
 </script>
-
-<style>
-.header {
-  width: 100%;
-}
-
-@media (min-width: 1024px) {
-  .header {
-    width: calc(100% - 5rem);
-  }
-}
-</style>
